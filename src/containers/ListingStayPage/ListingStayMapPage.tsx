@@ -1,4 +1,5 @@
-import React, { FC } from "react";
+import { FC } from "react";
+import { Helmet } from "react-helmet";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import BgGlassmorphism from "components/BgGlassmorphism/BgGlassmorphism";
 import SectionGridAuthorBox from "components/SectionGridAuthorBox/SectionGridAuthorBox";
@@ -6,7 +7,6 @@ import SectionHeroArchivePage from "components/SectionHeroArchivePage/SectionHer
 import SectionSliderNewCategories from "components/SectionSliderNewCategories/SectionSliderNewCategories";
 import SectionSubscribe2 from "components/SectionSubscribe2/SectionSubscribe2";
 import SectionGridHasMap from "./SectionGridHasMap";
-import { Helmet } from "react-helmet";
 
 export interface ListingStayMapPageProps {
   className?: string;
@@ -27,7 +27,7 @@ const ListingStayMapPage: FC<ListingStayMapPageProps> = ({
 
       {/* SECTION HERO */}
       <div className="container pt-10 pb-24 lg:pt-28 lg:pb-32">
-        <SectionHeroArchivePage currentPage="Stay" currentTab="Stay" />
+        <SectionHeroArchivePage currentPage="Hotel" currentTab="Hotel" />
       </div>
 
       {/* SECTION */}

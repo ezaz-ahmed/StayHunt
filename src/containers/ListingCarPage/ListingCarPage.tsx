@@ -1,10 +1,10 @@
+import { FC } from "react";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import BgGlassmorphism from "components/BgGlassmorphism/BgGlassmorphism";
 import SectionHeroArchivePage from "components/SectionHeroArchivePage/SectionHeroArchivePage";
 import SectionSliderNewCategories from "components/SectionSliderNewCategories/SectionSliderNewCategories";
 import SectionSubscribe2 from "components/SectionSubscribe2/SectionSubscribe2";
 import { TaxonomyType } from "data/types";
-import React, { FC } from "react";
 import SectionGridFilterCard from "./SectionGridFilterCard";
 import { Helmet } from "react-helmet";
 
@@ -79,8 +79,8 @@ const ListingCarPage: FC<ListingCarPageProps> = ({ className = "" }) => {
       <div className="container relative">
         {/* SECTION HERO */}
         <SectionHeroArchivePage
-          currentPage="Rental car"
-          currentTab="Rental car"
+          currentPage="Rental Car"
+          currentTab="Rental Car"
           listingType={
             <>
               <i className="text-2xl las la-car"></i>

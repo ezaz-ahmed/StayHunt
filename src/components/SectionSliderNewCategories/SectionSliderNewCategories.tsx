@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from "react";
+import { FC, useEffect } from "react";
 import Heading from "components/Heading/Heading";
 import Glide from "@glidejs/glide";
 import { TaxonomyType } from "data/types";

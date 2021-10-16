@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import BackgroundSection from "components/BackgroundSection/BackgroundSection";
 import BgGlassmorphism from "components/BgGlassmorphism/BgGlassmorphism";
 import SectionGridAuthorBox from "components/SectionGridAuthorBox/SectionGridAuthorBox";
@@ -26,8 +26,8 @@ const ListingCarMapPage: FC<ListingCarMapPageProps> = ({ className = "" }) => {
       {/* SECTION HERO */}
       <div className="container pt-10 pb-24 lg:pt-28 lg:pb-32">
         <SectionHeroArchivePage
-          currentPage="Rental car"
-          currentTab="Rental car"
+          currentPage="Rental Car"
+          currentTab="Rental Car"
           listingType={
             <>
               <i className="text-2xl las la-car"></i>

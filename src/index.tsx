@@ -1,5 +1,6 @@
-import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import { store } from "app/store";
 //
 import "react-dates/initialize";
 import "react-dates/lib/css/_datepicker.css";
@@ -11,8 +12,14 @@ import "./fonts/line-awesome-1.3.0/css/line-awesome.css";
 //
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+//
 
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

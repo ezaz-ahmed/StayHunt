@@ -7,7 +7,14 @@ import HeroSearchForm, {
 export interface SectionHeroArchivePageProps {
   className?: string;
   listingType?: ReactNode;
-  currentPage: "Stay" | "Experiences" | "Rental car";
+  currentPage:
+    | "Hotel"
+    | "Bus"
+    | "Launch"
+    | "Package Tour"
+    | "Rental Car"
+    | "Flight"
+    | "Train";
   currentTab: SearchTab;
 }
 
