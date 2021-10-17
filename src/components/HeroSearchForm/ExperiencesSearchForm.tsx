@@ -9,10 +9,10 @@ import { FC } from "react";
 // DEFAULT DATA FOR ARCHIVE PAGE
 const defaultLocationValue = "Tokyo, Jappan";
 const defaultDate = moment();
-const defaultGuestValue: GuestsInputProps["defaultValue"] = {
+const defaultGuestValue: GuestsInputProps['defaultValue'] = {
   guestAdults: 2,
   guestChildren: 2,
-  guestInfants: 1,
+  guestRooms: 1,
 };
 
 export interface ExperiencesSearchFormProps {

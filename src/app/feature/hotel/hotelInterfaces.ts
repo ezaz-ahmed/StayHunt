@@ -1,6 +1,6 @@
-export interface FetchHotelAPI {
-  data: Location[];
-}
+// export interface FetchHotelAPI {
+//   data: Location[];
+// }
 
 export interface Location {
   _id: string;
@@ -30,6 +30,6 @@ export interface HotelUserInput {
 }
 
 export interface HotelState {
-  status: "idle" | "loading" | "failed";
+  status: 'idle' | 'loading' | 'failed';
   locations: Location[];
 }

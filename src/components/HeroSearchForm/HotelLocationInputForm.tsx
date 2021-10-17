@@ -11,7 +11,7 @@ export interface LocationInputProps {
   autoFocus?: boolean;
 }
 
-const LocationInput: FC<LocationInputProps> = ({
+const HotelLocationInput: FC<LocationInputProps> = ({
   defaultValue,
   autoFocus = false,
   onChange,
@@ -215,4 +215,4 @@ const LocationInput: FC<LocationInputProps> = ({
   );
 };
 
-export default LocationInput;
+export default HotelLocationInput;

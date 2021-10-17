@@ -1,35 +1,23 @@
-import { FC, useEffect, useState } from 'react';
+// My Component
+
+import { useState, useEffect } from 'react';
 import LocationInput from './LocationInput';
-import GuestsInput, { GuestsInputProps } from './GuestsInput';
+import GuestsInput from './GuestsInput';
 import { FocusedInputShape } from 'react-dates';
 import StayDatesRangeInput from './StayDatesRangeInput';
 import ButtonSubmit from './ButtonSubmit';
 import moment from 'moment';
+
+import { fetchHotelLocationAsync } from 'app/feature/hotel/hotelSlice';
+import { useAppDispatch } from 'app/hook';
 
 export interface DateRage {
   startDate: moment.Moment | null;
   endDate: moment.Moment | null;
 }
 
-export interface StaySearchFormProps {
-  haveDefaultValue?: boolean;
-}
-
-// DEFAULT DATA FOR ARCHIVE PAGE
-const defaultLocationValue = 'Tokyo, Jappan';
-const defaultDateRange = {
-  startDate: moment(),
-  endDate: moment().add(4, 'days'),
-};
-const defaultGuestValue: GuestsInputProps['defaultValue'] = {
-  guestAdults: 2,
-  guestChildren: 2,
-  guestRooms: 1,
-};
-
-const StaySearchForm: FC<StaySearchFormProps> = ({
-  haveDefaultValue = false,
-}) => {
+const HotelSearchForm = () => {
+  const dispatch = useAppDispatch();
   const [dateRangeValue, setDateRangeValue] = useState<DateRage>({
     startDate: null,
     endDate: null,
@@ -41,15 +29,9 @@ const StaySearchForm: FC<StaySearchFormProps> = ({
     null
   );
 
-  //
   useEffect(() => {
-    if (haveDefaultValue) {
-      setDateRangeValue(defaultDateRange);
-      setLocationInputValue(defaultLocationValue);
-      setGuestValue(defaultGuestValue);
-    }
-  }, []);
-  //
+    dispatch(fetchHotelLocationAsync());
+  }, [dispatch]);
 
   const renderForm = () => {
     return (
@@ -80,4 +62,4 @@ const StaySearchForm: FC<StaySearchFormProps> = ({
   return renderForm();
 };
 
-export default StaySearchForm;
+export default HotelSearchForm;

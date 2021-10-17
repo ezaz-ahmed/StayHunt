@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchHotelLocation } from './hotelAPI';
 
-import { HotelState, Location, FetchHotelAPI } from './hotelInterfaces';
+import { HotelState, Location } from './hotelInterfaces';
 
 const initialState: HotelState = {
   status: 'idle',
@@ -11,11 +11,12 @@ const initialState: HotelState = {
 export const fetchHotelLocationAsync = createAsyncThunk(
   'hotel/fetchLocation',
   async () => {
-    const { data }: any= await fetchHotelLocation();
+    const { data }: any = await fetchHotelLocation();
     const cityArray: Location[] = [];
 
     data.map(
-      (property: Location) => property.variant === 'city' && cityArray.push(property)
+      (property: Location) =>
+        property.variant === 'city' && cityArray.push(property)
     );
     return cityArray;
   }
