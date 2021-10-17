@@ -16,15 +16,15 @@ export interface Location {
 }
 
 export interface Guests {
-  room: number;
-  adults: number;
-  children: number;
+  guestRooms: number;
+  guestAdults: number;
+  guestChildren: number;
 }
 
 export interface HotelUserInput {
   location: Location;
-  checkIn: string;
-  checkOut: string;
+  checkIn: string | undefined;
+  checkOut: string | undefined;
   guest: Guests;
 }
 

@@ -2,16 +2,20 @@
 
 import { useState, useEffect, FormEvent } from 'react';
 import { useHistory } from 'react-router';
-import GuestsInput from './GuestsInput';
+import HotelGuestInput from './HotelGuestInput';
 import { FocusedInputShape } from 'react-dates';
 import StayDatesRangeInput from './StayDatesRangeInput';
-import ButtonSubmit from './ButtonSubmit';
 import moment from 'moment';
 
 import { fetchHotelLocationAsync } from 'app/feature/hotel/hotelSlice';
 import { useAppDispatch, useAppSelector } from 'app/hook';
 import HotelLocationInput from './HotelLocationInputForm';
-import { HotelUserInput, Location } from 'app/feature/hotel/hotelInterfaces';
+import {
+  HotelUserInput,
+  Location,
+  Guests,
+} from 'app/feature/hotel/hotelInterfaces';
+import { addUserInput } from 'app/feature/hotel/hotelSlice';
 
 export interface DateRage {
   startDate: moment.Moment | null;
@@ -35,32 +39,44 @@ const HotelSearchForm = () => {
   });
 
   const [locationInputValue, setLocationInputValue] = useState<string>('');
-  const [guestValue, setGuestValue] = useState({});
+  const [guestValue, setGuestValue] = useState<Guests>({
+    guestAdults: 1,
+    guestChildren: 0,
+    guestRooms: 1,
+  });
   const [dateFocused, setDateFocused] = useState<FocusedInputShape | null>(
     null
   );
 
-  const [userLocation, setUserLocation] = useState<Location>();
+  const [userInput, setUserInput] = useState<HotelUserInput>();
 
   const formatFormData = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
 
     locations.forEach(
       (loc: Location) =>
-        loc.cityName === locationInputValue && setUserLocation(loc)
+        loc.cityName === locationInputValue &&
+        setUserInput({
+          location: loc,
+          checkIn: dateRangeValue.startDate?.toISOString(),
+          checkOut: dateRangeValue.endDate?.toISOString(),
+          guest: guestValue,
+        })
     );
+
+    console.log(guestValue, userInput);
   };
 
   useEffect(() => {
-    if (
-      userLocation &&
-      dateRangeValue.startDate &&
-      dateRangeValue.endDate &&
-      guestValue
-    ) {
+    if (userInput) {
+      console.log(userInput, '🤷‍♂️');
       history.push('/listing-stay-page');
     }
-  }, [userLocation, dateRangeValue, guestValue]);
+  }, [userInput]);
+
+  const guFUn = (data: any) => {
+    console.log(data);
+  };
 
   const renderForm = () => {
     return (
@@ -81,10 +97,7 @@ const HotelSearchForm = () => {
           onFocusChange={(focus) => setDateFocused(focus)}
           onChange={(data) => setDateRangeValue(data)}
         />
-        <GuestsInput
-          defaultValue={guestValue}
-          onChange={(data) => setGuestValue(data)}
-        />
+        <HotelGuestInput defaultValue={guestValue} onChange={guFUn} />
         {/* BUTTON SUBMIT OF FORM */}
         <div className=' px-4 py-4 lg:py-0'>
           <button
