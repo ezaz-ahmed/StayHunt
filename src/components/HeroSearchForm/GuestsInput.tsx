@@ -1,8 +1,7 @@
-import React, { Fragment, useEffect, useState } from "react";
-import { Popover, Transition } from "@headlessui/react";
-import NcInputNumber from "components/NcInputNumber/NcInputNumber";
-import { FC } from "react";
-import ClearDataButton from "./ClearDataButton";
+import { FC, Fragment, useEffect, useState } from 'react';
+import { Popover, Transition } from '@headlessui/react';
+import NcInputNumber from 'components/NcInputNumber/NcInputNumber';
+import ClearDataButton from './ClearDataButton';
 
 export interface GuestsInputProps {
   defaultValue: {
@@ -20,19 +19,19 @@ const GuestsInput: FC<GuestsInputProps> = ({
   fieldClassName = '[ nc-hero-field-padding ]',
 }) => {
   const [guestAdultsInputValue, setGuestAdultsInputValue] = useState(
-    defaultValue.guestAdults || 0
+    defaultValue.guestAdults || 1
   );
   const [guestChildrenInputValue, setGuestChildrenInputValue] = useState(
     defaultValue.guestChildren || 0
   );
   const [guestInfantsInputValue, setGuestInfantsInputValue] = useState(
-    defaultValue.guestRooms || 0
+    defaultValue.guestRooms || 1
   );
 
   useEffect(() => {
-    setGuestAdultsInputValue(defaultValue.guestAdults || 0);
+    setGuestAdultsInputValue(defaultValue.guestAdults || 1);
     setGuestChildrenInputValue(defaultValue.guestChildren || 0);
-    setGuestInfantsInputValue(defaultValue.guestRooms || 0);
+    setGuestInfantsInputValue(defaultValue.guestRooms || 1);
   }, [defaultValue]);
 
   useEffect(() => {
@@ -45,8 +44,7 @@ const GuestsInput: FC<GuestsInputProps> = ({
     }
   }, [guestAdultsInputValue, guestChildrenInputValue, guestInfantsInputValue]);
 
-  const totalGuests =
-    guestChildrenInputValue + guestAdultsInputValue + guestInfantsInputValue;
+  const totalGuests = guestChildrenInputValue + guestAdultsInputValue;
 
   return (
     <Popover className='flex relative [ nc-flex-1 ]'>

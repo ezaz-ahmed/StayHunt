@@ -1,34 +1,32 @@
-import { FC, useState, useEffect, useRef } from 'react';
+import { FC, Fragment, useEffect, useRef, useState } from 'react';
+import { Location } from 'app/feature/hotel/hotelInterfaces';
 import ClearDataButton from './ClearDataButton';
 
 export interface LocationInputProps {
-  defaultValue: string;
   onChange?: (value: string) => void;
   onInputDone?: (value: string) => void;
   placeHolder?: string;
   desc?: string;
   className?: string;
   autoFocus?: boolean;
+  locations?: Location[];
 }
 
 const HotelLocationInput: FC<LocationInputProps> = ({
-  defaultValue,
   autoFocus = false,
   onChange,
   onInputDone,
   placeHolder = 'Location',
   desc = 'Where are you going?',
   className = 'nc-flex-1.5',
+  locations,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [value, setValue] = useState(defaultValue);
+  const [value, setValue] = useState('');
+  const [suggestions, setSuggestions] = useState<Location[] | undefined>([]);
   const [showPopover, setShowPopover] = useState(autoFocus);
-
-  useEffect(() => {
-    setValue(defaultValue);
-  }, [defaultValue]);
 
   useEffect(() => {
     setShowPopover(autoFocus);
@@ -64,28 +62,41 @@ const HotelLocationInput: FC<LocationInputProps> = ({
     setShowPopover(false);
   };
 
+  let matchedArray: Location[] | undefined = [];
+
+  const onChangeHandler = (text: string) => {
+    if (text.length > 0) {
+      matchedArray = locations?.filter((item) => {
+        const regex = new RegExp(`${text}`, 'gi');
+        return item.cityName.match(regex);
+      });
+    }
+    setSuggestions(matchedArray);
+    setValue(text);
+  };
+
   const handleSelectLocation = (item: string) => {
+    matchedArray = locations?.filter((loc) => {
+      const regex = new RegExp(`${item}`, 'gi');
+      return loc.cityName.match(regex);
+    });
+    setSuggestions(matchedArray);
     setValue(item);
     onInputDone && onInputDone(item);
     setShowPopover(false);
   };
 
-  const renderRecentSearches = () => {
+  const renderPopularSearches = () => {
     return (
-      <>
+      <Fragment>
         <h3 className='block mt-2 sm:mt-0 px-4 sm:px-8 font-semibold text-base sm:text-lg text-neutral-800 dark:text-neutral-100'>
-          Recent searches
+          Popular searches
         </h3>
         <div className='mt-2'>
-          {[
-            'Hamptons, Suffolk County, NY',
-            'Las Vegas, NV, United States',
-            'Ueno, Taito, Tokyo',
-            'Ikebukuro, Toshima, Tokyo',
-          ].map((item) => (
+          {locations?.map((item) => (
             <span
-              onClick={() => handleSelectLocation(item)}
-              key={item}
+              onClick={() => handleSelectLocation(item.cityName)}
+              key={item.id}
               className='flex px-4 sm:px-8 items-center space-x-3 sm:space-x-4 py-4 sm:py-5 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer'
             >
               <span className='block text-neutral-400'>
@@ -105,57 +116,58 @@ const HotelLocationInput: FC<LocationInputProps> = ({
                 </svg>
               </span>
               <span className=' block font-medium text-neutral-700 dark:text-neutral-200'>
-                {item}
+                {item.cityName}
               </span>
             </span>
           ))}
         </div>
-      </>
+      </Fragment>
     );
   };
 
   const renderSearchValue = () => {
     return (
-      <>
-        {[
-          'Ha Noi, Viet Nam',
-          'San Diego, CA',
-          'Humboldt Park, Chicago, IL',
-          'Bangor, Northern Ireland',
-        ].map((item) => (
-          <span
-            onClick={() => handleSelectLocation(item)}
-            key={item}
-            className='flex px-4 sm:px-8 items-center space-x-3 sm:space-x-4 py-4 sm:py-5 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer'
-          >
-            <span className='block text-neutral-400'>
-              <svg
-                xmlns='http://www.w3.org/2000/svg'
-                className='h-4 w-4 sm:h-6 sm:w-6'
-                fill='none'
-                viewBox='0 0 24 24'
-                stroke='currentColor'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={1.5}
-                  d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'
-                />
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  strokeWidth={1.5}
-                  d='M15 11a3 3 0 11-6 0 3 3 0 016 0z'
-                />
-              </svg>
+      <Fragment>
+        {suggestions?.length !== 0 ? (
+          suggestions?.map((item) => (
+            <span
+              onClick={() => handleSelectLocation(item.cityName)}
+              key={item.id}
+              className='flex px-4 sm:px-8 items-center space-x-3 sm:space-x-4 py-4 sm:py-5 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer'
+            >
+              <span className='block text-neutral-400'>
+                <svg
+                  xmlns='http://www.w3.org/2000/svg'
+                  className='h-4 w-4 sm:h-6 sm:w-6'
+                  fill='none'
+                  viewBox='0 0 24 24'
+                  stroke='currentColor'
+                >
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth={1.5}
+                    d='M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z'
+                  />
+                  <path
+                    strokeLinecap='round'
+                    strokeLinejoin='round'
+                    strokeWidth={1.5}
+                    d='M15 11a3 3 0 11-6 0 3 3 0 016 0z'
+                  />
+                </svg>
+              </span>
+              <span className='block font-medium text-neutral-700 dark:text-neutral-200'>
+                {item.cityName}
+              </span>
             </span>
-            <span className='block font-medium text-neutral-700 dark:text-neutral-200'>
-              {item}
-            </span>
+          ))
+        ) : (
+          <span className='block font-medium text-neutral-700 dark:text-neutral-200 text-center'>
+            No Result Found
           </span>
-        ))}
-      </>
+        )}
+      </Fragment>
     );
   };
 
@@ -195,7 +207,7 @@ const HotelLocationInput: FC<LocationInputProps> = ({
             placeholder={placeHolder}
             value={value}
             autoFocus={showPopover}
-            onChange={(e) => setValue(e.currentTarget.value)}
+            onChange={(e) => onChangeHandler(e.currentTarget.value)}
             ref={inputRef}
           />
           <span className='block mt-0.5 text-sm text-neutral-400 font-light '>
@@ -208,7 +220,7 @@ const HotelLocationInput: FC<LocationInputProps> = ({
       </div>
       {showPopover && (
         <div className='absolute left-0 z-40 w-full min-w-[300px] sm:min-w-[500px] bg-white dark:bg-neutral-800 top-full mt-3 py-3 sm:py-6 rounded-3xl shadow-xl max-h-96 overflow-y-auto'>
-          {value ? renderSearchValue() : renderRecentSearches()}
+          {value ? renderSearchValue() : renderPopularSearches()}
         </div>
       )}
     </div>

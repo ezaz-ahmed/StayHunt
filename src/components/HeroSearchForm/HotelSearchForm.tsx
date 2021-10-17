@@ -1,7 +1,7 @@
 // My Component
 
-import { useState, useEffect } from 'react';
-import LocationInput from './LocationInput';
+import { useState, useEffect, FormEvent } from 'react';
+import { useHistory } from 'react-router';
 import GuestsInput from './GuestsInput';
 import { FocusedInputShape } from 'react-dates';
 import StayDatesRangeInput from './StayDatesRangeInput';
@@ -9,7 +9,9 @@ import ButtonSubmit from './ButtonSubmit';
 import moment from 'moment';
 
 import { fetchHotelLocationAsync } from 'app/feature/hotel/hotelSlice';
-import { useAppDispatch } from 'app/hook';
+import { useAppDispatch, useAppSelector } from 'app/hook';
+import HotelLocationInput from './HotelLocationInputForm';
+import { HotelUserInput, Location } from 'app/feature/hotel/hotelInterfaces';
 
 export interface DateRage {
   startDate: moment.Moment | null;
@@ -18,29 +20,61 @@ export interface DateRage {
 
 const HotelSearchForm = () => {
   const dispatch = useAppDispatch();
-  const [dateRangeValue, setDateRangeValue] = useState<DateRage>({
-    startDate: null,
-    endDate: null,
-  });
-  const [locationInputValue, setLocationInputValue] = useState('');
-  const [guestValue, setGuestValue] = useState({});
 
-  const [dateFocused, setDateFocused] = useState<FocusedInputShape | null>(
-    null
-  );
+  const history = useHistory();
+
+  const { locations } = useAppSelector((state) => state.hotel);
 
   useEffect(() => {
     dispatch(fetchHotelLocationAsync());
   }, [dispatch]);
 
+  const [dateRangeValue, setDateRangeValue] = useState<DateRage>({
+    startDate: null,
+    endDate: null,
+  });
+
+  const [locationInputValue, setLocationInputValue] = useState<string>('');
+  const [guestValue, setGuestValue] = useState({});
+  const [dateFocused, setDateFocused] = useState<FocusedInputShape | null>(
+    null
+  );
+
+  const [userLocation, setUserLocation] = useState<Location>();
+
+  const formatFormData = (ev: FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+
+    locations.forEach(
+      (loc: Location) =>
+        loc.cityName === locationInputValue && setUserLocation(loc)
+    );
+  };
+
+  useEffect(() => {
+    if (
+      userLocation &&
+      dateRangeValue.startDate &&
+      dateRangeValue.endDate &&
+      guestValue
+    ) {
+      history.push('/listing-stay-page');
+    }
+  }, [userLocation, dateRangeValue, guestValue]);
+
   const renderForm = () => {
     return (
-      <form className='w-full relative mt-8 flex flex-col md:flex-row md:items-center rounded-3xl lg:rounded-full shadow-xl dark:shadow-2xl bg-white dark:bg-neutral-900 divide-y divide-neutral-200 md:divide-y-0'>
-        <LocationInput
-          defaultValue={locationInputValue}
-          onChange={(e) => setLocationInputValue(e)}
-          onInputDone={() => setDateFocused('startDate')}
-        />
+      <form
+        onSubmit={(ev) => formatFormData(ev)}
+        className='w-full relative mt-8 flex flex-col md:flex-row md:items-center rounded-3xl lg:rounded-full shadow-xl dark:shadow-2xl bg-white dark:bg-neutral-900 divide-y divide-neutral-200 md:divide-y-0'
+      >
+        {locations && (
+          <HotelLocationInput
+            locations={locations}
+            onChange={(ev) => setLocationInputValue(ev)}
+            onInputDone={() => setDateFocused('startDate')}
+          />
+        )}
         <StayDatesRangeInput
           defaultValue={dateRangeValue}
           defaultFocus={dateFocused}
@@ -52,8 +86,27 @@ const HotelSearchForm = () => {
           onChange={(data) => setGuestValue(data)}
         />
         {/* BUTTON SUBMIT OF FORM */}
-        <div className='px-4 py-4 lg:py-0'>
-          <ButtonSubmit />
+        <div className=' px-4 py-4 lg:py-0'>
+          <button
+            className='h-14 md:h-16 w-full md:w-16 rounded-full bg-primary-6000 hover:bg-primary-700 flex items-center justify-center text-neutral-50 focus:outline-none'
+            type='submit'
+          >
+            <span className='mr-3 md:hidden'>Search</span>
+            <svg
+              xmlns='http://www.w3.org/2000/svg'
+              className='h-6 w-6'
+              fill='none'
+              viewBox='0 0 24 24'
+              stroke='currentColor'
+            >
+              <path
+                strokeLinecap='round'
+                strokeLinejoin='round'
+                strokeWidth={1.5}
+                d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+              />
+            </svg>
+          </button>
         </div>
       </form>
     );

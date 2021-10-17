@@ -3,7 +3,6 @@
 // }
 
 export interface Location {
-  _id: string;
   variant: string;
   propertyId: string;
   hotelId?: string;
@@ -32,4 +31,5 @@ export interface HotelUserInput {
 export interface HotelState {
   status: 'idle' | 'loading' | 'failed';
   locations: Location[];
+  hotelUserInput?: HotelUserInput;
 }

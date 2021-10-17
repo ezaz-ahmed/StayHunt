@@ -1,11 +1,12 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { fetchHotelLocation } from './hotelAPI';
 
-import { HotelState, Location } from './hotelInterfaces';
+import { HotelState, Location, HotelUserInput } from './hotelInterfaces';
 
 const initialState: HotelState = {
   status: 'idle',
   locations: [],
+  hotelUserInput: undefined,
 };
 
 export const fetchHotelLocationAsync = createAsyncThunk(
@@ -25,7 +26,11 @@ export const fetchHotelLocationAsync = createAsyncThunk(
 export const hotelSlice = createSlice({
   name: 'hotel',
   initialState,
-  reducers: {},
+  reducers: {
+    addUserInput: (state, action: PayloadAction<HotelUserInput>) => {
+      state.hotelUserInput = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchHotelLocationAsync.pending, (state) => {
@@ -40,5 +45,7 @@ export const hotelSlice = createSlice({
       });
   },
 });
+
+export const { addUserInput } = hotelSlice.actions;
 
 export default hotelSlice.reducer;
