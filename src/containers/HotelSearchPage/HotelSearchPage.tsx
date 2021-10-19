@@ -19,7 +19,7 @@ const HotelSearchPage: FC<HotelSearchPageProps> = ({ className = '' }) => {
       data-nc-id='ListingStayPage'
     >
       <Helmet>
-        <title>TicketsForTravel | Book Bus, Hotel, Lauch & More</title>
+        <title>TicketsForTravel | Book Hotel From Anywhere</title>
       </Helmet>
       <BgGlassmorphism />
 

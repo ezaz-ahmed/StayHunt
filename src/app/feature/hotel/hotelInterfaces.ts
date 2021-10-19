@@ -28,8 +28,26 @@ export interface HotelUserInput {
   guest: Guests;
 }
 
+export interface City {
+  id: string;
+  cityId: string;
+  cityName: string;
+  countryCode: string;
+}
+
+export interface HotelInList {
+  _id: string;
+  name: string;
+  kind: string;
+  starRating: number;
+  city: City;
+  images: string[];
+  minPrice: number;
+}
+
 export interface HotelState {
   status: 'idle' | 'loading' | 'failed';
   locations: Location[];
   hotelUserInput?: HotelUserInput;
+  allHotelList?: HotelInList[];
 }

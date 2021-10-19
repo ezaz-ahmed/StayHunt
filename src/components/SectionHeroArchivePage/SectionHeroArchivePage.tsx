@@ -1,5 +1,5 @@
 import { FC, ReactNode } from 'react';
-import imagePng from 'images/hero-right2.png';
+import imagePng from 'images/hero-right.png';
 import HeroSearchForm, {
   SearchTab,
 } from 'components/HeroSearchForm/HeroSearchForm';

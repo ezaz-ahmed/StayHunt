@@ -1,12 +1,18 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { fetchHotelLocation } from './hotelAPI';
+import { fetchHotelLocation, fetchAllHotelList } from './hotelAPI';
 
-import { HotelState, Location, HotelUserInput } from './hotelInterfaces';
+import {
+  HotelState,
+  Location,
+  HotelUserInput,
+  HotelInList,
+} from './hotelInterfaces';
 
 const initialState: HotelState = {
   status: 'idle',
   locations: [],
   hotelUserInput: undefined,
+  allHotelList: [],
 };
 
 export const fetchHotelLocationAsync = createAsyncThunk(
@@ -20,6 +26,20 @@ export const fetchHotelLocationAsync = createAsyncThunk(
         property.variant === 'city' && cityArray.push(property)
     );
     return cityArray;
+  }
+);
+
+export const fetchAllHotelListAsync = createAsyncThunk(
+  'hotel/fetchAllHotel',
+  async (userChosenData): Promise<HotelInList[]> => {
+    const { propertyCode, checkin, checkout } = userChosenData;
+    const { data }: any = await fetchAllHotelList(
+      propertyCode,
+      checkin,
+      checkout
+    );
+
+    return data;
   }
 );
 
@@ -41,6 +61,15 @@ export const hotelSlice = createSlice({
         state.locations = action.payload;
       })
       .addCase(fetchHotelLocationAsync.rejected, (state) => {
+        state.status = 'failed';
+      })
+      .addCase(fetchAllHotelListAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchAllHotelListAsync.fulfilled, (state) => {
+        state.status = 'idle';
+      })
+      .addCase(fetchAllHotelListAsync.rejected, (state) => {
         state.status = 'failed';
       });
   },
