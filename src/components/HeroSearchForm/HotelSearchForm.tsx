@@ -63,20 +63,19 @@ const HotelSearchForm = () => {
           guest: guestValue,
         })
     );
-
-    console.log(guestValue, userInput);
   };
 
   useEffect(() => {
-    if (userInput) {
-      console.log(userInput, '🤷‍♂️');
+    if (
+      userInput?.location &&
+      userInput.checkIn &&
+      userInput.checkOut &&
+      userInput.guest
+    ) {
+      dispatch(addUserInput(userInput));
       history.push('/listing-stay-page');
     }
   }, [userInput]);
-
-  const guFUn = (data: any) => {
-    console.log(data);
-  };
 
   const renderForm = () => {
     return (
@@ -97,7 +96,10 @@ const HotelSearchForm = () => {
           onFocusChange={(focus) => setDateFocused(focus)}
           onChange={(data) => setDateRangeValue(data)}
         />
-        <HotelGuestInput defaultValue={guestValue} onChange={guFUn} />
+        <HotelGuestInput
+          defaultValue={guestValue}
+          onChange={(data) => setGuestValue(data)}
+        />
         {/* BUTTON SUBMIT OF FORM */}
         <div className=' px-4 py-4 lg:py-0'>
           <button

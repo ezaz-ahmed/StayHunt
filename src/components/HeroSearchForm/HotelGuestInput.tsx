@@ -5,9 +5,9 @@ import ClearDataButton from './ClearDataButton';
 
 export interface GuestsInputProps {
   defaultValue: {
-    guestAdults?: number;
-    guestChildren?: number;
-    guestRooms?: number;
+    guestAdults: number;
+    guestChildren: number;
+    guestRooms: number;
   };
 
   onChange?: (data: GuestsInputProps['defaultValue']) => void;
@@ -104,7 +104,6 @@ const HotelGuestInput: FC<GuestsInputProps> = ({
                 className='w-full'
                 defaultValue={guestAdultsInputValue}
                 onChange={(value) => setGuestAdultsInputValue(value)}
-                max={10}
                 min={1}
                 label='Adults'
                 desc='Ages 13 or above'
@@ -113,9 +112,8 @@ const HotelGuestInput: FC<GuestsInputProps> = ({
                 className='w-full mt-6'
                 defaultValue={guestChildrenInputValue}
                 onChange={(value) => setGuestChildrenInputValue(value)}
-                max={4}
                 label='Children'
-                desc='Ages 2–12'
+                desc='Ages 0–12'
               />
 
               <NcInputNumber
@@ -123,6 +121,7 @@ const HotelGuestInput: FC<GuestsInputProps> = ({
                 defaultValue={guestRoomsInputValue}
                 onChange={(value) => setGuestRoomsInputValue(value)}
                 max={4}
+                min={1}
                 label='Room'
                 desc='Total Room'
               />
