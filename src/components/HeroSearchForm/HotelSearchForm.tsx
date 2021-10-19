@@ -3,13 +3,13 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { useHistory } from 'react-router';
 import HotelGuestInput from './HotelGuestInput';
+import HotelLocationInput from './HotelLocationInputForm';
 import { FocusedInputShape } from 'react-dates';
 import StayDatesRangeInput from './StayDatesRangeInput';
 import moment from 'moment';
 
 import { fetchHotelLocationAsync } from 'app/feature/hotel/hotelSlice';
 import { useAppDispatch, useAppSelector } from 'app/hook';
-import HotelLocationInput from './HotelLocationInputForm';
 import {
   HotelUserInput,
   Location,
@@ -24,25 +24,27 @@ export interface DateRage {
 
 const HotelSearchForm = () => {
   const dispatch = useAppDispatch();
-
   const history = useHistory();
 
   const { locations } = useAppSelector((state) => state.hotel);
+  const { hotelUserInput } = useAppSelector((state) => state.hotel);
 
   useEffect(() => {
     dispatch(fetchHotelLocationAsync());
   }, [dispatch]);
 
   const [dateRangeValue, setDateRangeValue] = useState<DateRage>({
-    startDate: null,
-    endDate: null,
+    startDate: hotelUserInput?.checkIn ? moment(hotelUserInput.checkIn) : null,
+    endDate: hotelUserInput?.checkOut ? moment(hotelUserInput.checkOut) : null,
   });
 
-  const [locationInputValue, setLocationInputValue] = useState<string>('');
+  const [locationInputValue, setLocationInputValue] = useState<string>(
+    hotelUserInput?.location.cityName || ''
+  );
   const [guestValue, setGuestValue] = useState<Guests>({
-    guestAdults: 1,
-    guestChildren: 0,
-    guestRooms: 1,
+    guestAdults: hotelUserInput?.guest.guestAdults || 1,
+    guestChildren: hotelUserInput?.guest.guestChildren || 0,
+    guestRooms: hotelUserInput?.guest.guestRooms || 1,
   });
   const [dateFocused, setDateFocused] = useState<FocusedInputShape | null>(
     null
@@ -73,7 +75,7 @@ const HotelSearchForm = () => {
       userInput.guest
     ) {
       dispatch(addUserInput(userInput));
-      history.push('/listing-stay-page');
+      history.push('/hotel-search-page');
     }
   }, [userInput]);
 
@@ -85,6 +87,7 @@ const HotelSearchForm = () => {
       >
         {locations && (
           <HotelLocationInput
+            locationInputValue={locationInputValue}
             locations={locations}
             onChange={(ev) => setLocationInputValue(ev)}
             onInputDone={() => setDateFocused('startDate')}

@@ -46,7 +46,6 @@ const includes_demo = [
   { name: 'Kayak or Bamboo Boat. Life Jacket.' },
   { name: 'Halong Bay Entrance Ticket' },
 ];
-console.log(11, moment());
 
 const ListingExperiencesDetailPage: FC<ListingExperiencesDetailPageProps> = ({
   className = '',

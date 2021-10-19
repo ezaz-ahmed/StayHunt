@@ -1,3 +1,5 @@
+// My Component -- Inspired By GuestInput
+
 import { FC, Fragment, useEffect, useRef, useState } from 'react';
 import { Location } from 'app/feature/hotel/hotelInterfaces';
 import ClearDataButton from './ClearDataButton';
@@ -10,6 +12,7 @@ export interface LocationInputProps {
   className?: string;
   autoFocus?: boolean;
   locations?: Location[];
+  locationInputValue?: string;
 }
 
 const HotelLocationInput: FC<LocationInputProps> = ({
@@ -20,11 +23,12 @@ const HotelLocationInput: FC<LocationInputProps> = ({
   desc = 'Where are you going?',
   className = 'nc-flex-1.5',
   locations,
+  locationInputValue,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(locationInputValue || '');
   const [suggestions, setSuggestions] = useState<Location[] | undefined>([]);
   const [showPopover, setShowPopover] = useState(autoFocus);
 
