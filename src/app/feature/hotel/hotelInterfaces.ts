@@ -51,3 +51,4 @@ export interface HotelState {
   hotelUserInput?: HotelUserInput;
   allHotelList?: HotelInList[];
 }
+

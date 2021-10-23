@@ -27,7 +27,7 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
   tabs = ['New York', 'Tokyo', 'Paris', 'London'],
 }) => {
   const renderCard = (stay: StayDataType) => {
-    return <HotelCard key={stay.id} data={stay} />;
+    // return <HotelCard key={stay.id} data={stay} />;
   };
 
   return (

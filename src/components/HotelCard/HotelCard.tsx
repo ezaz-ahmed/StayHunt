@@ -1,49 +1,30 @@
 import { FC } from 'react';
-import GallerySlider from 'components/GallerySlider/GallerySlider';
-import { DEMO_STAY_LISTINGS } from 'data/listings';
-import { StayDataType } from 'data/types';
-import StartRating from 'components/StartRating/StartRating';
+import { StarIcon } from '@heroicons/react/solid';
 import { Link } from 'react-router-dom';
-import BtnLikeIcon from 'components/BtnLikeIcon/BtnLikeIcon';
-import SaleOffBadge from 'components/SaleOffBadge/SaleOffBadge';
-import Badge from 'shared/Badge/Badge';
+import { HotelInList } from 'app/feature/hotel/hotelInterfaces';
+import GallerySlider from 'components/GallerySlider/GallerySlider';
 
-export interface StayCardProps {
+export interface HotelCardProps {
   className?: string;
   ratioClass?: string;
-  data?: StayDataType;
+  data?: HotelInList;
   size?: 'default' | 'small';
 }
 
-const DEMO_DATA = DEMO_STAY_LISTINGS[0];
-
-const HotelCard: FC<StayCardProps> = ({
+const HotelCard: FC<HotelCardProps> = ({
   size = 'default',
   className = '',
-  data = DEMO_DATA,
+  data,
   ratioClass,
 }) => {
-  const {
-    galleryImgs,
-    listingCategory,
-    address,
-    title,
-    bedrooms,
-    href,
-    like,
-    saleOff,
-    isAds,
-    price,
-    reviewStart,
-    reviewCount,
-  } = data;
+  let outArr = Array.from(Array(data?.starRating), (_, x) => x);
 
   const renderSliderGallery = () => {
     return (
       <div className='relative w-full'>
-        <GallerySlider ratioClass={ratioClass} galleryImgs={galleryImgs} />
-        <BtnLikeIcon isLiked={like} className='absolute right-3 top-3' />
-        {saleOff && <SaleOffBadge className='absolute left-3 top-3' />}
+        {data?.images && (
+          <GallerySlider ratioClass={ratioClass} galleryImgs={data.images} />
+        )}
       </div>
     );
   };
@@ -52,17 +33,13 @@ const HotelCard: FC<StayCardProps> = ({
     return (
       <div className={size === 'default' ? 'p-4 space-y-4' : 'p-3 space-y-2'}>
         <div className='space-y-2'>
-          <span className='text-sm text-neutral-500 dark:text-neutral-400'>
-            {listingCategory.name} · {bedrooms} beds
-          </span>
           <div className='flex items-center space-x-2'>
-            {isAds && <Badge name='ADS' color='green' />}
             <h2
               className={` font-medium capitalize ${
                 size === 'default' ? 'text-lg' : 'text-base'
               }`}
             >
-              <span className='line-clamp-1'>{title}</span>
+              <span className='line-clamp-1'>{data?.name}</span>
             </h2>
           </div>
           <div className='flex items-center text-neutral-500 dark:text-neutral-400 text-sm space-x-2'>
@@ -88,13 +65,13 @@ const HotelCard: FC<StayCardProps> = ({
                 />
               </svg>
             )}
-            <span className=''>{address}</span>
+            <span className=''>{data?.city.cityName}</span>
           </div>
         </div>
         <div className='w-14 border-b border-neutral-100 dark:border-neutral-800'></div>
         <div className='flex justify-between items-center'>
           <span className='text-base font-semibold'>
-            {price}
+            {`BDT ${data?.minPrice}`}
             {` `}
             {size === 'default' && (
               <span className='text-sm text-neutral-500 dark:text-neutral-400 font-normal'>
@@ -102,9 +79,12 @@ const HotelCard: FC<StayCardProps> = ({
               </span>
             )}
           </span>
-          {!!reviewStart && (
-            <StartRating reviewCount={reviewCount} point={reviewStart} />
-          )}
+
+          <span className='flex'>
+            {outArr.map((o) => (
+              <StarIcon key={o} className='w-5 h-5 text-red-500 m-0 p-0' />
+            ))}
+          </span>
         </div>
       </div>
     );
@@ -115,7 +95,7 @@ const HotelCard: FC<StayCardProps> = ({
       className={`nc-StayCard group relative bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 rounded-2xl overflow-hidden hover:shadow-xl transition-shadow ${className}`}
       data-nc-id='StayCard'
     >
-      <Link to={href}>
+      <Link to={`/hotel/${data?._id}`}>
         {renderSliderGallery()}
         {renderContent()}
       </Link>

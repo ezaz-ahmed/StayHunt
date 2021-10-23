@@ -1,5 +1,5 @@
 import { StarIcon } from "@heroicons/react/solid";
-import React, { FC } from "react";
+import { FC } from 'react';
 
 export interface StartRatingProps {
   className?: string;

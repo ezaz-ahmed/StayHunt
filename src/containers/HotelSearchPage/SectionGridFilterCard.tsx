@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import HotelCard from 'components/HotelCard/HotelCard';
-import { DEMO_STAY_LISTINGS } from 'data/listings';
 import { StayDataType } from 'data/types';
-import Pagination from 'shared/Pagination/Pagination';
 import Heading2 from 'components/Heading/Heading2';
+
+import { useAppSelector } from 'app/hook';
 
 export interface SectionGridFilterCardProps {
   className?: string;
@@ -11,13 +11,12 @@ export interface SectionGridFilterCardProps {
   heading?: string;
 }
 
-const DEMO_DATA: StayDataType[] = DEMO_STAY_LISTINGS.filter((_, i) => i < 8);
-
 const SectionGridFilterCard: FC<SectionGridFilterCardProps> = ({
   className = '',
   heading,
-  data = DEMO_DATA,
 }) => {
+  const { allHotelList } = useAppSelector((state) => state.hotel);
+
   return (
     <div
       className={`nc-SectionGridFilterCard ${className}`}
@@ -28,13 +27,12 @@ const SectionGridFilterCard: FC<SectionGridFilterCardProps> = ({
       {/* Tab Filter Was Here */}
 
       <div className='grid grid-cols-1 gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-        {data.map((stay) => (
-          <HotelCard key={stay.id} data={stay} />
+        {allHotelList?.map((hotel) => (
+          <HotelCard key={hotel._id} data={hotel} />
         ))}
       </div>
-      <div className='flex mt-16 justify-center items-center'>
-        <Pagination />
-      </div>
+
+      {/* Pagination Filter Was Here */}
     </div>
   );
 };

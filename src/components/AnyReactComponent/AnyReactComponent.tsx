@@ -1,10 +1,9 @@
-import { Transition } from "@headlessui/react";
-import CarCard from "components/CarCard/CarCard";
-import ExperiencesCard from "components/ExperiencesCard/ExperiencesCard";
+import { FC, Fragment, useState } from 'react';
+import { Transition } from '@headlessui/react';
+import CarCard from 'components/CarCard/CarCard';
+import ExperiencesCard from 'components/ExperiencesCard/ExperiencesCard';
 import HotelCard from 'components/HotelCard/HotelCard';
 import { CarDataType, ExperiencesDataType, StayDataType } from 'data/types';
-import React, { FC, Fragment } from 'react';
-import { useState } from 'react';
 
 export interface AnyReactComponentProps {
   className?: string;
@@ -52,9 +51,9 @@ const AnyReactComponent: FC<AnyReactComponentProps> = ({
         leaveTo='opacity-0'
       >
         <div className='absolute z-50 bottom-full pb-3 -left-12 w-[260px] aspect-w-1'>
-          {listing && (
+          {/* {listing && (
             <HotelCard size='small' data={listing} className='shadow-2xl' />
-          )}
+          )} */}
           {experiences && (
             <ExperiencesCard
               size='small'

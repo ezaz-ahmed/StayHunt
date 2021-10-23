@@ -1,24 +1,26 @@
-import { CustomLink } from "data/types";
-import React, { FC } from "react";
-import { Link } from "react-router-dom";
-import twFocusClass from "utils/twFocusClass";
+// This Component isn't using right now...
+
+import { CustomLink } from 'data/types';
+import { FC } from 'react';
+import { Link } from 'react-router-dom';
+import twFocusClass from 'utils/twFocusClass';
 
 const DEMO_PAGINATION: CustomLink[] = [
   {
-    label: "1",
-    href: "#",
+    label: '1',
+    href: '#',
   },
   {
-    label: "2",
-    href: "#",
+    label: '2',
+    href: '#',
   },
   {
-    label: "3",
-    href: "#",
+    label: '3',
+    href: '#',
   },
   {
-    label: "4",
-    href: "#",
+    label: '4',
+    href: '#',
   },
 ];
 
@@ -26,7 +28,7 @@ export interface PaginationProps {
   className?: string;
 }
 
-const Pagination: FC<PaginationProps> = ({ className = "" }) => {
+const Pagination: FC<PaginationProps> = ({ className = '' }) => {
   const renderItem = (pag: CustomLink, index: number) => {
     if (index === 0) {
       // RETURN ACTIVE PAGINATION
