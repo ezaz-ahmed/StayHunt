@@ -1,4 +1,4 @@
-import { FC, ReactNode } from 'react';
+import { FC, Fragment, ReactNode } from 'react';
 import imagePng from 'images/hero-right.png';
 import HeroSearchForm, {
   SearchTab,
@@ -16,6 +16,9 @@ export interface SectionHeroArchivePageProps {
     | 'Flight'
     | 'Train';
   currentTab: SearchTab;
+  place?: string;
+  country?: string;
+  properties?: number;
 }
 
 const SectionHeroArchivePage: FC<SectionHeroArchivePageProps> = ({
@@ -23,6 +26,9 @@ const SectionHeroArchivePage: FC<SectionHeroArchivePageProps> = ({
   listingType,
   currentPage,
   currentTab,
+  place = 'Explore Our Hotels',
+  country,
+  properties,
 }) => {
   return (
     <div
@@ -32,19 +38,30 @@ const SectionHeroArchivePage: FC<SectionHeroArchivePageProps> = ({
       <div className='flex flex-col lg:flex-row lg:items-center'>
         <div className='flex-shrink-0 lg:w-1/2 flex flex-col items-start space-y-6 lg:space-y-10 pb-14 lg:pb-64 xl:pb-80 xl:pr-14 lg:mr-10 xl:mr-0'>
           <h2 className='font-medium text-4xl md:text-5xl xl:text-7xl leading-[110%]'>
-            Tokyo, Jappan
+            {place}
           </h2>
           <div className='flex items-center text-base md:text-lg text-neutral-500 dark:text-neutral-400'>
-            <i className='text-2xl las la-map-marked'></i>
-            <span className='ml-2.5'>Jappan </span>
+            {country && (
+              <Fragment>
+                <i className='text-2xl las la-map-marked'></i>
+                <span className='ml-2.5'>Bangladesh</span>
+              </Fragment>
+            )}
+
             <span className='mx-5'></span>
             {listingType ? (
               listingType
             ) : (
-              <>
-                <i className='text-2xl las la-home'></i>
-                <span className='ml-2.5'>112 properties</span>
-              </>
+              <Fragment>
+                {properties ? (
+                  <Fragment>
+                    <i className='text-2xl las la-home'></i>
+                    <span className='ml-2.5'>{properties} properties</span>
+                  </Fragment>
+                ) : (
+                  <Fragment></Fragment>
+                )}
+              </Fragment>
             )}
           </div>
         </div>

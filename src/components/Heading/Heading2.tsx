@@ -1,5 +1,4 @@
-import React from "react";
-import { ReactNode } from "react";
+import { ReactNode, FC } from 'react';
 
 export interface Heading2Props {
   heading?: ReactNode;
@@ -7,22 +6,22 @@ export interface Heading2Props {
   className?: string;
 }
 
-const Heading2: React.FC<Heading2Props> = ({
-  className = "",
-  heading = "Stays in Tokyo",
+const Heading2: FC<Heading2Props> = ({
+  className = '',
+  heading = 'Stays in Tokyo',
   subHeading,
 }) => {
   return (
     <div className={`mb-12 lg:mb-16 ${className}`}>
-      <h2 className="text-4xl font-semibold">{heading}</h2>
+      <h2 className='text-4xl font-semibold'>{heading}</h2>
       {subHeading ? (
         subHeading
       ) : (
-        <span className="block text-neutral-500 dark:text-neutral-400 mt-3">
+        <span className='block text-neutral-500 dark:text-neutral-400 mt-3'>
           233 stays
-          <span className="mx-2">·</span>
+          <span className='mx-2'>·</span>
           Aug 12 - 18
-          <span className="mx-2">·</span>2 Guests
+          <span className='mx-2'>·</span>2 Guests
         </span>
       )}
     </div>

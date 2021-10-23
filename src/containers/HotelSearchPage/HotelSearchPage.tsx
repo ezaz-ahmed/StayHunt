@@ -8,11 +8,17 @@ import SectionSliderNewCategories from 'components/SectionSliderNewCategories/Se
 import SectionSubscribe2 from 'components/SectionSubscribe2/SectionSubscribe2';
 import SectionGridFilterCard from './SectionGridFilterCard';
 
+import { useAppSelector } from 'app/hook';
+
 export interface HotelSearchPageProps {
   className?: string;
 }
 
 const HotelSearchPage: FC<HotelSearchPageProps> = ({ className = '' }) => {
+  const { hotelUserInput, allHotelList } = useAppSelector(
+    (state) => state.hotel
+  );
+
   return (
     <div
       className={`nc-ListingStayPage relative overflow-hidden ${className}`}
@@ -26,6 +32,9 @@ const HotelSearchPage: FC<HotelSearchPageProps> = ({ className = '' }) => {
       <div className='container relative overflow-hidden'>
         {/* SECTION HERO */}
         <SectionHeroArchivePage
+          place={hotelUserInput?.location.cityName}
+          country={hotelUserInput?.location.countryCode}
+          properties={allHotelList?.length}
           currentPage='Hotel'
           currentTab='Hotel'
           className='pt-10 pb-24 lg:pb-32 lg:pt-28 '
