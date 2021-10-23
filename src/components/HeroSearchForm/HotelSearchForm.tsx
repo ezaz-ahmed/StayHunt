@@ -8,7 +8,10 @@ import { FocusedInputShape } from 'react-dates';
 import StayDatesRangeInput from './StayDatesRangeInput';
 import moment from 'moment';
 
-import { fetchHotelLocationAsync } from 'app/feature/hotel/hotelSlice';
+import {
+  fetchHotelLocationAsync,
+  fetchAllHotelAsync,
+} from 'app/feature/hotel/hotelSlice';
 import { useAppDispatch, useAppSelector } from 'app/hook';
 import {
   HotelUserInput,
@@ -75,6 +78,7 @@ const HotelSearchForm = () => {
       userInput.guest
     ) {
       dispatch(addUserInput(userInput));
+      dispatch(fetchAllHotelAsync(userInput));
       history.push('/hotel-search-page');
     }
   }, [userInput]);

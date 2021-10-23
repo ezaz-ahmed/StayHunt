@@ -29,14 +29,14 @@ export const fetchHotelLocationAsync = createAsyncThunk(
   }
 );
 
-export const fetchAllHotelListAsync = createAsyncThunk(
+export const fetchAllHotelAsync = createAsyncThunk(
   'hotel/fetchAllHotel',
-  async (userChosenData): Promise<HotelInList[]> => {
-    const { propertyCode, checkin, checkout } = userChosenData;
+  async (userChosenData: HotelUserInput): Promise<HotelInList[]> => {
+    const { location, checkIn, checkOut } = userChosenData;
     const { data }: any = await fetchAllHotelList(
-      propertyCode,
-      checkin,
-      checkout
+      location.propertyId,
+      checkIn,
+      checkOut
     );
 
     return data;
@@ -63,13 +63,14 @@ export const hotelSlice = createSlice({
       .addCase(fetchHotelLocationAsync.rejected, (state) => {
         state.status = 'failed';
       })
-      .addCase(fetchAllHotelListAsync.pending, (state) => {
+      .addCase(fetchAllHotelAsync.pending, (state) => {
         state.status = 'loading';
       })
-      .addCase(fetchAllHotelListAsync.fulfilled, (state) => {
+      .addCase(fetchAllHotelAsync.fulfilled, (state, action) => {
         state.status = 'idle';
+        state.allHotelList = action.payload;
       })
-      .addCase(fetchAllHotelListAsync.rejected, (state) => {
+      .addCase(fetchAllHotelAsync.rejected, (state) => {
         state.status = 'failed';
       });
   },
