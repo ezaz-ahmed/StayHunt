@@ -3,7 +3,7 @@ import { DEMO_STAY_LISTINGS } from "data/listings";
 import { StayDataType } from "data/types";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import HeaderFilter from "./HeaderFilter";
-import StayCard from "components/StayCard/StayCard";
+import HotelCard from 'components/HotelCard/HotelCard';
 
 // OTHER DEMO WILL PASS PROPS
 const DEMO_DATA: StayDataType[] = DEMO_STAY_LISTINGS.filter((_, i) => i < 8);
@@ -20,20 +20,20 @@ export interface SectionGridFeaturePlacesProps {
 
 const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
   stayListings = DEMO_DATA,
-  gridClass = "",
-  heading = "Featured places to stay",
-  subHeading = "Popular places to stay that Chisfis recommends for you",
+  gridClass = '',
+  heading = 'Featured places to stay',
+  subHeading = 'Popular places to stay that Chisfis recommends for you',
   headingIsCenter,
-  tabs = ["New York", "Tokyo", "Paris", "London"],
+  tabs = ['New York', 'Tokyo', 'Paris', 'London'],
 }) => {
   const renderCard = (stay: StayDataType) => {
-    return <StayCard key={stay.id} data={stay} />;
+    return <HotelCard key={stay.id} data={stay} />;
   };
 
   return (
-    <div className="nc-SectionGridFeaturePlaces relative">
+    <div className='nc-SectionGridFeaturePlaces relative'>
       <HeaderFilter
-        tabActive={"New York"}
+        tabActive={'New York'}
         subHeading={subHeading}
         tabs={tabs}
         heading={heading}
@@ -44,7 +44,7 @@ const SectionGridFeaturePlaces: FC<SectionGridFeaturePlacesProps> = ({
       >
         {DEMO_DATA.map((stay) => renderCard(stay))}
       </div>
-      <div className="flex mt-16 justify-center items-center">
+      <div className='flex mt-16 justify-center items-center'>
         <ButtonPrimary>Show me more</ButtonPrimary>
       </div>
     </div>

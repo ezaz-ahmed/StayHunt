@@ -41,7 +41,10 @@ const HotelSearchPage: FC<HotelSearchPageProps> = ({ className = '' }) => {
         />
 
         {/* SECTION */}
-        <SectionGridFilterCard className='pb-24 lg:pb-32' />
+        <SectionGridFilterCard
+          className='pb-24 lg:pb-32'
+          heading={`Hotels in ${hotelUserInput?.location.cityName}`}
+        />
 
         {/* SECTION 1 */}
         <div className='relative py-16'>

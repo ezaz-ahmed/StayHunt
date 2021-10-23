@@ -1,20 +1,21 @@
 import { FC } from 'react';
-import StayCard from 'components/StayCard/StayCard';
+import HotelCard from 'components/HotelCard/HotelCard';
 import { DEMO_STAY_LISTINGS } from 'data/listings';
 import { StayDataType } from 'data/types';
 import Pagination from 'shared/Pagination/Pagination';
-import TabFilters from './TabFilters';
 import Heading2 from 'components/Heading/Heading2';
 
 export interface SectionGridFilterCardProps {
   className?: string;
   data?: StayDataType[];
+  heading?: string;
 }
 
 const DEMO_DATA: StayDataType[] = DEMO_STAY_LISTINGS.filter((_, i) => i < 8);
 
 const SectionGridFilterCard: FC<SectionGridFilterCardProps> = ({
   className = '',
+  heading,
   data = DEMO_DATA,
 }) => {
   return (
@@ -22,14 +23,13 @@ const SectionGridFilterCard: FC<SectionGridFilterCardProps> = ({
       className={`nc-SectionGridFilterCard ${className}`}
       data-nc-id='SectionGridFilterCard'
     >
-      <Heading2 heading='' />
+      <Heading2 heading={heading} />
 
-      <div className='mb-8 lg:mb-11'>
-        <TabFilters />
-      </div>
+      {/* Tab Filter Was Here */}
+
       <div className='grid grid-cols-1 gap-6 md:gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
         {data.map((stay) => (
-          <StayCard key={stay.id} data={stay} />
+          <HotelCard key={stay.id} data={stay} />
         ))}
       </div>
       <div className='flex mt-16 justify-center items-center'>
