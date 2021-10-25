@@ -2,14 +2,9 @@ import { Tab } from "@headlessui/react";
 import CarCard from "components/CarCard/CarCard";
 import CommentListing from "components/CommentListing/CommentListing";
 import ExperiencesCard from "components/ExperiencesCard/ExperiencesCard";
-import StartRating from "components/StartRating/StartRating";
-import HotelCard from 'components/HotelCard/HotelCard';
-import {
-  DEMO_CAR_LISTINGS,
-  DEMO_EXPERIENCES_LISTINGS,
-  DEMO_STAY_LISTINGS,
-} from 'data/listings';
-import React, { FC, Fragment, useState } from 'react';
+import StartRating from 'components/StartRating/StartRating';
+import { DEMO_CAR_LISTINGS, DEMO_EXPERIENCES_LISTINGS } from 'data/listings';
+import { FC, Fragment, useState } from 'react';
 import Avatar from 'shared/Avatar/Avatar';
 import ButtonSecondary from 'shared/Button/ButtonSecondary';
 import SocialsList from 'shared/SocialsList/SocialsList';
@@ -212,7 +207,7 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = '' }) => {
   return (
     <div className={`nc-AuthorPage ${className}`} data-nc-id='AuthorPage'>
       <Helmet>
-        <title>Login || Booking React Template</title>
+        <title>Login | TicketsForTravel</title>
       </Helmet>
       <main className='container mt-12 mb-24 lg:mb-32 flex flex-col lg:flex-row'>
         <div className='block flex-grow mb-24 lg:mb-0'>

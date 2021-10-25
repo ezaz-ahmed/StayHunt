@@ -2,7 +2,6 @@ import { FC, Fragment, useState } from 'react';
 import { Transition } from '@headlessui/react';
 import CarCard from 'components/CarCard/CarCard';
 import ExperiencesCard from 'components/ExperiencesCard/ExperiencesCard';
-import HotelCard from 'components/HotelCard/HotelCard';
 import { CarDataType, ExperiencesDataType, StayDataType } from 'data/types';
 
 export interface AnyReactComponentProps {

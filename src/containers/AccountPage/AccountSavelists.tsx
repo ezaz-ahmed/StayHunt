@@ -1,13 +1,8 @@
-import { Tab } from "@headlessui/react";
-import CarCard from "components/CarCard/CarCard";
-import ExperiencesCard from "components/ExperiencesCard/ExperiencesCard";
-import HotelCard from 'components/HotelCard/HotelCard';
-import {
-  DEMO_CAR_LISTINGS,
-  DEMO_EXPERIENCES_LISTINGS,
-  DEMO_STAY_LISTINGS,
-} from 'data/listings';
-import React, { Fragment, useState } from 'react';
+import { Fragment, useState } from 'react';
+import { Tab } from '@headlessui/react';
+import CarCard from 'components/CarCard/CarCard';
+import ExperiencesCard from 'components/ExperiencesCard/ExperiencesCard';
+import { DEMO_CAR_LISTINGS, DEMO_EXPERIENCES_LISTINGS } from 'data/listings';
 import ButtonSecondary from 'shared/Button/ButtonSecondary';
 import CommonLayout from './CommonLayout';
 

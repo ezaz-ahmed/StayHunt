@@ -15,9 +15,7 @@ export interface HotelSearchPageProps {
 }
 
 const HotelSearchPage: FC<HotelSearchPageProps> = ({ className = '' }) => {
-  const { hotelUserInput, allHotelList } = useAppSelector(
-    (state) => state.hotel
-  );
+  const { hotelUserInput } = useAppSelector((state) => state.hotel);
 
   return (
     <div
@@ -32,12 +30,9 @@ const HotelSearchPage: FC<HotelSearchPageProps> = ({ className = '' }) => {
       <div className='container relative overflow-hidden'>
         {/* SECTION HERO */}
         <SectionHeroArchivePage
-          place={hotelUserInput?.location.cityName}
-          country={hotelUserInput?.location.countryCode}
-          properties={allHotelList?.length}
           currentPage='Hotel'
           currentTab='Hotel'
-          className='pt-10 pb-24 lg:pb-32 lg:pt-28 '
+          className='pt-10 pb-24 lg:pb-20 lg:pt-20'
         />
 
         {/* SECTION */}

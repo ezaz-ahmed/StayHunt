@@ -2,8 +2,7 @@ import React, { FC, ReactNode } from "react";
 import { DEMO_STAY_LISTINGS } from "data/listings";
 import { StayDataType } from "data/types";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
-import HeaderFilter from "./HeaderFilter";
-import HotelCard from 'components/HotelCard/HotelCard';
+import HeaderFilter from './HeaderFilter';
 
 // OTHER DEMO WILL PASS PROPS
 const DEMO_DATA: StayDataType[] = DEMO_STAY_LISTINGS.filter((_, i) => i < 8);

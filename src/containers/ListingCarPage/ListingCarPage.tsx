@@ -69,45 +69,39 @@ const ListingCarPage: FC<ListingCarPageProps> = ({ className = "" }) => {
   return (
     <div
       className={`nc-ListingCarPage relative overflow-hidden ${className}`}
-      data-nc-id="ListingCarPage"
+      data-nc-id='ListingCarPage'
     >
       <Helmet>
         <title>Chisfis || Booking React Template</title>
       </Helmet>
       <BgGlassmorphism />
 
-      <div className="container relative">
+      <div className='container relative'>
         {/* SECTION HERO */}
         <SectionHeroArchivePage
-          currentPage="Rental Car"
-          currentTab="Rental Car"
-          listingType={
-            <>
-              <i className="text-2xl las la-car"></i>
-              <span className="ml-2.5">1512 cars</span>
-            </>
-          }
-          className="pt-10 pb-24 lg:pb-32 lg:pt-28 "
+          currentPage='Rental Car'
+          currentTab='Rental Car'
+          className='pt-10 pb-24 lg:pb-32 lg:pt-28 '
         />
 
         {/* SECTION */}
-        <SectionGridFilterCard className="pb-24 lg:pb-32" />
+        <SectionGridFilterCard className='pb-24 lg:pb-32' />
 
         {/* SECTION 1 */}
-        <div className="relative py-16">
+        <div className='relative py-16'>
           <BackgroundSection />
           <SectionSliderNewCategories
-            heading="Explore top destination ✈"
-            subHeading="Explore thousands of destinations around the world"
-            categoryCardType="card4"
+            heading='Explore top destination ✈'
+            subHeading='Explore thousands of destinations around the world'
+            categoryCardType='card4'
             itemPerRow={4}
             categories={DEMO_CATS}
-            sliderStyle="style2"
+            sliderStyle='style2'
           />
         </div>
 
         {/* SECTION */}
-        <SectionSubscribe2 className="py-24 lg:py-32" />
+        <SectionSubscribe2 className='py-24 lg:py-32' />
       </div>
     </div>
   );
