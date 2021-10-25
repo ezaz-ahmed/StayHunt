@@ -10,11 +10,10 @@ export interface SectionHeroProps {
 const SectionHero: FC<SectionHeroProps> = ({ className = "" }) => {
   return (
     <div
-      className={`nc-SectionHero flex flex-col-reverse lg:flex-col relative ${className} mt-0`}
+      className={`nc-SectionHero flex flex-col lg:flex-col relative ${className} mt-0`}
       data-nc-id='SectionHero'
     >
-
-<div className='z-10 mb-12 lg:-mb-40 w-full'>
+      <div className='z-10 mb-12 lg:-mb-40 w-full'>
         <HeroSearchForm />
       </div>
 
@@ -33,8 +32,6 @@ const SectionHero: FC<SectionHeroProps> = ({ className = "" }) => {
           <img className='w-full' src={imagePng} alt='hero' />
         </div>
       </div>
-
-    
     </div>
   );
 };
