@@ -79,7 +79,7 @@ const HotelSearchForm = () => {
     ) {
       dispatch(addUserInput(userInput));
       dispatch(fetchAllHotelAsync(userInput));
-      history.push('/hotel-search-page');
+      history.push('/hotel-search');
     }
   }, [userInput]);
 
@@ -135,6 +135,6 @@ const HotelSearchForm = () => {
   };
 
   return renderForm();
-};
+};;
 
 export default HotelSearchForm;

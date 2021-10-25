@@ -13,7 +13,7 @@ const SectionHero: FC<SectionHeroProps> = ({ className = "" }) => {
       className={`nc-SectionHero flex flex-col lg:flex-col relative ${className} mt-0`}
       data-nc-id='SectionHero'
     >
-      <div className='z-10 mb-12 lg:-mb-32 w-full'>
+      <div className='z-10 mb-12 lg:-mb-28 w-full flex justify-center'>
         <HeroSearchForm />
       </div>
 

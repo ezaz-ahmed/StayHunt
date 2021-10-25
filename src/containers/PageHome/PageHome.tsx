@@ -130,7 +130,7 @@ function PageHome() {
 
       <div className='container relative space-y-24 mb-12 lg:space-y-24 lg:mb-32'>
         {/* SECTION HERO */}
-        <SectionHero className='pt-10 lg:pt-20 pb-16' />
+        <SectionHero className='pt-10 lg:pt-20 pb-0' />
 
         {/* SECTION 1 */}
         <SectionSliderNewCategories categories={DEMO_CATS} />

@@ -26,7 +26,7 @@ const SectionHeroArchivePage: FC<SectionHeroArchivePageProps> = ({
       className={`nc-SectionHeroArchivePage flex flex-col relative ${className}`}
       data-nc-id='SectionHeroArchivePage'
     >
-      <div className='z-10 mb-0 w-full'>
+      <div className='z-10 w-full flex justify-center'>
         <HeroSearchForm currentPage={currentPage} currentTab={currentTab} />
       </div>
     </div>

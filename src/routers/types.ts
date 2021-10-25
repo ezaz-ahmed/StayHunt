@@ -4,7 +4,8 @@ export interface LocationStates {
   '/'?: {};
   '/#'?: {};
   //
-  '/hotel-search-page'?: {};
+  '/hotel-search'?: {};
+  '/hotel/:id'?: {};
   '/listing-stay'?: {};
   '/listing-stay-map'?: {};
   '/listing-stay-detail'?: {};
