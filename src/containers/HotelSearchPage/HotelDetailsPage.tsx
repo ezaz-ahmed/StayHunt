@@ -1,5 +1,4 @@
 import { FC, Fragment, useState } from 'react';
-import { useParams } from 'react-router-dom';
 import moment from 'moment';
 import { Dialog, Transition } from '@headlessui/react';
 import { ArrowRightIcon } from '@heroicons/react/outline';
@@ -21,13 +20,10 @@ import ButtonClose from 'shared/ButtonClose/ButtonClose';
 import Input from 'shared/Input/Input';
 import NcImage from 'shared/NcImage/NcImage';
 import ModalPhotos from 'containers/ListingDetailPage/ModalPhotos';
-import BackgroundSection from 'components/BackgroundSection/BackgroundSection';
-import SectionSliderNewCategories from 'components/SectionSliderNewCategories/SectionSliderNewCategories';
-import SectionSubscribe2 from 'components/SectionSubscribe2/SectionSubscribe2';
+import { useAppSelector } from 'app/hook';
 
 interface HotelDetailsPageProps {
-  className?: string;
-  isPreviewMode?: boolean;
+  match?: any;
 }
 
 const PHOTOS: string[] = [
@@ -72,20 +68,18 @@ const Amenities_demos = [
   { name: 'la-infinity', icon: 'la-infinity' },
 ];
 
-const HotelDetailsPage: FC<HotelDetailsPageProps> = ({
-  className = '',
-  isPreviewMode,
-}) => {
+const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
+  const { hotelUserInput } = useAppSelector((state) => state.hotel);
   const [isOpen, setIsOpen] = useState(false);
   const [openFocusIndex, setOpenFocusIndex] = useState(0);
   const [selectedDate, setSelectedDate] = useState<DateRage>({
-    startDate: moment(),
-    endDate: moment().add(4, 'days'),
+    startDate: hotelUserInput?.checkIn
+      ? moment(hotelUserInput.checkIn)
+      : moment().add(1, 'days'),
+    endDate: hotelUserInput?.checkOut
+      ? moment(hotelUserInput.checkOut)
+      : moment().add(3, 'days'),
   });
-
-  let { id } = useParams();
-
-  console.log(id, 'id');
 
   const [focusedInputSectionCheckDate, setFocusedInputSectionCheckDate] =
     useState<FocusedInputShape>('startDate');
@@ -135,18 +129,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({
           <span>·</span>
           <span>
             <i className='las la-map-marker-alt'></i>
-            <span className='ml-1'> Tokyo, Jappan</span>
-          </span>
-        </div>
-
-        {/* 4 */}
-        <div className='flex items-center'>
-          <Avatar hasChecked sizeClass='h-10 w-10' radius='rounded-full' />
-          <span className='ml-2.5 text-neutral-500 dark:text-neutral-400'>
-            Hosted by{' '}
-            <span className='text-neutral-900 dark:text-neutral-200 font-medium'>
-              Kevin Francis
-            </span>
+            <span className='ml-1'>Tokyo, Jappan</span>
           </span>
         </div>
 
@@ -681,7 +664,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({
 
   return (
     <div
-      className={`nc-ListingStayDetailPage  ${className}`}
+      className={`nc-ListingStayDetailPage`}
       data-nc-id='ListingStayDetailPage'
     >
       {/* SINGLE HEADER */}
@@ -775,42 +758,6 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({
           <div className='sticky top-24'>{renderSidebar()}</div>
         </div>
       </main>
-
-      {/* STICKY FOOTER MOBILE */}
-      {!isPreviewMode && (
-        <div className='block lg:hidden fixed bottom-0 inset-x-0 py-4 bg-white text-neutral-900 border-t border-neutral-200 z-20'>
-          <div className='container flex items-center justify-between'>
-            <span className='text-2xl font-semibold'>
-              $311
-              <span className='ml-1 text-base font-normal text-neutral-500 dark:text-neutral-400'>
-                /night
-              </span>
-            </span>
-
-            <ButtonPrimary href='##'>Reserve</ButtonPrimary>
-          </div>
-        </div>
-      )}
-
-      {/* OTHER SECTION */}
-      {!isPreviewMode && (
-        <div className='container py-24 lg:py-32'>
-          {/* SECTION 1 */}
-          <div className='relative py-16'>
-            <BackgroundSection />
-            <SectionSliderNewCategories
-              heading='Explore by types of stays'
-              subHeading='Explore houses based on 10 types of stays'
-              categoryCardType='card5'
-              itemPerRow={5}
-              sliderStyle='style2'
-            />
-          </div>
-
-          {/* SECTION */}
-          <SectionSubscribe2 className='pt-24 lg:pt-32' />
-        </div>
-      )}
     </div>
   );
 };

@@ -1,12 +1,11 @@
-import { BrowserRouter, Switch, Route } from "react-router-dom";
-import { Page } from "./types";
-import ScrollToTop from "./ScrollToTop";
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { Page } from './types';
+import ScrollToTop from './ScrollToTop';
 import Header from 'shared/Header/Header';
 import Footer from 'shared/Footer/Footer';
 import PageHome from 'containers/PageHome/PageHome';
 import Page404 from 'containers/Page404/Page404';
 import HotelSearchPage from 'containers/HotelSearchPage/HotelSearchPage';
-import ListingStayPage from 'containers/ListingStayPage/ListingStayPage';
 import ListingStayMapPage from 'containers/ListingStayPage/ListingStayMapPage';
 import ListingExperiencesPage from 'containers/ListingExperiencesPage/ListingExperiencesPage';
 import ListingExperiencesMapPage from 'containers/ListingExperiencesPage/ListingExperiencesMapPage';
@@ -46,7 +45,6 @@ export const pages: Page[] = [
   { path: '/#', exact: true, component: PageHome },
   { path: '/hotel-search', exact: true, component: HotelSearchPage },
   { path: '/hotel/:id', exact: true, component: HotelDetailsPage },
-  { path: '/listing-stay', component: ListingStayPage },
   { path: '/listing-stay-map', component: ListingStayMapPage },
   { path: '/listing-stay-detail', component: ListingStayDetailPage },
   //

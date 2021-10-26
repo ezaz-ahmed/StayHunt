@@ -1,5 +1,4 @@
-import axios from "axios";
-import { Location } from './hotelInterfaces';
+import axios from 'axios';
 
 const URL = process.env.REACT_APP_SERVER_URL_HOTEL;
 
@@ -9,12 +8,23 @@ export const fetchHotelLocation = async () => {
 };
 
 export const fetchAllHotelList = async (
-  propertyCode: Location['propertyId'],
-  checkin: string | undefined,
-  checkOut: string | undefined
+  propertyCode: string,
+  checkin?: string,
+  checkOut?: string
 ) => {
   const response = await axios.get(
-    `${URL}api/v1/hotel-list?propertyCode=${propertyCode}&&checkin=${checkin}&checkout=${checkOut}`
+    `${URL}api/v1/hotel-list?propertyCode=${propertyCode}&checkin=${checkin}&checkout=${checkOut}`
+  );
+  return response.data;
+};
+
+export const fetchSingleHotel = async (
+  id: string,
+  checkin?: string,
+  checkOut?: string
+) => {
+  const response = await axios.get(
+    `{{URL}}api/v1/hotel-list/${id}?checkin=${checkin}&checkout=${checkOut}`
   );
   return response.data;
 };
