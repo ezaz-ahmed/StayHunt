@@ -24,14 +24,14 @@ const GuestsInput: FC<GuestsInputProps> = ({
   const [guestChildrenInputValue, setGuestChildrenInputValue] = useState(
     defaultValue.guestChildren || 0
   );
-  const [guestInfantsInputValue, setGuestInfantsInputValue] = useState(
+  const [guestRoomsInputValue, setGuestRoomsInputValue] = useState(
     defaultValue.guestRooms || 1
   );
 
   useEffect(() => {
     setGuestAdultsInputValue(defaultValue.guestAdults || 1);
     setGuestChildrenInputValue(defaultValue.guestChildren || 0);
-    setGuestInfantsInputValue(defaultValue.guestRooms || 1);
+    setGuestRoomsInputValue(defaultValue.guestRooms || 1);
   }, [defaultValue]);
 
   useEffect(() => {
@@ -39,10 +39,10 @@ const GuestsInput: FC<GuestsInputProps> = ({
       onChange({
         guestAdults: guestAdultsInputValue,
         guestChildren: guestChildrenInputValue,
-        guestRooms: guestInfantsInputValue,
+        guestRooms: guestRoomsInputValue,
       });
     }
-  }, [guestAdultsInputValue, guestChildrenInputValue, guestInfantsInputValue]);
+  }, [guestAdultsInputValue, guestChildrenInputValue, guestRoomsInputValue]);
 
   const totalGuests = guestChildrenInputValue + guestAdultsInputValue;
 
@@ -81,9 +81,9 @@ const GuestsInput: FC<GuestsInputProps> = ({
               {!!totalGuests && open && (
                 <ClearDataButton
                   onClick={() => {
-                    setGuestAdultsInputValue(0);
+                    setGuestAdultsInputValue(1);
                     setGuestChildrenInputValue(0);
-                    setGuestInfantsInputValue(0);
+                    setGuestRoomsInputValue(1);
                   }}
                 />
               )}
@@ -119,8 +119,8 @@ const GuestsInput: FC<GuestsInputProps> = ({
 
               <NcInputNumber
                 className='w-full mt-6'
-                defaultValue={guestInfantsInputValue}
-                onChange={(value) => setGuestInfantsInputValue(value)}
+                defaultValue={guestRoomsInputValue}
+                onChange={(value) => setGuestRoomsInputValue(value)}
                 max={4}
                 label='Room'
                 desc='Total Room'

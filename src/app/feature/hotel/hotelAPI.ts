@@ -23,8 +23,10 @@ export const fetchSingleHotel = async (
   checkin?: string,
   checkOut?: string
 ) => {
+
   const response = await axios.get(
-    `{{URL}}api/v1/hotel-list/${id}?checkin=${checkin}&checkout=${checkOut}`
+    `${URL}api/v1/hotel-list/${id}?checkin=${checkin}&checkout=${checkOut}`
   );
+
   return response.data;
 };

@@ -123,7 +123,7 @@ function PageHome() {
   return (
     <div className='nc-PageHome relative overflow-hidden'>
       <Helmet>
-        <title>TicketsForTravel || Book Bus, Hotel, Launch & More</title>
+        <title>TicketsForTravel | Book Bus, Hotel, Launch & More</title>
       </Helmet>
       {/* GLASSMOPHIN */}
       <BgGlassmorphism />

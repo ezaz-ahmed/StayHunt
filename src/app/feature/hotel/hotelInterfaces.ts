@@ -30,8 +30,8 @@ export interface HotelUserInput {
 
 export interface SingleHotelUserInput {
   id: string;
-  checkIn: string;
-  checkOut: string;
+  checkIn?: string;
+  checkOut?: string;
 }
 
 export interface City {
@@ -56,48 +56,50 @@ export interface HotelState {
   locations: Location[];
   hotelUserInput?: HotelUserInput;
   allHotelList?: HotelInList[];
-  hotel?: Hotel;
+  oneHotel?: Hotel;
 }
 
 export interface Room {
   _id: string;
-  roomAmenities: string[];
-  meals: string[];
-  images: string[];
-  hotel: string;
-  numberOfRooms: 6;
   type: string;
+  numberOfRooms: number;
   description: string;
   costPerNight: number;
   maxAdults: number;
   maxChildrens: number;
-  user: string;
-  createdAt: string;
-  updatedAt: string;
-  booked: 0;
+  roomAmenities: string[];
+  meals: string[];
+  images: string[];
 }
 
 export interface Amenities {
   amenities: string[];
   groupName: string;
-  _id: string;
 }
 
 export interface Hotel {
   _id: string;
+  name: string;
+  description: string;
+  kind:
+    | 'Hotel'
+    | 'resort'
+    | 'Hostel'
+    | 'Apartment'
+    | 'Guest House'
+    | 'Campground';
+  starRating: number;
+  city: City;
+  facilities: string[];
+  amenityGroups: Amenities[];
   contact: {
-    center: {
-      lon: string;
-      lat: string;
+    center?: {
+      lon: number;
+      lat: number;
     };
     postalCode: string;
     address: string;
   };
+  rooms: Room[];
   images: string[];
-  name: string;
-  description: string;
-  city: City;
-  starRating: number;
-  amenityGroups: Amenities[];
-  room: Room[];
 }

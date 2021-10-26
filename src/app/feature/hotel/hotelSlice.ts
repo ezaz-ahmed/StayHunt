@@ -19,7 +19,7 @@ const initialState: HotelState = {
   locations: [],
   hotelUserInput: undefined,
   allHotelList: [],
-  hotel: undefined,
+  oneHotel: undefined,
 };
 
 export const fetchHotelLocationAsync = createAsyncThunk(
@@ -96,7 +96,7 @@ export const hotelSlice = createSlice({
       })
       .addCase(fetchSingleHotelAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.hotel = action.payload;
+        state.oneHotel = action.payload;
       })
       .addCase(fetchSingleHotelAsync.rejected, (state) => {
         state.status = 'failed';
