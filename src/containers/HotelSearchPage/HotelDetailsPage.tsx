@@ -2,44 +2,26 @@ import { FC, Fragment, useState, useEffect } from 'react';
 import moment from 'moment';
 import { StarIcon } from '@heroicons/react/solid';
 import { useAppSelector, useAppDispatch } from 'app/hook';
-import { ArrowRightIcon } from '@heroicons/react/outline';
 import LocationMarker from 'components/AnyReactComponent/LocationMarker';
-import CommentListing from 'components/CommentListing/CommentListing';
-import FiveStartIconForRate from 'components/FiveStartIconForRate/FiveStartIconForRate';
 import GuestsInput from 'components/HeroSearchForm/GuestsInput';
 import StayDatesRangeInput from 'components/HeroSearchForm/StayDatesRangeInput';
 import { DateRage } from 'components/HeroSearchForm/StaySearchForm';
-import StartRating from 'components/StartRating/StartRating';
 import GoogleMapReact from 'google-map-react';
 import useWindowSize from 'hooks/useWindowResize';
-import { DayPickerRangeController, FocusedInputShape } from 'react-dates';
-import Avatar from 'shared/Avatar/Avatar';
-import ButtonCircle from 'shared/Button/ButtonCircle';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
-import ButtonSecondary from 'shared/Button/ButtonSecondary';
-import Input from 'shared/Input/Input';
 import NcImage from 'shared/NcImage/NcImage';
 import ModalPhotos from 'containers/ListingDetailPage/ModalPhotos';
 import { fetchSingleHotelAsync } from 'app/feature/hotel/hotelSlice';
+import Page404 from 'containers/Page404/Page404';
 
 interface HotelDetailsPageProps {
   match?: any;
 }
 
-const PHOTOS: string[] = [
-  'https://images.pexels.com/photos/6129967/pexels-photo-6129967.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260',
-  'https://images.pexels.com/photos/7163619/pexels-photo-7163619.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-  'https://images.pexels.com/photos/6527036/pexels-photo-6527036.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-  'https://images.pexels.com/photos/6969831/pexels-photo-6969831.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-  'https://images.pexels.com/photos/6438752/pexels-photo-6438752.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-  'https://images.pexels.com/photos/1320686/pexels-photo-1320686.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-  'https://images.pexels.com/photos/261394/pexels-photo-261394.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-  'https://images.pexels.com/photos/2861361/pexels-photo-2861361.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-  'https://images.pexels.com/photos/2677398/pexels-photo-2677398.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260',
-];
-
 const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
-  const { hotelUserInput, oneHotel } = useAppSelector((state) => state.hotel);
+  const { hotelUserInput, oneHotel, status } = useAppSelector(
+    (state) => state.hotel
+  );
   const dispatch = useAppDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
@@ -55,9 +37,6 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
 
   const { id } = match.params;
 
-  const [focusedInputSectionCheckDate, setFocusedInputSectionCheckDate] =
-    useState<FocusedInputShape>('startDate');
-
   useEffect(() => {
     const startDate = selectedDate.startDate?.toISOString();
     const endDate = selectedDate.endDate?.toISOString();
@@ -66,36 +45,40 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
     );
   }, [id]);
 
-  const windowSize = useWindowSize();
+  let night = 3;
+  const serviceCharge = 0;
 
-  const getDaySize = () => {
-    if (windowSize.width <= 375) {
-      return 34;
-    }
-    if (windowSize.width <= 500) {
-      return undefined;
-    }
-    if (windowSize.width <= 1280) {
-      return 56;
-    }
-    return 48;
-  };
+  if (selectedDate.endDate) {
+    night = selectedDate.endDate.diff(selectedDate.startDate, 'days');
+  }
+
+  const windowSize = useWindowSize();
 
   const handleOpenModal = (index: number) => {
     setIsOpen(true);
     setOpenFocusIndex(index);
   };
 
+  let minHotelRoomPrice = 0;
+
+  if (oneHotel) {
+    minHotelRoomPrice = Math.min.apply(
+      null,
+      oneHotel.room.map((item) => item.costPerNight)
+    );
+    selectedRoom = 
+  }
+
   const handleCloseModal = () => setIsOpen(false);
 
   const renderSection1 = () => {
     let outArr = Array.from(Array(oneHotel?.starRating), (_, x) => x);
 
-    return (
+    return oneHotel ? (
       <div className='listingSection__wrap !space-y-6'>
         {/* 2 */}
         <h2 className='text-2xl sm:text-3xl lg:text-4xl font-semibold'>
-          {oneHotel?.name}
+          {oneHotel.name}
         </h2>
 
         {/* 3 */}
@@ -106,13 +89,15 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
             ))}
           </span>
 
-          <span>{oneHotel?.starRating} Star Hotel</span>
+          <span>
+            {oneHotel.starRating} Star {oneHotel.kind}
+          </span>
 
           <span>·</span>
 
           <span>
             <i className='las la-map-marker-alt'></i>
-            <span className='ml-1'>{oneHotel?.city.cityName}, Bangladesh</span>
+            <span className='ml-1'>{oneHotel.city.cityName}, Bangladesh</span>
           </span>
         </div>
 
@@ -124,7 +109,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
         <div className='w-14 border-b border-neutral-200 dark:border-neutral-700'></div>
 
         <div className='text-neutral-6000 dark:text-neutral-300'>
-          {oneHotel?.description}
+          {oneHotel.description}
         </div>
 
         <div className='w-full border-b border-neutral-100 dark:border-neutral-700 py-3' />
@@ -134,7 +119,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
         <div className='w-14 border-b border-neutral-200 dark:border-neutral-700'></div>
 
         <div className='grid grid-cols-1 xl:grid-cols-3 gap-6 text-sm text-neutral-700 dark:text-neutral-300 '>
-          {oneHotel?.amenityGroups.map((item, i) => (
+          {oneHotel.amenityGroups.map((item, i) => (
             <div key={i} className='flex items-center space-x-3'>
               <i className={`text-3xl las ${item}`}></i>
               <span className=' '>{item.groupName}</span>
@@ -147,10 +132,14 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
         <h2 className='text-2xl font-semibold'>Location</h2>
 
         <span className='block mt-2 text-neutral-500 dark:text-neutral-400'>
-          {oneHotel?.contact.address}
+          {oneHotel.contact.address}
         </span>
 
-        {oneHotel?.contact.center && (
+        <div>
+          <div className='w-14 border-b border-neutral-200 dark:border-neutral-700' />
+        </div>
+
+        {oneHotel.contact.center && (
           <div>
             <div className='w-14 border-b border-neutral-200 dark:border-neutral-700' />
 
@@ -163,8 +152,8 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
                   defaultZoom={15}
                   yesIWantToUseGoogleMapApiInternals
                   defaultCenter={{
-                    lat: 55.9607277,
-                    lng: 36.2172614,
+                    lat: 21.424994853918378,
+                    lng: 91.97605516458776,
                   }}
                 >
                   <LocationMarker
@@ -193,61 +182,22 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
           </span>
         </div>
       </div>
-    );
-  };
-
-  const renderSection8 = () => {
-    return (
-      <div className='listingSection__wrap'>
-        {/* HEADING */}
-        <h2 className='text-2xl font-semibold'>Things to know</h2>
-        <div className='w-14 border-b border-neutral-200 dark:border-neutral-700' />
-
-        {/* CONTENT */}
-        <div>
-          <h4 className='text-lg font-semibold'>Cancellation policy</h4>
-          <span className='block mt-3 text-neutral-500 dark:text-neutral-400'>
-            Refund 50% of the booking value when customers cancel the room
-            within 48 hours after successful booking and 14 days before the
-            check-in time. <br />
-            Then, cancel the room 14 days before the check-in time, get a 50%
-            refund of the total amount paid (minus the service fee).
-          </span>
-        </div>
-        <div className='w-14 border-b border-neutral-200 dark:border-neutral-700' />
-
-        {/* CONTENT */}
-
-        {/* CONTENT */}
-        <div>
-          <h4 className='text-lg font-semibold'>Special Note</h4>
-          <div className='prose sm:prose'>
-            <ul className='mt-3 text-neutral-500 dark:text-neutral-400 space-y-2'>
-              <li>
-                Ban and I will work together to keep the landscape and
-                environment green and clean by not littering, not using
-                stimulants and respecting people around.
-              </li>
-              <li>Do not sing karaoke past 11:30</li>
-            </ul>
-          </div>
-        </div>
-      </div>
+    ) : (
+      <h1>Something Went Wrong</h1>
     );
   };
 
   const renderSidebar = () => {
     return (
       <div className='listingSection__wrap shadow-xl'>
-        {/* PRICE */}
         <div className='flex justify-between'>
           <span className='text-3xl font-semibold'>
-            $119
+            BDT {minHotelRoomPrice}
             <span className='ml-1 text-base font-normal text-neutral-500 dark:text-neutral-400'>
               /night
             </span>
           </span>
-          <StartRating />
+          <span>{oneHotel?.room.map((item) => item.type)}</span>
         </div>
 
         {/* FORM */}
@@ -273,36 +223,38 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
           />
         </form>
 
-        {/* SUM */}
         <div className='flex flex-col space-y-4'>
           <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
-            <span>$119 x 3 night</span>
-            <span>$357</span>
+            <span>
+              {minHotelRoomPrice} x {night} nights
+            </span>
+            <span>BDT {minHotelRoomPrice * night}</span>
           </div>
           <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
             <span>Service charge</span>
-            <span>$0</span>
+            <span>BDT {serviceCharge}</span>
           </div>
           <div className='border-b border-neutral-200 dark:border-neutral-700'></div>
           <div className='flex justify-between font-semibold'>
             <span>Total</span>
-            <span>$199</span>
+            <span>BDT {minHotelRoomPrice * night + serviceCharge}</span>
           </div>
         </div>
 
-        {/* SUBMIT */}
         <ButtonPrimary>Reserve</ButtonPrimary>
       </div>
     );
   };
 
-  return (
-    <div
-      className={`nc-ListingStayDetailPage`}
-      data-nc-id='ListingStayDetailPage'
-    >
-      {/* SINGLE HEADER */}
-      <>
+  const renderPhotoSection = () => {
+    let PHOTOS: string[] = [];
+
+    if (oneHotel?.images) {
+      PHOTOS = oneHotel?.images;
+    }
+
+    return (
+      <Fragment>
         <header className='container 2xl:px-14 rounded-md sm:rounded-xl'>
           <div className='relative grid grid-cols-3 sm:grid-cols-4 gap-1 sm:gap-2'>
             <div
@@ -331,7 +283,6 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
                   prevImageHorizontal
                 />
 
-                {/* OVERLAY */}
                 <div
                   className='absolute inset-0 bg-neutral-900 bg-opacity-20 opacity-0 hover:opacity-100 transition-opacity cursor-pointer'
                   onClick={() => handleOpenModal(index + 1)}
@@ -363,32 +314,42 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
             </div>
           </div>
         </header>
-        {/* MODAL PHOTOS */}
+
         <ModalPhotos
           imgs={PHOTOS}
           isOpen={isOpen}
           onClose={handleCloseModal}
           initFocus={openFocusIndex}
         />
-      </>
+      </Fragment>
+    );
+  };
 
-      {/* MAIn */}
-      <main className='container mt-11 flex '>
-        {oneHotel ? (
+  return status === 'loading' ? (
+    <h1>Loading</h1>
+  ) : status === 'idle' ? (
+    oneHotel ? (
+      <div
+        className={`nc-ListingStayDetailPage pb-20`}
+        data-nc-id='ListingStayDetailPage'
+      >
+        {renderPhotoSection()}
+
+        <main className='container mt-11 flex '>
           <div className='w-full lg:w-3/5 xl:w-2/3 space-y-8 lg:space-y-10 lg:pr-10'>
             {renderSection1()}
-            {renderSection8()}
           </div>
-        ) : (
-          <h1>Loading</h1>
-        )}
 
-        {/* SIDEBAR */}
-        <div className='hidden lg:block flex-grow'>
-          <div className='sticky top-24'>{renderSidebar()}</div>
-        </div>
-      </main>
-    </div>
+          <div className='hidden lg:block flex-grow'>
+            <div className='sticky top-24'>{renderSidebar()}</div>
+          </div>
+        </main>
+      </div>
+    ) : (
+      <h1>Something Went Wrong</h1>
+    )
+  ) : (
+    <Page404 />
   );
 };
 

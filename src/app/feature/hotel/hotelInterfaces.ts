@@ -100,6 +100,6 @@ export interface Hotel {
     postalCode: string;
     address: string;
   };
-  rooms: Room[];
+  room: Room[];
   images: string[];
 }
