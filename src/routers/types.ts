@@ -6,6 +6,7 @@ export interface LocationStates {
   //
   '/hotel-search'?: {};
   '/hotel/:id'?: {};
+  '/hotel/checkout'?: {};
   '/listing-stay'?: {};
   '/listing-stay-map'?: {};
   '/listing-stay-detail'?: {};

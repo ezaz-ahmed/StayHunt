@@ -26,6 +26,8 @@ export interface HotelUserInput {
   checkIn?: string;
   checkOut?: string;
   guest: Guests;
+  selectedRoom?: Room;
+  totalPrice?: number;
 }
 
 export interface SingleHotelUserInput {

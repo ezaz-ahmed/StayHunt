@@ -39,11 +39,13 @@ import PageAddListing8 from 'containers/PageAddListing1/PageAddListing8';
 import PageAddListing9 from 'containers/PageAddListing1/PageAddListing9';
 import PageAddListing10 from 'containers/PageAddListing1/PageAddListing10';
 import HotelDetailsPage from 'containers/HotelSearchPage/HotelDetailsPage';
+import HotelCheckOut from 'containers/CheckOutPage/HotelCheckOut';
 
 export const pages: Page[] = [
   { path: '/', exact: true, component: PageHome },
   { path: '/#', exact: true, component: PageHome },
   { path: '/hotel-search', exact: true, component: HotelSearchPage },
+  { path: '/hotel/checkout', exact: true, component: HotelCheckOut },
   { path: '/hotel/:id', exact: true, component: HotelDetailsPage },
   { path: '/listing-stay-map', component: ListingStayMapPage },
   { path: '/listing-stay-detail', component: ListingStayDetailPage },

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import {
   fetchHotelLocation,
   fetchAllHotelList,
@@ -65,8 +65,8 @@ export const hotelSlice = createSlice({
   name: 'hotel',
   initialState,
   reducers: {
-    addUserInput: (state, action: PayloadAction<HotelUserInput>) => {
-      state.hotelUserInput = action.payload;
+    addUserInput: (state, action) => {
+      state.hotelUserInput = { ...state.hotelUserInput, ...action.payload };
     },
   },
   extraReducers: (builder) => {

@@ -1,4 +1,5 @@
 import { FC, Fragment, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { StarIcon } from '@heroicons/react/solid';
 import { useAppSelector, useAppDispatch } from 'app/hook';
@@ -13,6 +14,7 @@ import NcImage from 'shared/NcImage/NcImage';
 import ModalPhotos from 'containers/ListingDetailPage/ModalPhotos';
 import { fetchSingleHotelAsync } from 'app/feature/hotel/hotelSlice';
 import Page404 from 'containers/Page404/Page404';
+import { addUserInput } from 'app/feature/hotel/hotelSlice';
 
 interface HotelDetailsPageProps {
   match?: any;
@@ -22,10 +24,14 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
   const { hotelUserInput, oneHotel, status } = useAppSelector(
     (state) => state.hotel
   );
+  const history = useHistory();
   const dispatch = useAppDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
   const [openFocusIndex, setOpenFocusIndex] = useState(0);
+  let night = 2;
+  let amount = 0;
+
   const [selectedDate, setSelectedDate] = useState<DateRage>({
     startDate: hotelUserInput?.checkIn
       ? moment(hotelUserInput.checkIn)
@@ -34,6 +40,19 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
       ? moment(hotelUserInput.checkOut)
       : moment().add(3, 'days'),
   });
+
+  const reserveBtnClick = () => {
+    dispatch(
+      addUserInput({
+        checkin: selectedDate.startDate?.toISOString(),
+        checkout: selectedDate.endDate?.toISOString(),
+      })
+    );
+
+    if (totalAmount !== 0) {
+      history.push('/hotel/checkout');
+    }
+  };
 
   const { id } = match.params;
 
@@ -45,7 +64,6 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
     );
   }, [id]);
 
-  let night = 3;
   const serviceCharge = 0;
 
   if (selectedDate.endDate) {
@@ -59,15 +77,14 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
     setOpenFocusIndex(index);
   };
 
-  let minHotelRoomPrice = 0;
-
   if (oneHotel) {
-    minHotelRoomPrice = Math.min.apply(
+    amount = Math.min.apply(
       null,
       oneHotel.room.map((item) => item.costPerNight)
     );
-    selectedRoom = 
   }
+  let changableAmount = amount * night;
+  let totalAmount = changableAmount + serviceCharge;
 
   const handleCloseModal = () => setIsOpen(false);
 
@@ -192,7 +209,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
       <div className='listingSection__wrap shadow-xl'>
         <div className='flex justify-between'>
           <span className='text-3xl font-semibold'>
-            BDT {minHotelRoomPrice}
+            BDT {amount}
             <span className='ml-1 text-base font-normal text-neutral-500 dark:text-neutral-400'>
               /night
             </span>
@@ -210,7 +227,6 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
             defaultValue={selectedDate}
             anchorDirection={windowSize.width > 1400 ? 'left' : 'right'}
           />
-          <div className='w-full border-b border-neutral-200 dark:border-neutral-700'></div>
           <GuestsInput
             fieldClassName='p-5'
             defaultValue={
@@ -226,9 +242,9 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
         <div className='flex flex-col space-y-4'>
           <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
             <span>
-              {minHotelRoomPrice} x {night} nights
+              {amount} x {night} nights
             </span>
-            <span>BDT {minHotelRoomPrice * night}</span>
+            <span>BDT {totalAmount}</span>
           </div>
           <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
             <span>Service charge</span>
@@ -237,11 +253,11 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
           <div className='border-b border-neutral-200 dark:border-neutral-700'></div>
           <div className='flex justify-between font-semibold'>
             <span>Total</span>
-            <span>BDT {minHotelRoomPrice * night + serviceCharge}</span>
+            <span>BDT {totalAmount}</span>
           </div>
         </div>
 
-        <ButtonPrimary>Reserve</ButtonPrimary>
+        <ButtonPrimary onClick={reserveBtnClick}>Reserve</ButtonPrimary>
       </div>
     );
   };
