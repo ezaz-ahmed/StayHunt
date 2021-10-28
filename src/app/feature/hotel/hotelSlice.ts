@@ -3,6 +3,7 @@ import {
   fetchHotelLocation,
   fetchAllHotelList,
   fetchSingleHotel,
+  fetchPaymentHotel,
 } from './hotelAPI';
 
 import {
@@ -57,6 +58,13 @@ export const fetchSingleHotelAsync = createAsyncThunk(
     const { id, checkIn, checkOut } = userChosenData;
     const { data }: any = await fetchSingleHotel(id, checkIn, checkOut);
     return data;
+  }
+);
+
+export const fetchHotelPaymentAsync = createAsyncThunk(
+  'hotel/payment',
+  async (paymentDetails) => {
+    return await fetchPaymentHotel(paymentDetails);
   }
 );
 

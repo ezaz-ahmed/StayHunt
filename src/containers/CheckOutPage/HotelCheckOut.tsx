@@ -10,6 +10,8 @@ import ButtonPrimary from 'shared/Button/ButtonPrimary';
 import NcImage from 'shared/NcImage/NcImage';
 import NcModal from 'shared/NcModal/NcModal';
 import { useAppSelector, useAppDispatch } from 'app/hook';
+import { fetchHotelPaymentAsync } from 'app/feature/hotel/hotelSlice';
+import { fetchPaymentHotel } from 'app/feature/hotel/hotelAPI';
 
 export interface HotelCheckOutPageProps {
   className?: string;
@@ -17,11 +19,12 @@ export interface HotelCheckOutPageProps {
 
 const HotelCheckOut: FC<HotelCheckOutPageProps> = ({ className = '' }) => {
   const [btnDisalbe, setBtnDisalbe] = useState(true);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
+  const dispatch = useAppDispatch();
+  const [name, setName] = useState('ephew');
+  const [email, setEmail] = useState('sg@gm.com');
+  const [phone, setPhone] = useState('01839171223');
   const [message, setMessage] = useState('');
-  const [check, setCheck] = useState(false);
+  const [check, setCheck] = useState(true);
   const { finalSelection, oneHotel } = useAppSelector((state) => state.hotel);
   let outArr = Array.from(Array(oneHotel?.starRating), (_, x) => x);
 
@@ -35,31 +38,40 @@ const HotelCheckOut: FC<HotelCheckOutPageProps> = ({ className = '' }) => {
   };
 
   useEffect(() => {
-    if (
-      name.length >= 3 &&
-      validEmail() &&
-      phone.length >= 10 &&
-      check === true
-    ) {
+    if (check && name.length >= 3 && validEmail() && phone.length === 11) {
       setBtnDisalbe(false);
     } else {
       setBtnDisalbe(true);
     }
-  }, [name, email, phone, message]);
+  }, [name, validEmail, phone, check]);
 
   const handlePaymentSubmit = () => {
-    console.log(finalSelection.room.hotel);
-    console.log(finalSelection.room._id);
-    console.log(finalSelection.checkin);
-    console.log(finalSelection.checkout);
-    console.log(finalSelection.room.numberOfRooms);
-    console.log(finalSelection.amount);
-    console.log(finalSelection.totalAmount);
-    console.log(finalSelection.adult);
-    console.log(finalSelection.children);
-    console.log(name);
-    console.log(email);
-    console.log(phone);
+    const dataForBody = {
+      hotel: finalSelection.room.hotel,
+      room: finalSelection.room._id,
+      checkin: finalSelection.checkin,
+      checkout: finalSelection.checkout,
+      numberOfRooms: 1,
+      amount: finalSelection.amount,
+      totalAmount: finalSelection.totalAmount,
+      adults: finalSelection.adult,
+      children: finalSelection.children,
+      cusName: name,
+      cusEmail: email,
+      cusPhone: phone,
+      medium: 'web',
+    };
+
+    getData(dataForBody);
+  };
+
+  const getData = async (body: any) => {
+    const hotelSSL: any = await fetchPaymentHotel(body);
+
+    if (hotelSSL.status === 'success') window.location.replace(hotelSSL.data);
+    else if (hotelSSL.status === 'error') {
+      console.log(hotelSSL.message)
+    };
   };
 
   const renderSidebar = () => {
@@ -176,6 +188,7 @@ const HotelCheckOut: FC<HotelCheckOutPageProps> = ({ className = '' }) => {
           <h3 className='text-2xl font-semibold'>User Details</h3>
           <div className='mt-6'>
             <div className='w-14 border-b border-neutral-200 my-5'></div>
+
             <div className='space-y-2'>
               <Label>Name</Label>
               <Input
@@ -213,7 +226,6 @@ const HotelCheckOut: FC<HotelCheckOutPageProps> = ({ className = '' }) => {
               <input
                 type='checkbox'
                 className='form-checkbox'
-                defaultChecked={false}
                 checked={check}
                 onChange={() => setCheck(!check)}
               />
