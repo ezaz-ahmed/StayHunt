@@ -53,12 +53,14 @@ export interface HotelInList {
   minPrice: number;
 }
 
+
 export interface HotelState {
   status: 'idle' | 'loading' | 'failed';
   locations: Location[];
   hotelUserInput?: HotelUserInput;
   allHotelList?: HotelInList[];
   oneHotel?: Hotel;
+  finalSelection?: any;
 }
 
 export interface Room {

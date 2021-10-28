@@ -4,7 +4,6 @@ import moment from 'moment';
 import { StarIcon } from '@heroicons/react/solid';
 import { useAppSelector, useAppDispatch } from 'app/hook';
 import LocationMarker from 'components/AnyReactComponent/LocationMarker';
-import GuestsInput from 'components/HeroSearchForm/GuestsInput';
 import StayDatesRangeInput from 'components/HeroSearchForm/StayDatesRangeInput';
 import { DateRage } from 'components/HeroSearchForm/StaySearchForm';
 import GoogleMapReact from 'google-map-react';
@@ -12,9 +11,14 @@ import useWindowSize from 'hooks/useWindowResize';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
 import NcImage from 'shared/NcImage/NcImage';
 import ModalPhotos from 'containers/ListingDetailPage/ModalPhotos';
-import { fetchSingleHotelAsync } from 'app/feature/hotel/hotelSlice';
+import {
+  fetchSingleHotelAsync,
+  addFinalInput,
+} from 'app/feature/hotel/hotelSlice';
 import Page404 from 'containers/Page404/Page404';
-import { addUserInput } from 'app/feature/hotel/hotelSlice';
+import HotelCardH from 'components/StayCardH/StayCardH';
+import HotelGuestInput from 'components/HeroSearchForm/HotelGuestInput';
+import { Guests } from 'app/feature/hotel/hotelInterfaces';
 
 interface HotelDetailsPageProps {
   match?: any;
@@ -28,9 +32,9 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
   const dispatch = useAppDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
+  const [selectedRooom, setSelectedRooom] = useState(0);
   const [openFocusIndex, setOpenFocusIndex] = useState(0);
   let night = 2;
-  let amount = 0;
 
   const [selectedDate, setSelectedDate] = useState<DateRage>({
     startDate: hotelUserInput?.checkIn
@@ -41,18 +45,11 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
       : moment().add(3, 'days'),
   });
 
-  const reserveBtnClick = () => {
-    dispatch(
-      addUserInput({
-        checkin: selectedDate.startDate?.toISOString(),
-        checkout: selectedDate.endDate?.toISOString(),
-      })
-    );
-
-    if (totalAmount !== 0) {
-      history.push('/hotel/checkout');
-    }
-  };
+  const [guestValue, setGuestValue] = useState<Guests>({
+    guestAdults: hotelUserInput?.guest.guestAdults || 1,
+    guestChildren: hotelUserInput?.guest.guestChildren || 0,
+    guestRooms: hotelUserInput?.guest.guestRooms || 1,
+  });
 
   const { id } = match.params;
 
@@ -70,21 +67,22 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
     night = selectedDate.endDate.diff(selectedDate.startDate, 'days');
   }
 
-  const windowSize = useWindowSize();
-
   const handleOpenModal = (index: number) => {
     setIsOpen(true);
     setOpenFocusIndex(index);
   };
 
+  let changableAmount = 0;
+  let vat = 0;
+  let totalAmount = 0;
+
   if (oneHotel) {
-    amount = Math.min.apply(
-      null,
-      oneHotel.room.map((item) => item.costPerNight)
-    );
+    changableAmount = oneHotel.room[selectedRooom].costPerNight * night;
+    vat = Math.ceil(changableAmount * 0.15);
+    totalAmount = changableAmount + serviceCharge + vat;
   }
-  let changableAmount = amount * night;
-  let totalAmount = changableAmount + serviceCharge;
+
+  const windowSize = useWindowSize();
 
   const handleCloseModal = () => setIsOpen(false);
 
@@ -93,7 +91,6 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
 
     return oneHotel ? (
       <div className='listingSection__wrap !space-y-6'>
-        {/* 2 */}
         <h2 className='text-2xl sm:text-3xl lg:text-4xl font-semibold'>
           {oneHotel.name}
         </h2>
@@ -204,17 +201,60 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
     );
   };
 
+  const renderRoom = () => {
+    return (
+      <div className='listingSection__wrap shadow-xl'>
+        {oneHotel?.room.map((item, index) => (
+          <div key={item._id}>
+            <HotelCardH
+              index={index}
+              data={item}
+              selected={selectedRooom}
+              onSelectedChange={setSelectedRooom}
+            />
+          </div>
+        ))}
+      </div>
+    );
+  };
+
+  const reserveBtnClick = () => {
+    dispatch(
+      addFinalInput({
+        checkin: selectedDate.startDate?.toISOString(),
+        checkout: selectedDate.endDate?.toISOString(),
+        adult: guestValue.guestAdults,
+        children: guestValue.guestChildren,
+        totalGuest: guestValue.guestAdults + guestValue.guestChildren,
+        room: oneHotel?.room[selectedRooom],
+        night: night,
+        serviceCharge: serviceCharge,
+        amount: changableAmount,
+        vat: vat,
+        totalAmount: totalAmount,
+      })
+    );
+
+    if (
+      totalAmount !== 0 &&
+      selectedDate.startDate !== null &&
+      selectedDate.endDate !== null
+    ) {
+      history.push('/hotel/checkout');
+    }
+  };
+
   const renderSidebar = () => {
     return (
       <div className='listingSection__wrap shadow-xl'>
+        <h1>{oneHotel?.room[selectedRooom].type}</h1>
         <div className='flex justify-between'>
           <span className='text-3xl font-semibold'>
-            BDT {amount}
+            BDT {oneHotel?.room[selectedRooom].costPerNight}
             <span className='ml-1 text-base font-normal text-neutral-500 dark:text-neutral-400'>
               /night
             </span>
           </span>
-          <span>{oneHotel?.room.map((item) => item.type)}</span>
         </div>
 
         {/* FORM */}
@@ -227,24 +267,24 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
             defaultValue={selectedDate}
             anchorDirection={windowSize.width > 1400 ? 'left' : 'right'}
           />
-          <GuestsInput
+          <HotelGuestInput
             fieldClassName='p-5'
-            defaultValue={
-              hotelUserInput?.guest || {
-                guestAdults: 1,
-                guestChildren: 0,
-                guestRooms: 1,
-              }
-            }
+            defaultValue={guestValue}
+            onChange={(data) => setGuestValue(data)}
           />
         </form>
 
         <div className='flex flex-col space-y-4'>
           <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
             <span>
-              {amount} x {night} nights
+              {oneHotel?.room[selectedRooom].costPerNight} x {night} nights
             </span>
-            <span>BDT {totalAmount}</span>
+            <span>BDT {changableAmount}</span>
+          </div>
+
+          <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
+            <span>VAT(15%)</span>
+            <span>BDT {vat}</span>
           </div>
           <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
             <span>Service charge</span>
@@ -354,6 +394,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
         <main className='container mt-11 flex '>
           <div className='w-full lg:w-3/5 xl:w-2/3 space-y-8 lg:space-y-10 lg:pr-10'>
             {renderSection1()}
+            {renderRoom()}
           </div>
 
           <div className='hidden lg:block flex-grow'>

@@ -20,6 +20,7 @@ const initialState: HotelState = {
   hotelUserInput: undefined,
   allHotelList: [],
   oneHotel: undefined,
+  finalSelection: undefined,
 };
 
 export const fetchHotelLocationAsync = createAsyncThunk(
@@ -54,9 +55,7 @@ export const fetchSingleHotelAsync = createAsyncThunk(
   'hotel/fetchSingleHotel',
   async (userChosenData: SingleHotelUserInput): Promise<Hotel> => {
     const { id, checkIn, checkOut } = userChosenData;
-
     const { data }: any = await fetchSingleHotel(id, checkIn, checkOut);
-
     return data;
   }
 );
@@ -66,7 +65,10 @@ export const hotelSlice = createSlice({
   initialState,
   reducers: {
     addUserInput: (state, action) => {
-      state.hotelUserInput = { ...state.hotelUserInput, ...action.payload };
+      state.hotelUserInput = action.payload;
+    },
+    addFinalInput: (state, action) => {
+      state.finalSelection = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -104,6 +106,6 @@ export const hotelSlice = createSlice({
   },
 });
 
-export const { addUserInput } = hotelSlice.actions;
+export const { addUserInput, addFinalInput } = hotelSlice.actions;
 
 export default hotelSlice.reducer;
