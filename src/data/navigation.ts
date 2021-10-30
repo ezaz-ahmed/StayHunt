@@ -168,62 +168,36 @@ const templatesChildrenMenus: NavItemType[] = [
 export const NAVIGATION_DEMO: NavItemType[] = [
   {
     id: ncNanoId(),
-    href: "/",
-    name: "Home",
+    href: '/',
+    name: 'Home',
     // type: "dropdown",
     // children: demoChildMenus,
   },
   {
     id: ncNanoId(),
-    href: "#",
-    name: "Five columns",
-    type: "megaMenu",
+    href: '#',
+    name: 'Five columns',
+    type: 'megaMenu',
     megaMenu: megaMenuDemo,
   },
   {
     id: ncNanoId(),
-    href: "#",
-    name: "Listing Page",
-    type: "dropdown",
-    children: [
-      { id: ncNanoId(), href: "/listing-stay", name: "Stay page" },
-      { id: ncNanoId(), href: "/listing-stay-map", name: "Stay page (map)" },
-      { id: ncNanoId(), href: "/listing-stay-detail", name: "Stay Detail" },
-      //
-      {
-        id: ncNanoId(),
-        href: "/listing-experiences",
-        name: "Experiences page",
-      },
-      {
-        id: ncNanoId(),
-        href: "/listing-experiences-map",
-        name: "Experiences page (map)",
-      },
-      {
-        id: ncNanoId(),
-        href: "/listing-experiences-detail",
-        name: "Experiences Detail",
-      },
-      //
-      { id: ncNanoId(), href: "/listing-car", name: "Cars page" },
-      { id: ncNanoId(), href: "/listing-car-map", name: "Cars page (map)" },
-      { id: ncNanoId(), href: "/listing-car-detail", name: "Car Detail" },
-    ],
+    href: '/partnership-with-us',
+    name: 'Partnership With Us',
   },
   {
     id: ncNanoId(),
-    href: "#",
-    name: "Templates",
-    type: "dropdown",
+    href: '#',
+    name: 'Templates',
+    type: 'dropdown',
     children: templatesChildrenMenus,
   },
 
   {
     id: ncNanoId(),
-    href: "#",
-    name: "Other pages",
-    type: "dropdown",
+    href: '#',
+    name: 'Other pages',
+    type: 'dropdown',
     children: otherPageChildMenus,
   },
 ];

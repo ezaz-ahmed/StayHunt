@@ -19,6 +19,7 @@ import Page404 from 'containers/Page404/Page404';
 import HotelCardH from 'components/StayCardH/StayCardH';
 import HotelGuestInput from 'components/HeroSearchForm/HotelGuestInput';
 import { Guests } from 'app/feature/hotel/hotelInterfaces';
+import SomethingWrong from 'containers/Page404/SomethingWrong';
 
 interface HotelDetailsPageProps {
   match?: any;
@@ -197,7 +198,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
         </div>
       </div>
     ) : (
-      <h1>Something Went Wrong</h1>
+      <Fragment></Fragment>
     );
   };
 
@@ -403,7 +404,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
         </main>
       </div>
     ) : (
-      <h1>Something Went Wrong</h1>
+      <SomethingWrong />
     )
   ) : (
     <Page404 />

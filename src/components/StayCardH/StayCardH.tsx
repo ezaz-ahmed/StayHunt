@@ -1,6 +1,6 @@
 // This Component is changed
 
-import { FC, useState } from 'react';
+import { FC } from 'react';
 import GallerySlider from 'components/GallerySlider/GallerySlider';
 import { Room } from 'app/feature/hotel/hotelInterfaces';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';

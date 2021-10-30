@@ -9,9 +9,9 @@ import Textarea from 'shared/Textarea/Textarea';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
 import NcImage from 'shared/NcImage/NcImage';
 import NcModal from 'shared/NcModal/NcModal';
-import { useAppSelector, useAppDispatch } from 'app/hook';
-import { fetchHotelPaymentAsync } from 'app/feature/hotel/hotelSlice';
+import { useAppSelector } from 'app/hook';
 import { fetchPaymentHotel } from 'app/feature/hotel/hotelAPI';
+import SomethingWrong from 'containers/Page404/SomethingWrong';
 
 export interface HotelCheckOutPageProps {
   className?: string;
@@ -19,7 +19,6 @@ export interface HotelCheckOutPageProps {
 
 const HotelCheckOut: FC<HotelCheckOutPageProps> = ({ className = '' }) => {
   const [btnDisalbe, setBtnDisalbe] = useState(true);
-  const dispatch = useAppDispatch();
   const [name, setName] = useState('ephew');
   const [email, setEmail] = useState('sg@gm.com');
   const [phone, setPhone] = useState('01839171223');
@@ -70,8 +69,8 @@ const HotelCheckOut: FC<HotelCheckOutPageProps> = ({ className = '' }) => {
 
     if (hotelSSL.status === 'success') window.location.replace(hotelSSL.data);
     else if (hotelSSL.status === 'error') {
-      console.log(hotelSSL.message)
-    };
+      console.log(hotelSSL.message);
+    }
   };
 
   const renderSidebar = () => {
@@ -261,7 +260,7 @@ const HotelCheckOut: FC<HotelCheckOutPageProps> = ({ className = '' }) => {
       </main>
     </div>
   ) : (
-    <h1>Something Went Wrong</h1>
+    <SomethingWrong />
   );
 };
 
