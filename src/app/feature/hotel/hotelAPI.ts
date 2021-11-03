@@ -1,6 +1,5 @@
 import axios from 'axios';
 
-
 const URL = process.env.REACT_APP_SERVER_URL_HOTEL;
 
 export const fetchHotelLocation = async () => {
@@ -31,6 +30,7 @@ export const fetchSingleHotel = async (
 };
 
 export const fetchPaymentHotel = async (body: any) => {
+  console.log('💀💀', body);
   const response = await axios.post(
     `${URL}api/v1/bookings/checkout-sslcommerz`,
     body
