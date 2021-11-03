@@ -41,6 +41,9 @@ const HotelSearchForm = () => {
     endDate: hotelUserInput?.checkOut ? moment(hotelUserInput.checkOut) : null,
   });
 
+
+
+
   const [locationInputValue, setLocationInputValue] = useState<string>(
     hotelUserInput?.location.cityName || ''
   );
@@ -79,7 +82,7 @@ const HotelSearchForm = () => {
     ) {
       dispatch(addUserInput(userInput));
       dispatch(fetchAllHotelAsync(userInput));
-      history.push('/hotel-search');
+      history.push('/hotel');
     }
   }, [userInput]);
 

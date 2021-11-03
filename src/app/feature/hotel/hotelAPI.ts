@@ -31,10 +31,10 @@ export const fetchSingleHotel = async (
 };
 
 export const fetchPaymentHotel = async (body: any) => {
-  console.log(body, '💀💀');
   const response = await axios.post(
     `${URL}api/v1/bookings/checkout-sslcommerz`,
     body
   );
+  console.log(response);
   return response.data;
 };

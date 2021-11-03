@@ -44,7 +44,7 @@ import HotelCheckOut from 'containers/CheckOutPage/HotelCheckOut';
 export const pages: Page[] = [
   { path: '/', exact: true, component: PageHome },
   { path: '/#', exact: true, component: PageHome },
-  { path: '/hotel-search', exact: true, component: HotelSearchPage },
+  { path: '/hotel', exact: true, component: HotelSearchPage },
   { path: '/hotel/checkout', exact: true, component: HotelCheckOut },
   { path: '/hotel/:id', exact: true, component: HotelDetailsPage },
   { path: '/listing-stay-map', component: ListingStayMapPage },

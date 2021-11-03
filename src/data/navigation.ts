@@ -6,163 +6,67 @@ const megaMenuDemo: MegamenuItem[] = [
   {
     id: ncNanoId(),
     image:
-      "https://images.pexels.com/photos/1591373/pexels-photo-1591373.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    title: "Company",
+      'https://images.pexels.com/photos/853199/pexels-photo-853199.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+    title: 'Company',
     items: __megamenu.map((i) => ({
       id: ncNanoId(),
-      href: "#",
+      href: '#',
       name: i.Company,
     })),
   },
   {
     id: ncNanoId(),
     image:
-      "https://images.pexels.com/photos/2662116/pexels-photo-2662116.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    title: "App Name",
+      ' https://images.pexels.com/photos/4245826/pexels-photo-4245826.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+    title: 'App Name',
     items: __megamenu.map((i) => ({
       id: ncNanoId(),
-      href: "#",
+      href: '#',
       name: i.AppName,
     })),
   },
   {
     id: ncNanoId(),
     image:
-      "https://images.pexels.com/photos/5059013/pexels-photo-5059013.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    title: "City",
+      'https://images.pexels.com/photos/867092/pexels-photo-867092.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+    title: 'City',
     items: __megamenu.map((i) => ({
       id: ncNanoId(),
-      href: "#",
+      href: '#',
       name: i.City,
     })),
   },
   {
     id: ncNanoId(),
     image:
-      "https://images.pexels.com/photos/5159141/pexels-photo-5159141.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    title: "Contruction",
+      'https://images.pexels.com/photos/5159141/pexels-photo-5159141.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+    title: 'Contruction',
     items: __megamenu.map((i) => ({
       id: ncNanoId(),
-      href: "#",
+      href: '#',
       name: i.Contruction,
     })),
   },
   {
     id: ncNanoId(),
     image:
-      "https://images.pexels.com/photos/7473041/pexels-photo-7473041.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-    title: "Country",
+      'https://images.pexels.com/photos/3769138/pexels-photo-3769138.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500',
+    title: 'Country',
     items: __megamenu.map((i) => ({
       id: ncNanoId(),
-      href: "#",
+      href: '#',
       name: i.Country,
     })),
   },
 ];
 
-const otherPageChildMenus: NavItemType[] = [
-  {
-    id: ncNanoId(),
-    href: "/blog",
-    name: "Blog Page",
-  },
-  {
-    id: ncNanoId(),
-    href: "/blog-single",
-    name: "Blog Single",
-  },
-  {
-    id: ncNanoId(),
-    href: "/about",
-    name: "About",
-  },
-  {
-    id: ncNanoId(),
-    href: "/contact",
-    name: "Contact us",
-  },
-  {
-    id: ncNanoId(),
-    href: "/login",
-    name: "Login",
-  },
-  {
-    id: ncNanoId(),
-    href: "/signup",
-    name: "Signup",
-  },
-  {
-    id: ncNanoId(),
-    href: "/subscription",
-    name: "Subscription",
-  },
-];
-
 const templatesChildrenMenus: NavItemType[] = [
-  {
-    id: ncNanoId(),
-    href: "/add-listing-1",
-    name: "Add Listings",
-    type: "dropdown",
-    children: [
-      {
-        id: ncNanoId(),
-        href: "/add-listing-1",
-        name: "Add Listings 1",
-      },
-      {
-        id: ncNanoId(),
-        href: "/add-listing-2",
-        name: "Add Listings 2",
-      },
-      {
-        id: ncNanoId(),
-        href: "/add-listing-3",
-        name: "Add Listings 3",
-      },
-      {
-        id: ncNanoId(),
-        href: "/add-listing-4",
-        name: "Add Listings 4",
-      },
-      {
-        id: ncNanoId(),
-        href: "/add-listing-5",
-        name: "Add Listings 5",
-      },
-      {
-        id: ncNanoId(),
-        href: "/add-listing-6",
-        name: "Add Listings 6",
-      },
-      {
-        id: ncNanoId(),
-        href: "/add-listing-7",
-        name: "Add Listings 7",
-      },
-      {
-        id: ncNanoId(),
-        href: "/add-listing-8",
-        name: "Add Listings 8",
-      },
-      {
-        id: ncNanoId(),
-        href: "/add-listing-9",
-        name: "Add Listings 9",
-      },
-      {
-        id: ncNanoId(),
-        href: "/add-listing-10",
-        name: "Add Listings 10",
-      },
-    ],
-  },
-  //
-  { id: ncNanoId(), href: "/checkout", name: "Checkout" },
-  { id: ncNanoId(), href: "/pay-done", name: "Pay done" },
-  //
-  { id: ncNanoId(), href: "/author", name: "Author Page" },
-  { id: ncNanoId(), href: "/account", name: "Account Page" },
+  { id: ncNanoId(), href: '/hotel', name: 'Hotel' },
+  { id: ncNanoId(), href: '/bus', name: 'Bus' },
+  { id: ncNanoId(), href: '/launch', name: 'Launch' },
+  { id: ncNanoId(), href: '/flight', name: 'Flight' },
+  { id: ncNanoId(), href: '/package-tour', name: 'Package Tour' },
+  { id: ncNanoId(), href: '/rental-car', name: 'Rental Car' },
 ];
 
 export const NAVIGATION_DEMO: NavItemType[] = [
@@ -170,34 +74,29 @@ export const NAVIGATION_DEMO: NavItemType[] = [
     id: ncNanoId(),
     href: '/',
     name: 'Home',
-    // type: "dropdown",
-    // children: demoChildMenus,
   },
   {
     id: ncNanoId(),
     href: '#',
-    name: 'Five columns',
+    name: 'Our Services',
+    type: 'dropdown',
+    children: templatesChildrenMenus,
+  },
+  {
+    id: ncNanoId(),
+    href: '#',
+    name: 'Explore World',
     type: 'megaMenu',
     megaMenu: megaMenuDemo,
   },
   {
     id: ncNanoId(),
+    href: '/contact-us',
+    name: 'Contact us',
+  },
+  {
+    id: ncNanoId(),
     href: '/partnership-with-us',
     name: 'Partnership With Us',
-  },
-  {
-    id: ncNanoId(),
-    href: '#',
-    name: 'Templates',
-    type: 'dropdown',
-    children: templatesChildrenMenus,
-  },
-
-  {
-    id: ncNanoId(),
-    href: '#',
-    name: 'Other pages',
-    type: 'dropdown',
-    children: otherPageChildMenus,
   },
 ];

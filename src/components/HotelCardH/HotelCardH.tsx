@@ -45,7 +45,7 @@ const HotelCardH: FC<StayCardHProps> = ({
     return (
       <div className='hidden sm:grid grid-cols-3 gap-2'>
         <div>
-          <span>Facilities</span>
+          <span>Room Facilities</span>
           {roomAmenities.map((am, i) => (
             <div className='space-y-3' key={i}>
               <div className='flex items-center space-x-3'>
@@ -78,7 +78,7 @@ const HotelCardH: FC<StayCardHProps> = ({
         <div className='space-y-2'>
           <div className='flex items-center space-x-2'>
             <h2 className='text-lg font-medium capitalize'>
-              <span className='line-clamp-1'>{type}</span>
+              <span className='line-clamp-1 text-2xl'>{type}</span>
             </h2>
           </div>
         </div>
@@ -95,11 +95,14 @@ const HotelCardH: FC<StayCardHProps> = ({
           </span>
           <span>
             {targeted ? (
-              <ButtonSecondary className='cursor-not-allowed opacity-50'>
+              <ButtonSecondary className='cursor-not-allowed opacity-50 -mt-3'>
                 Selected Now
               </ButtonSecondary>
             ) : (
-              <ButtonPrimary onClick={() => onSelectedChange(index)}>
+              <ButtonPrimary
+                onClick={() => onSelectedChange(index)}
+                className='-mt-3'
+              >
                 Choose This
               </ButtonPrimary>
             )}
@@ -115,7 +118,7 @@ const HotelCardH: FC<StayCardHProps> = ({
 
   return (
     <div
-      className={`nc-StayCardH group relative bg-white dark:bg-neutral-900 border ${border} rounded-2xl overflow-hidden ${className}`}
+      className={`nc-StayCardH group relative bg-white dark:bg-neutral-900 border ${border}  rounded-2xl overflow-hidden ${className}`}
       data-nc-id='StayCardH'
     >
       <div className='flex flex-col sm:flex-row sm:items-center'>

@@ -16,7 +16,7 @@ import {
   addFinalInput,
 } from 'app/feature/hotel/hotelSlice';
 import Page404 from 'containers/Page404/Page404';
-import HotelCardH from 'components/StayCardH/StayCardH';
+import HotelCardH from 'components/HotelCardH/HotelCardH';
 import HotelGuestInput from 'components/HeroSearchForm/HotelGuestInput';
 import { Guests } from 'app/feature/hotel/hotelInterfaces';
 import SomethingWrong from 'containers/Page404/SomethingWrong';
@@ -96,7 +96,6 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
           {oneHotel.name}
         </h2>
 
-        {/* 3 */}
         <div className='flex items-center space-x-4'>
           <span className='flex'>
             {outArr.map((o) => (
@@ -116,8 +115,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
           </span>
         </div>
 
-        {/* 5 */}
-        <div className='w-full border-b border-neutral-100 dark:border-neutral-700 py-3' />
+        <div className='w-full border-b border-neutral-100 dark:border-neutral-700 py-1' />
 
         <h2 className='text-2xl font-semibold'>Hotel information</h2>
 
@@ -126,10 +124,16 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
         <div className='text-neutral-6000 dark:text-neutral-300'>
           {oneHotel.description}
         </div>
+      </div>
+    ) : (
+      <Fragment></Fragment>
+    );
+  };
 
-        <div className='w-full border-b border-neutral-100 dark:border-neutral-700 py-3' />
-
-        <h2 className='text-2xl font-semibold'>Amenities </h2>
+  const renderSection2 = () => {
+    return oneHotel ? (
+      <div className='listingSection__wrap !space-y-6'>
+        <h2 className='text-2xl font-semibold'>Hotel Amenities</h2>
 
         <div className='w-14 border-b border-neutral-200 dark:border-neutral-700'></div>
 
@@ -205,6 +209,9 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
   const renderRoom = () => {
     return (
       <div className='listingSection__wrap shadow-xl'>
+        <h2 className='text-2xl font-semibold'>Select Your Room</h2>
+        <div className='w-14 border-b border-neutral-200 dark:border-neutral-700' />
+
         {oneHotel?.room.map((item, index) => (
           <div key={item._id}>
             <HotelCardH
@@ -248,9 +255,11 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
   const renderSidebar = () => {
     return (
       <div className='listingSection__wrap shadow-xl'>
-        <h1>{oneHotel?.room[selectedRooom].type}</h1>
+        <span className='font-semibold text-3xl'>
+          {oneHotel?.room[selectedRooom].type}
+        </span>
         <div className='flex justify-between'>
-          <span className='text-3xl font-semibold'>
+          <span className='text-2xl'>
             BDT {oneHotel?.room[selectedRooom].costPerNight}
             <span className='ml-1 text-base font-normal text-neutral-500 dark:text-neutral-400'>
               /night
@@ -396,6 +405,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
           <div className='w-full lg:w-3/5 xl:w-2/3 space-y-8 lg:space-y-10 lg:pr-10'>
             {renderSection1()}
             {renderRoom()}
+            {renderSection2()}
           </div>
 
           <div className='hidden lg:block flex-grow'>
