@@ -28,11 +28,11 @@ const Header: FC<HeaderProps> = () => {
 
   return (
     <div
-      id="nc-chifis-header"
-      className="nc-Header lg:sticky lg:top-0 w-full lg:left-0 lg:right-0 z-40"
+      id='nc-chifis-header'
+      className='nc-Header lg:sticky lg:top-0 w-full lg:left-0 lg:right-0 z-40'
     >
       <Helmet>
-        <title>TicketsForTravel || Book Bus, Hotel, Launch & More</title>
+        <title>TicketsForTravel | Book Bus, Hotel, Launch & More</title>
       </Helmet>
 
       {/* NAV */}

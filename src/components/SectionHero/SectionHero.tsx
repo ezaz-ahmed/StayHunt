@@ -23,8 +23,8 @@ const SectionHero: FC<SectionHeroProps> = ({ className = "" }) => {
             Bus, Hotel, Launch & More
           </h2>
           <span className='text-base md:text-lg text-neutral-500 dark:text-neutral-400'>
-            Accompanying us, you have a trip full of experiences. With Chisfis,
-            booking accommodation, resort villas, hotels
+            Accompanying us, you have a trip full of experiences. With
+            TicketsForTravel, booking hotel, bus, launch & flights
           </span>
           <ButtonPrimary>Download Our App</ButtonPrimary>
         </div>
