@@ -5,12 +5,17 @@ export interface User {
   password: string;
 }
 
+export interface ConfirmUser {
+  userId: string;
+  otp: string;
+}
+
 export interface UserInputForSignUp {
   name: string;
   email: string;
   phone: string;
   password: string;
-  conPass: string;
+  confirmPassword: string;
 }
 
 export interface UserState {

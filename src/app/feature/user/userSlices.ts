@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchSignUp } from './userApi';
-import { UserState, UserInputForSignUp } from './userInterfaces';
+import { fetchSignUp, fetchConfirmUser } from './userApi';
+import { UserState, UserInputForSignUp, ConfirmUser } from './userInterfaces';
 
 const initialState: UserState = {
   isLogged: false,
@@ -22,6 +22,15 @@ export const fetchSignUpAsync = createAsyncThunk(
   }
 );
 
+export const fetchConfirmAsync = createAsyncThunk(
+  'user/confirm',
+  async (userChosenData: ConfirmUser) => {
+    const res: any = await fetchConfirmUser(userChosenData);
+
+    console.log(res, '💀💀');
+  }
+);
+
 export const userSlice = createSlice({
   name: 'user',
   initialState,
@@ -37,8 +46,18 @@ export const userSlice = createSlice({
       })
       .addCase(fetchSignUpAsync.fulfilled, (state, action) => {
         state.loading = false;
+        state.userId = action.payload;
       })
       .addCase(fetchSignUpAsync.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(fetchConfirmAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchConfirmAsync.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(fetchConfirmAsync.rejected, (state) => {
         state.loading = false;
       });
   },

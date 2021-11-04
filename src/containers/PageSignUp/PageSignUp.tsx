@@ -33,7 +33,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
-  const [conPass, setConPass] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
   const dispatch = useAppDispatch();
 
@@ -47,12 +47,21 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
       setError('Phone number is too short');
     } else if (password.length < 4) {
       setError('Password should be at least 4 characters long');
-    } else if (password !== conPass) {
+    } else if (password !== confirmPassword) {
       setError("Password doesn't match");
     } else {
       setError('');
+      console.log(loading, { name, phone, email, password, confirmPassword });
       addUserInput({ name, phone, email, password });
-      dispatch(fetchSignUpAsync({ name, phone, email, password, conPass }));
+      dispatch(
+        fetchSignUpAsync({
+          name,
+          phone,
+          email,
+          password,
+          confirmPassword,
+        })
+      );
       history.push('/phone-verfication');
     }
   };
@@ -124,9 +133,9 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
               <Input
                 type='password'
                 className='mt-1 rounded-md'
-                value={conPass}
+                value={confirmPassword}
                 placeholder='****'
-                onChange={(ev) => setConPass(ev.target.value)}
+                onChange={(ev) => setConfirmPassword(ev.target.value)}
               />
             </label>
             {error && (
