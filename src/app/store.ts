@@ -1,9 +1,11 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 import hotelReducer from './feature/hotel/hotelSlice';
+import userReducer from './feature/user/userSlices';
 
 export const store = configureStore({
   reducer: {
     hotel: hotelReducer,
+    user: userReducer,
   },
 });
 

@@ -40,6 +40,7 @@ import PageAddListing9 from 'containers/PageAddListing1/PageAddListing9';
 import PageAddListing10 from 'containers/PageAddListing1/PageAddListing10';
 import HotelDetailsPage from 'containers/HotelSearchPage/HotelDetailsPage';
 import HotelCheckOut from 'containers/CheckOutPage/HotelCheckOut';
+import OtpPage from 'containers/PageSignUp/OtpPage';
 
 export const pages: Page[] = [
   { path: '/', exact: true, component: PageHome },
@@ -94,6 +95,7 @@ export const pages: Page[] = [
   { path: '/about', component: PageAbout },
   { path: '/signup', component: PageSignUp },
   { path: '/login', component: PageLogin },
+  { path: '/phone-verfication', component: OtpPage },
   { path: '/subscription', component: PageSubcription },
 ];
 

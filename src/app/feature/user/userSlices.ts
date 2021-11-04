@@ -1,6 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { fetchSignUp } from './userApi';
-import { UserState } from './userInterfaces';
+import { UserState, UserInputForSignUp } from './userInterfaces';
 
 const initialState: UserState = {
   isLogged: false,
@@ -11,7 +11,7 @@ const initialState: UserState = {
 
 export const fetchSignUpAsync = createAsyncThunk(
   'user/signup',
-  async (userChosenData) => {
+  async (userChosenData: UserInputForSignUp) => {
     const res: any = await fetchSignUp(userChosenData);
 
     if (res.status === 'success') {
@@ -22,10 +22,14 @@ export const fetchSignUpAsync = createAsyncThunk(
   }
 );
 
-export const hotelSlice = createSlice({
-  name: 'hotel',
+export const userSlice = createSlice({
+  name: 'user',
   initialState,
-  reducers: {},
+  reducers: {
+    addUserInput: (state, action) => {
+      state.user = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchSignUpAsync.pending, (state) => {
@@ -40,6 +44,6 @@ export const hotelSlice = createSlice({
   },
 });
 
-// export const {} = hotelSlice.actions;
+export const { addUserInput } = userSlice.actions;
 
-export default hotelSlice.reducer;
+export default userSlice.reducer;
