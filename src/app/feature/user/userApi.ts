@@ -12,6 +12,16 @@ export const fetchSignUp = async (body: any) => {
   }
 };
 
+export const fetchLogin = async (body: any) => {
+  try {
+    const response = await axios.post(`${URL}api/v1/users/login`, body);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
 export const fetchConfirmUser = async (body: any) => {
   try {
     const response = await axios.patch(`${URL}api/v1/users/confirmUser`, body);
@@ -33,4 +43,7 @@ export const fetchLogout = async () => {
     throw error;
   }
 };
+
+
+
 

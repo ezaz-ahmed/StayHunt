@@ -1,5 +1,10 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchSignUp, fetchConfirmUser, fetchLogout } from './userApi';
+import {
+  fetchSignUp,
+  fetchConfirmUser,
+  fetchLogout,
+  fetchLogin,
+} from './userApi';
 import { UserState } from './userInterfaces';
 
 const initialState: UserState = {
@@ -21,6 +26,14 @@ export const fetchSignUpAsync = createAsyncThunk(
     } else {
       return res.message;
     }
+  }
+);
+
+export const fetchLoginAsync = createAsyncThunk(
+  'user/login',
+  async (userChosenData: any) => {
+    const res: any = await fetchLogin(userChosenData);
+    return res;
   }
 );
 
@@ -67,6 +80,18 @@ export const userSlice = createSlice({
         state.token = action.payload.token;
       })
       .addCase(fetchConfirmAsync.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(fetchLoginAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchLoginAsync.fulfilled, (state, action) => {
+        state.loading = false;
+        state.isLogged = true;
+        state.userDetails = action.payload.user;
+        state.token = action.payload.token;
+      })
+      .addCase(fetchLoginAsync.rejected, (state) => {
         state.loading = false;
       })
       .addCase(fetchLogoutAsync.pending, (state) => {

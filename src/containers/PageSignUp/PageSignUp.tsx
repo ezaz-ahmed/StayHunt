@@ -7,7 +7,7 @@ import Input from 'shared/Input/Input';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
 import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'app/hook';
-import { fetchSignUpAsync, addUserInput } from 'app/feature/user/userSlices';
+import { fetchSignUpAsync } from 'app/feature/user/userSlices';
 
 export interface PageSignUpProps {
   className?: string;
@@ -53,7 +53,6 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
       setError("Password doesn't match");
     } else {
       setError('');
-      addUserInput({ name, phone, email, password });
 
       const obj: any = { name, phone, email, password, passwordConfirm };
       for (let key in obj) {

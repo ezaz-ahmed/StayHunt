@@ -1,10 +1,13 @@
-import { FC } from 'react';
+import { FC, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import facebookSvg from 'images/Facebook.svg';
 import googleSvg from 'images/Google.svg';
 import { Helmet } from 'react-helmet';
 import Input from 'shared/Input/Input';
 import { Link } from 'react-router-dom';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
+import { useAppDispatch, useAppSelector } from 'app/hook';
+import { fetchLoginAsync } from 'app/feature/user/userSlices';
 
 export interface PageLoginProps {
   className?: string;
@@ -16,6 +19,7 @@ const loginSocials = [
     href: '#',
     icon: facebookSvg,
   },
+
   {
     name: 'Continue with Google',
     href: '#',
@@ -24,6 +28,28 @@ const loginSocials = [
 ];
 
 const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
+  const history = useHistory();
+  const dispatch = useAppDispatch();
+
+  const [identity, setIdentity] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const { loading } = useAppSelector((state) => state.user);
+
+  const handleSubmit = (event: any) => {
+    event.preventDefault();
+    if (identity.length < 3) {
+      setError('Email or number invalid');
+    } else if (password.length < 4) {
+      setError('Password is invalid!');
+    } else {
+      setError('');
+      dispatch<any>(fetchLoginAsync({ identity, password }));
+      history.push('/author');
+    }
+  };
+
   return (
     <div className={`nc-PageLogin ${className}`} data-nc-id='PageLogin'>
       <Helmet>
@@ -34,6 +60,62 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
           Login
         </h2>
         <div className='max-w-md mx-auto space-y-6'>
+          {/* FORM */}
+          <form className='grid grid-cols-1 gap-6' onSubmit={handleSubmit}>
+            <label className='block'>
+              <span className='text-neutral-800 dark:text-neutral-200'>
+                Email or Number
+              </span>
+              <Input
+                type='text'
+                value={identity}
+                onChange={(ev) => setIdentity(ev.target.value)}
+                className='mt-1 rounded-md'
+              />
+            </label>
+            <label className='block'>
+              <span className='flex justify-between items-center text-neutral-800 dark:text-neutral-200'>
+                Password
+                <Link to='/forgot-pass' className='text-sm'>
+                  Forgot password?
+                </Link>
+              </span>
+              <Input
+                type='password'
+                className='mt-1 rounded-md'
+                onChange={(ev) => setPassword(ev.target.value)}
+              />
+            </label>
+            {error && (
+              <span className='flex justify-between items-center text-red-400 dark:text-red-400'>
+                {error}
+              </span>
+            )}
+            <ButtonPrimary
+              type='submit'
+              className='my-2 rounded-md'
+              loading={loading}
+            >
+              Login
+            </ButtonPrimary>
+          </form>
+
+          {/* ==== */}
+          <span className='block text-center text-neutral-700 dark:text-neutral-300'>
+            New user? {` `}
+            <Link to='/signup' className='hover:underline'>
+              Create an account
+            </Link>
+          </span>
+
+          {/* OR */}
+          <div className='relative text-center'>
+            <span className='relative z-10 inline-block px-4 py-1 font-medium text-sm bg-white dark:text-neutral-400 dark:bg-neutral-900'>
+              OR
+            </span>
+            <div className='absolute left-0 w-full top-1/2 transform -translate-y-1/2 border border-neutral-100 dark:border-neutral-800'></div>
+          </div>
+
           <div className='grid gap-3'>
             {loginSocials.map((item, index) => (
               <a
@@ -52,44 +134,6 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
               </a>
             ))}
           </div>
-          {/* OR */}
-          <div className='relative text-center'>
-            <span className='relative z-10 inline-block px-4 font-medium text-sm bg-white dark:text-neutral-400 dark:bg-neutral-900'>
-              OR
-            </span>
-            <div className='absolute left-0 w-full top-1/2 transform -translate-y-1/2 border border-neutral-100 dark:border-neutral-800'></div>
-          </div>
-          {/* FORM */}
-          <form className='grid grid-cols-1 gap-6' action='#' method='post'>
-            <label className='block'>
-              <span className='text-neutral-800 dark:text-neutral-200'>
-                Email address
-              </span>
-              <Input
-                type='email'
-                placeholder='example@example.com'
-                className='mt-1 rounded-md'
-              />
-            </label>
-            <label className='block'>
-              <span className='flex justify-between items-center text-neutral-800 dark:text-neutral-200'>
-                Password
-                <Link to='/forgot-pass' className='text-sm'>
-                  Forgot password?
-                </Link>
-              </span>
-              <Input type='password' className='mt-1 rounded-md' />
-            </label>
-            <ButtonPrimary type='submit'>Login</ButtonPrimary>
-          </form>
-
-          {/* ==== */}
-          <span className='block text-center text-neutral-700 dark:text-neutral-300'>
-            New user? {` `}
-            <Link to='/signup' className='hover:underline'>
-              Create an account
-            </Link>
-          </span>
         </div>
       </div>
     </div>
