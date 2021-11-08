@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchSignUp, fetchConfirmUser } from './userApi';
+import { fetchSignUp, fetchConfirmUser, fetchLogout } from './userApi';
 import { UserState } from './userInterfaces';
 
 const initialState: UserState = {
@@ -28,18 +28,14 @@ export const fetchConfirmAsync = createAsyncThunk(
   'user/confirm',
   async (userChosenData: any) => {
     const res: any = await fetchConfirmUser(userChosenData);
-    console.log(res, '⚡');
-    if (res.status === 'success') {
-      localStorage.setItem('token', res.data.token);
-      localStorage.setItem('user', res.data.user);
-      console.log(res.data.token, '🙊');
-      console.log(res.data.user, '🤵');
-      return res.data.user;
-    } else {
-      return res.message;
-    }
+    return res;
   }
 );
+
+export const fetchLogoutAsync = createAsyncThunk('user/logout', async () => {
+  const res = await fetchLogout();
+  return res;
+});
 
 export const userSlice = createSlice({
   name: 'user',
@@ -65,12 +61,21 @@ export const userSlice = createSlice({
         state.loading = true;
       })
       .addCase(fetchConfirmAsync.fulfilled, (state, action) => {
-        console.log(action, '🎬');
         state.loading = false;
         state.isLogged = true;
-        state.userDetails = action.payload;
+        state.userDetails = action.payload.user;
+        state.token = action.payload.token;
       })
       .addCase(fetchConfirmAsync.rejected, (state) => {
+        state.loading = false;
+      })
+      .addCase(fetchLogoutAsync.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchLogoutAsync.fulfilled, (state) => {
+        state.token = '';
+        state.userDetails = undefined;
+        state.isLogged = false;
         state.loading = false;
       });
   },

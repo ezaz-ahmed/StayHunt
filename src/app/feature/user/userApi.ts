@@ -22,3 +22,15 @@ export const fetchConfirmUser = async (body: any) => {
     throw error;
   }
 };
+
+export const fetchLogout = async () => {
+  try {
+    const response = await axios.get(`${URL}api/v1/users/logout`);
+
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
