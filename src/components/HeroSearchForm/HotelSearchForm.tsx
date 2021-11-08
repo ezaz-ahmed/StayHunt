@@ -33,16 +33,13 @@ const HotelSearchForm = () => {
   const { hotelUserInput } = useAppSelector((state) => state.hotel);
 
   useEffect(() => {
-    dispatch(fetchHotelLocationAsync());
+    dispatch<any>(fetchHotelLocationAsync());
   }, [dispatch]);
 
   const [dateRangeValue, setDateRangeValue] = useState<DateRage>({
     startDate: hotelUserInput?.checkIn ? moment(hotelUserInput.checkIn) : null,
     endDate: hotelUserInput?.checkOut ? moment(hotelUserInput.checkOut) : null,
   });
-
-
-
 
   const [locationInputValue, setLocationInputValue] = useState<string>(
     hotelUserInput?.location.cityName || ''
@@ -81,7 +78,7 @@ const HotelSearchForm = () => {
       userInput.guest
     ) {
       dispatch(addUserInput(userInput));
-      dispatch(fetchAllHotelAsync(userInput));
+      dispatch<any>(fetchAllHotelAsync(userInput));
       history.push('/hotel');
     }
   }, [userInput]);

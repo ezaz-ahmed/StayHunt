@@ -1,21 +1,30 @@
 import { FC, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Helmet } from 'react-helmet';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
 import OtpInput from 'react-otp-input';
-// import { useAppSelector } from 'app/hook';
+import { useAppSelector, useAppDispatch } from 'app/hook';
+import { fetchConfirmAsync } from 'app/feature/user/userSlices';
 
 export interface OtpSignInProps {
   className?: string;
 }
 
 const OtpPage: FC<OtpSignInProps> = ({ className = '' }) => {
-  const [otpInput, setOtpInput] = useState('');
-  // const { userId } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const [loading, setLoading] = useState(false);
+  const history = useHistory();
+
+  const [otp, setOtp] = useState('');
+  const { userId } = useAppSelector((state) => state.user);
   const handleSubmit = () => {
-    console.log(otpInput);
+    setLoading(true);
+    const data: any = { userId, otp };
+    dispatch<any>(fetchConfirmAsync(data));
+    history.push('/author');
   };
 
-  const handleChange = (otp: any) => setOtpInput(otp);
+  const handleChange = (otp: any) => setOtp(otp);
 
   return (
     <div className={`nc-PageSignUp  ${className}`} data-nc-id='PageSignUp'>
@@ -29,7 +38,7 @@ const OtpPage: FC<OtpSignInProps> = ({ className = '' }) => {
 
         <div className='grid place-items-center pb-15'>
           <OtpInput
-            value={otpInput}
+            value={otp}
             onChange={handleChange}
             numInputs={6}
             inputStyle={{
@@ -40,7 +49,11 @@ const OtpPage: FC<OtpSignInProps> = ({ className = '' }) => {
             separator={<span className='mx-3'>-</span>}
           />
 
-          <ButtonPrimary className='my-5 rounded-md' onClick={handleSubmit}>
+          <ButtonPrimary
+            className='my-5 rounded-md'
+            onClick={handleSubmit}
+            loading={loading}
+          >
             Verify
           </ButtonPrimary>
         </div>

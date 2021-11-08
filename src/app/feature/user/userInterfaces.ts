@@ -23,4 +23,6 @@ export interface UserState {
   loading: boolean;
   userId: string;
   user?: User;
+  token: string;
+  userDetails?: any;
 }

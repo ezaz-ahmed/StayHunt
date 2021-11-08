@@ -57,7 +57,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
   useEffect(() => {
     const startDate = selectedDate.startDate?.toISOString();
     const endDate = selectedDate.endDate?.toISOString();
-    dispatch(
+    dispatch<any>(
       fetchSingleHotelAsync({ id: id, checkIn: startDate, checkOut: endDate })
     );
   }, [id]);
