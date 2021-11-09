@@ -5,7 +5,7 @@ import { useHistory } from 'react-router';
 import HotelGuestInput from './HotelGuestInput';
 import HotelLocationInput from './HotelLocationInputForm';
 import { FocusedInputShape } from 'react-dates';
-import StayDatesRangeInput from './StayDatesRangeInput';
+import HotelDatesRangeInput from './HotelDatesRangeInput';
 import moment from 'moment';
 
 import {
@@ -97,7 +97,7 @@ const HotelSearchForm = () => {
             onInputDone={() => setDateFocused('startDate')}
           />
         )}
-        <StayDatesRangeInput
+        <HotelDatesRangeInput
           defaultValue={dateRangeValue}
           defaultFocus={dateFocused}
           onFocusChange={(focus) => setDateFocused(focus)}

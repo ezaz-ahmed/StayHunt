@@ -1,5 +1,5 @@
 import Heading from "components/Heading/Heading";
-import React, { FC } from "react";
+import { FC } from 'react';
 import NcImage from "shared/NcImage/NcImage";
 import HIW1img from "images/HIW1.png";
 import HIW2img from "images/HIW2.png";

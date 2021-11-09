@@ -1,9 +1,7 @@
 import { FC, useState } from "react";
-import "react-dates/initialize";
-import ExperiencesSearchForm from "./ExperiencesSearchForm";
-import StaySearchForm from "./StaySearchForm";
-import RentalCarSearchForm from "./RentalCarSearchForm";
+import 'react-dates/initialize';
 import HotelSearchForm from './HotelSearchForm';
+import DummySearchForm from './DummySearchForm';
 
 export type SearchTab =
   | 'Hotel'
@@ -70,23 +68,21 @@ const HeroSearchForm: FC<HeroSearchFormProps> = ({
   };
 
   const renderForm = () => {
-    const isArchivePage = !!currentPage && !!currentTab;
     switch (tabActive) {
       case 'Hotel':
         return <HotelSearchForm />;
       case 'Bus':
-        return <ExperiencesSearchForm haveDefaultValue={isArchivePage} />;
+        return <DummySearchForm />;
       case 'Launch':
-        return <RentalCarSearchForm haveDefaultValue={isArchivePage} />;
+        return <DummySearchForm />;
       case 'Package Tour':
-        return <ExperiencesSearchForm haveDefaultValue={isArchivePage} />;
+        return <DummySearchForm />;
       case 'Rental Car':
-        return <RentalCarSearchForm haveDefaultValue={isArchivePage} />;
+        return <DummySearchForm />;
       case 'Flight':
-        return <StaySearchForm haveDefaultValue={isArchivePage} />;
+        return <DummySearchForm />;
       case 'Train':
-        return <RentalCarSearchForm haveDefaultValue={isArchivePage} />;
-
+        return <DummySearchForm />;
       default:
         return null;
     }

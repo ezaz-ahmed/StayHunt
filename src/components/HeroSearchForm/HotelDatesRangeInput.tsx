@@ -4,14 +4,14 @@ import {
   DateRangePicker,
   FocusedInputShape,
 } from 'react-dates';
-import { DateRage } from './StaySearchForm';
+import { DateRage } from './HotelSearchForm';
 import { FC } from 'react';
 import ClearDataButton from './ClearDataButton';
 import useWindowSize from 'hooks/useWindowResize';
 
 type Fields = 'checkIn' | 'checkOut';
 
-export interface StayDatesRangeInputProps {
+export interface HotelDatesRangeInputProps {
   defaultValue: DateRage;
   defaultFocus?: FocusedInputShape | null;
   onChange?: (data: DateRage) => void;
@@ -22,7 +22,7 @@ export interface StayDatesRangeInputProps {
   anchorDirection?: AnchorDirectionShape;
 }
 
-const StayDatesRangeInput: FC<StayDatesRangeInputProps> = ({
+const HotelDatesRangeInput: FC<HotelDatesRangeInputProps> = ({
   defaultValue,
   onChange,
   defaultFocus = null,
@@ -189,4 +189,4 @@ const StayDatesRangeInput: FC<StayDatesRangeInputProps> = ({
   );
 };
 
-export default StayDatesRangeInput;
+export default HotelDatesRangeInput;

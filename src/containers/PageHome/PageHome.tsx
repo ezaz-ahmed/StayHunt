@@ -3,22 +3,20 @@ import { TaxonomyType } from "data/types";
 import SectionHero from "components/SectionHero/SectionHero";
 import SectionSliderNewCategories from "components/SectionSliderNewCategories/SectionSliderNewCategories";
 import SectionSubscribe2 from "components/SectionSubscribe2/SectionSubscribe2";
-import SectionOurFeatures from "components/SectionOurFeatures/SectionOurFeatures";
-import SectionGridFeaturePlaces from "./SectionGridFeaturePlaces";
-import SectionHowItWork from "components/SectionHowItWork/SectionHowItWork";
-import BackgroundSection from "components/BackgroundSection/BackgroundSection";
-import BgGlassmorphism from "components/BgGlassmorphism/BgGlassmorphism";
-import SectionGridAuthorBox from "components/SectionGridAuthorBox/SectionGridAuthorBox";
-import SectionGridCategoryBox from "components/SectionGridCategoryBox/SectionGridCategoryBox";
-import SectionBecomeAnAuthor from "components/SectionBecomeAnAuthor/SectionBecomeAnAuthor";
-import SectionVideos from "./SectionVideos";
+import SectionOurFeatures from 'components/SectionOurFeatures/SectionOurFeatures';
+import SectionHowItWork from 'components/SectionHowItWork/SectionHowItWork';
+import BackgroundSection from 'components/BackgroundSection/BackgroundSection';
+import BgGlassmorphism from 'components/BgGlassmorphism/BgGlassmorphism';
+import SectionGridCategoryBox from 'components/SectionGridCategoryBox/SectionGridCategoryBox';
+import SectionBecomeAnAuthor from 'components/SectionBecomeAnAuthor/SectionBecomeAnAuthor';
+import SectionVideos from './SectionVideos';
 import DownloadApp from 'components/DownloadApp/DownloadApp';
 
 const DEMO_CATS: TaxonomyType[] = [
   {
     id: '1',
     href: '#',
-    name: 'New Yourk',
+    name: 'Dhaka',
     taxonomy: 'category',
     count: 188288,
     thumbnail:
@@ -27,7 +25,7 @@ const DEMO_CATS: TaxonomyType[] = [
   {
     id: '2',
     href: '#',
-    name: 'Singapore',
+    name: 'Sylhet',
     taxonomy: 'category',
     count: 188288,
     thumbnail:
@@ -36,7 +34,7 @@ const DEMO_CATS: TaxonomyType[] = [
   {
     id: '2',
     href: '#',
-    name: 'Paris',
+    name: 'Chattogram',
     taxonomy: 'category',
     count: 188288,
     thumbnail:
@@ -45,7 +43,7 @@ const DEMO_CATS: TaxonomyType[] = [
   {
     id: '2',
     href: '#',
-    name: 'London',
+    name: 'Barishal',
     taxonomy: 'category',
     count: 188288,
     thumbnail:
@@ -54,7 +52,7 @@ const DEMO_CATS: TaxonomyType[] = [
   {
     id: '2',
     href: '#',
-    name: 'Tokyo',
+    name: 'Rangpur',
     taxonomy: 'category',
     count: 188288,
     thumbnail:
@@ -63,7 +61,7 @@ const DEMO_CATS: TaxonomyType[] = [
   {
     id: '2',
     href: '#',
-    name: 'Maldives',
+    name: 'Rajshahi',
     taxonomy: 'category',
     count: 188288,
     thumbnail:
@@ -135,14 +133,7 @@ function PageHome() {
         {/* SECTION 1 */}
         <SectionSliderNewCategories categories={DEMO_CATS} />
 
-        {/* SECTION2 */}
         <SectionOurFeatures />
-
-        {/* SECTION */}
-        <div className='relative py-16'>
-          <BackgroundSection />
-          <SectionGridFeaturePlaces />
-        </div>
 
         {/* SECTION */}
         <SectionHowItWork />
@@ -162,12 +153,6 @@ function PageHome() {
 
         {/* SECTION */}
         <SectionSubscribe2 />
-
-        {/* SECTION */}
-        <div className='relative py-16'>
-          <BackgroundSection className='bg-orange-50 dark:bg-black dark:bg-opacity-20 ' />
-          <SectionGridAuthorBox />
-        </div>
 
         {/* SECTION */}
         <SectionGridCategoryBox />

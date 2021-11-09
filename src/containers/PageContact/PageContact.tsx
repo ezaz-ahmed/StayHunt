@@ -15,16 +15,16 @@ export interface PageContactProps {
 
 const info = [
   {
-    title: "🗺 ADDRESS",
-    desc: "Photo booth tattooed prism, portland taiyaki hoodie neutra typewriter",
+    title: '🗺 ADDRESS',
+    desc: 'Ka-39/5, 4th floor C-5 KURIL Pragati Sarani Vatara, Dhaka, 1229',
   },
   {
-    title: "💌 EMAIL",
-    desc: "nc.example@example.com",
+    title: '💌 EMAIL',
+    desc: 'contact@tickets4travel.com',
   },
   {
-    title: "☎ PHONE",
-    desc: "000-123-456-7890",
+    title: '☎ PHONE',
+    desc: '+8809613123365',
   },
 ];
 

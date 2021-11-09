@@ -4,8 +4,8 @@ import moment from 'moment';
 import { StarIcon } from '@heroicons/react/solid';
 import { useAppSelector, useAppDispatch } from 'app/hook';
 import LocationMarker from 'components/AnyReactComponent/LocationMarker';
-import StayDatesRangeInput from 'components/HeroSearchForm/StayDatesRangeInput';
-import { DateRage } from 'components/HeroSearchForm/StaySearchForm';
+import HotelDatesRangeInput from 'components/HeroSearchForm/HotelDatesRangeInput';
+import { DateRage } from 'components/HeroSearchForm/HotelSearchForm';
 import GoogleMapReact from 'google-map-react';
 import useWindowSize from 'hooks/useWindowResize';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
@@ -274,7 +274,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
 
         {/* FORM */}
         <form className='flex flex-col border border-neutral-200 dark:border-neutral-700 rounded-3xl '>
-          <StayDatesRangeInput
+          <HotelDatesRangeInput
             wrapClassName='divide-x divide-neutral-200 dark:divide-neutral-700'
             onChange={(date) => setSelectedDate(date)}
             numberOfMonths={1}
