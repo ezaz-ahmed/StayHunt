@@ -3,7 +3,6 @@ import {
   fetchHotelLocation,
   fetchAllHotelList,
   fetchSingleHotel,
-  fetchPaymentHotel,
 } from './hotelAPI';
 
 import {
@@ -61,12 +60,7 @@ export const fetchSingleHotelAsync = createAsyncThunk(
   }
 );
 
-export const fetchHotelPaymentAsync = createAsyncThunk(
-  'hotel/payment',
-  async (paymentDetails) => {
-    return await fetchPaymentHotel(paymentDetails);
-  }
-);
+
 
 export const hotelSlice = createSlice({
   name: 'hotel',

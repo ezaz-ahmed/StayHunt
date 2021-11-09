@@ -2,6 +2,7 @@ import axios from 'axios';
 
 const URL = process.env.REACT_APP_SERVER_URL_HOTEL;
 
+
 export const fetchHotelLocation = async () => {
   const response = await axios.get(`${URL}api/v1/search-items`);
   return response.data;
@@ -29,12 +30,22 @@ export const fetchSingleHotel = async (
   return response.data;
 };
 
-export const fetchPaymentHotel = async (body: any) => {
-  console.log('💀💀', body);
-  const response = await axios.post(
-    `${URL}api/v1/bookings/checkout-sslcommerz`,
-    body
-  );
-  console.log(response);
-  return response.data;
+export const fetchPaymentHotel = async (body: any, token: string) => {
+  try {
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    console.log('💀💀', body, '🏁', token);
+    const response = await axios.post(
+      `${URL}api/v1/bookings/checkout-sslcommerz`,
+      body,
+      config
+    );
+    console.log(response);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error('Something went wrong');
+  }
 };

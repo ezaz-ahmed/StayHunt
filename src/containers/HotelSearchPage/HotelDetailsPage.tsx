@@ -29,6 +29,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
   const { hotelUserInput, oneHotel, status } = useAppSelector(
     (state) => state.hotel
   );
+  const { isLogged } = useAppSelector((state) => state.user);
   const history = useHistory();
   const dispatch = useAppDispatch();
 
@@ -62,7 +63,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
     );
   }, [id]);
 
-  const serviceCharge = 0;
+  const serviceCharge = 50;
 
   if (selectedDate.endDate) {
     night = selectedDate.endDate.diff(selectedDate.startDate, 'days');
@@ -248,7 +249,11 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
       selectedDate.startDate !== null &&
       selectedDate.endDate !== null
     ) {
-      history.push('/hotel/checkout');
+      if (isLogged) {
+        history.push('/hotel/checkout');
+      } else {
+        history.push('/login');
+      }
     }
   };
 

@@ -18,13 +18,15 @@ export interface HotelCheckOutPageProps {
 }
 
 const HotelCheckOut: FC<HotelCheckOutPageProps> = ({ className = '' }) => {
+  const { finalSelection, oneHotel } = useAppSelector((state) => state.hotel);
+  const { userDetails } = useAppSelector((state) => state.user);
   const [btnDisalbe, setBtnDisalbe] = useState(true);
-  const [name, setName] = useState('ephew');
-  const [email, setEmail] = useState('sg@gm.com');
-  const [phone, setPhone] = useState('01839171223');
+  const [name, setName] = useState(userDetails.name || '');
+  const [email, setEmail] = useState(userDetails.email || '');
+  const [phone, setPhone] = useState(userDetails.phone) || '';
   const [message, setMessage] = useState('');
   const [check, setCheck] = useState(true);
-  const { finalSelection, oneHotel } = useAppSelector((state) => state.hotel);
+  const { token } = useAppSelector((state) => state.user);
   let outArr = Array.from(Array(oneHotel?.starRating), (_, x) => x);
 
   const validEmail = () => {
@@ -65,7 +67,7 @@ const HotelCheckOut: FC<HotelCheckOutPageProps> = ({ className = '' }) => {
   };
 
   const getData = async (body: any) => {
-    const hotelSSL: any = await fetchPaymentHotel(body);
+    const hotelSSL: any = await fetchPaymentHotel(body, token);
 
     if (hotelSSL.status === 'success') window.location.replace(hotelSSL.data);
     else if (hotelSSL.status === 'error') {
