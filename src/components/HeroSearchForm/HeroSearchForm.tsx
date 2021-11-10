@@ -4,6 +4,7 @@ import ExperiencesSearchForm from "./ExperiencesSearchForm";
 import StaySearchForm from "./StaySearchForm";
 import RentalCarSearchForm from "./RentalCarSearchForm";
 import HotelSearchForm from './HotelSearchForm';
+import BusSearchForm from './BusSearchForm';
 
 export type SearchTab =
   | 'Hotel'
@@ -75,9 +76,9 @@ const HeroSearchForm: FC<HeroSearchFormProps> = ({
       case 'Hotel':
         return <HotelSearchForm />;
       case 'Bus':
-        return <ExperiencesSearchForm haveDefaultValue={isArchivePage} />;
+        return <BusSearchForm />;
       case 'Launch':
-        return <RentalCarSearchForm haveDefaultValue={isArchivePage} />;
+        return <ExperiencesSearchForm haveDefaultValue={isArchivePage} />;
       case 'Package Tour':
         return <ExperiencesSearchForm haveDefaultValue={isArchivePage} />;
       case 'Rental Car':

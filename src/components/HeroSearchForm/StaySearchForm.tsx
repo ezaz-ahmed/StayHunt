@@ -2,7 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import LocationInput from './LocationInput';
 import GuestsInput, { GuestsInputProps } from './GuestsInput';
 import { FocusedInputShape } from 'react-dates';
-import StayDatesRangeInput from './StayDatesRangeInput';
+import HotelDatesRangeInput from './HotelDatesRangeInput';
 import ButtonSubmit from './ButtonSubmit';
 import moment from 'moment';
 
@@ -59,7 +59,7 @@ const StaySearchForm: FC<StaySearchFormProps> = ({
           onChange={(e) => setLocationInputValue(e)}
           onInputDone={() => setDateFocused('startDate')}
         />
-        <StayDatesRangeInput
+        <HotelDatesRangeInput
           defaultValue={dateRangeValue}
           defaultFocus={dateFocused}
           onFocusChange={(focus) => setDateFocused(focus)}

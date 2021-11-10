@@ -5,7 +5,7 @@ import LocationMarker from 'components/AnyReactComponent/LocationMarker';
 import CommentListing from 'components/CommentListing/CommentListing';
 import FiveStartIconForRate from 'components/FiveStartIconForRate/FiveStartIconForRate';
 import GuestsInput from 'components/HeroSearchForm/GuestsInput';
-import StayDatesRangeInput from 'components/HeroSearchForm/StayDatesRangeInput';
+import HotelDatesRangeInput from 'components/HeroSearchForm/HotelDatesRangeInput';
 import { DateRage } from 'components/HeroSearchForm/StaySearchForm';
 import StartRating from 'components/StartRating/StartRating';
 import GoogleMapReact from 'google-map-react';
@@ -640,7 +640,7 @@ const ListingStayDetailPage: FC<ListingStayDetailPageProps> = ({
 
         {/* FORM */}
         <form className='flex flex-col border border-neutral-200 dark:border-neutral-700 rounded-3xl '>
-          <StayDatesRangeInput
+          <HotelDatesRangeInput
             wrapClassName='divide-x divide-neutral-200 dark:divide-neutral-700'
             onChange={(date) => setSelectedDate(date)}
             numberOfMonths={1}

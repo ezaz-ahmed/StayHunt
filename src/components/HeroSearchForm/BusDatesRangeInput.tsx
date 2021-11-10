@@ -22,7 +22,7 @@ export interface StayDatesRangeInputProps {
   anchorDirection?: AnchorDirectionShape;
 }
 
-const StayDatesRangeInput: FC<StayDatesRangeInputProps> = ({
+const BusDatesRangeInput: FC<StayDatesRangeInputProps> = ({
   defaultValue,
   onChange,
   defaultFocus = null,
@@ -189,4 +189,4 @@ const StayDatesRangeInput: FC<StayDatesRangeInputProps> = ({
   );
 };
 
-export default StayDatesRangeInput;
+export default BusDatesRangeInput;
