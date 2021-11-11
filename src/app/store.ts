@@ -5,6 +5,7 @@ import { combineReducers } from 'redux';
 import { persistReducer } from 'redux-persist';
 import thunk from 'redux-thunk';
 import hotelReducer from './feature/hotel/hotelSlice';
+import busReducer from './feature/bus/busSlice';
 import userReducer from './feature/user/userSlices';
 
 const rootPersistConfig = {
@@ -18,8 +19,14 @@ const hotelPersistConfig = {
   storage: sessionStorage,
 };
 
+const busPersistConfig = {
+  key: 'bus',
+  storage: sessionStorage,
+};
+
 const rootReducer = combineReducers({
   user: userReducer,
+  bus: persistReducer(busPersistConfig, busReducer),
   hotel: persistReducer(hotelPersistConfig, hotelReducer),
 });
 

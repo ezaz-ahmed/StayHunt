@@ -10,7 +10,7 @@ import ButtonPrimary from 'shared/Button/ButtonPrimary';
 import NcImage from 'shared/NcImage/NcImage';
 import NcModal from 'shared/NcModal/NcModal';
 import { useAppSelector } from 'app/hook';
-import { fetchPaymentHotel } from 'app/feature/hotel/hotelAPI';
+import { fetchPaymentHotel } from 'app/feature/hotel/hotelApi';
 import SomethingWrong from 'containers/Page404/SomethingWrong';
 
 export interface HotelCheckOutPageProps {

@@ -3,7 +3,7 @@ import {
   fetchHotelLocation,
   fetchAllHotelList,
   fetchSingleHotel,
-} from './hotelAPI';
+} from './hotelApi';
 
 import {
   HotelState,
@@ -27,13 +27,13 @@ export const fetchHotelLocationAsync = createAsyncThunk(
   'hotel/fetchLocation',
   async () => {
     const { data }: any = await fetchHotelLocation();
-    const cityArray: Location[] = [];
+    const locationArray: Location[] = [];
 
     data.map(
       (property: Location) =>
-        property.variant === 'city' && cityArray.push(property)
+        property.variant === 'city' && locationArray.push(property)
     );
-    return cityArray;
+    return locationArray;
   }
 );
 
@@ -59,8 +59,6 @@ export const fetchSingleHotelAsync = createAsyncThunk(
     return data;
   }
 );
-
-
 
 export const hotelSlice = createSlice({
   name: 'hotel',

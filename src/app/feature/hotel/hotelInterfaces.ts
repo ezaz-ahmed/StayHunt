@@ -1,7 +1,3 @@
-// export interface FetchHotelAPI {
-//   data: Location[];
-// }
-
 export interface Location {
   variant: string;
   propertyId: string;
@@ -52,7 +48,6 @@ export interface HotelInList {
   images: string[];
   minPrice: number;
 }
-
 
 export interface HotelState {
   status: 'idle' | 'loading' | 'failed';
