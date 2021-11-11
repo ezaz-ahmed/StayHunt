@@ -1,17 +1,16 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import {
   AnchorDirectionShape,
   DateRangePicker,
   FocusedInputShape,
 } from 'react-dates';
-import { DateRage } from './StaySearchForm';
-import { FC } from 'react';
+import { DateRage } from './HotelSearchForm';
 import ClearDataButton from './ClearDataButton';
 import useWindowSize from 'hooks/useWindowResize';
 
 type Fields = 'checkIn' | 'checkOut';
 
-export interface StayDatesRangeInputProps {
+export interface HotelDatesRangeInputProps {
   defaultValue: DateRage;
   defaultFocus?: FocusedInputShape | null;
   onChange?: (data: DateRage) => void;
@@ -22,7 +21,7 @@ export interface StayDatesRangeInputProps {
   anchorDirection?: AnchorDirectionShape;
 }
 
-const HotelDatesRangeInput: FC<StayDatesRangeInputProps> = ({
+const HotelDatesRangeInput: FC<HotelDatesRangeInputProps> = ({
   defaultValue,
   onChange,
   defaultFocus = null,
@@ -95,10 +94,10 @@ const HotelDatesRangeInput: FC<StayDatesRangeInputProps> = ({
             />
           </svg>
         </div>
-        <div className='flex-grow'>
+        <div className='flex-grow flex-shrink-0'>
           <span className='block xl:text-lg font-semibold'>
             {stateDate.startDate
-              ? stateDate.startDate.format('DD MMM')
+              ? stateDate.startDate.format('DD-MMM-YY')
               : 'Check in'}
           </span>
           <span className='block mt-1 text-sm text-neutral-400 leading-none font-light'>
@@ -140,7 +139,7 @@ const HotelDatesRangeInput: FC<StayDatesRangeInputProps> = ({
         <div className='flex-grow'>
           <span className='block xl:text-lg font-semibold'>
             {stateDate.endDate
-              ? stateDate.endDate.format('DD MMM')
+              ? stateDate.endDate.format('DD-MMM-YY')
               : 'Check out'}
           </span>
           <span className='block mt-1 text-sm text-neutral-400 leading-none font-light'>
@@ -182,7 +181,6 @@ const HotelDatesRangeInput: FC<StayDatesRangeInputProps> = ({
         className={`flex flex-col lg:flex-row lg:items-center w-full flex-shrink-0 relative  ${wrapClassName}`}
       >
         {renderInputCheckInDate()}
-
         {renderInputCheckOutDate()}
       </div>
     </div>

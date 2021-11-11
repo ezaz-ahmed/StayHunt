@@ -44,6 +44,7 @@ const HotelSearchForm = () => {
   const [locationInputValue, setLocationInputValue] = useState<string>(
     hotelUserInput?.location.cityName || ''
   );
+
   const [guestValue, setGuestValue] = useState<Guests>({
     guestAdults: hotelUserInput?.guest.guestAdults || 1,
     guestChildren: hotelUserInput?.guest.guestChildren || 0,

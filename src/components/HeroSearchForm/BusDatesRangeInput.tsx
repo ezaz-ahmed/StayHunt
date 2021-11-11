@@ -1,62 +1,56 @@
-import { useEffect, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import {
   AnchorDirectionShape,
   DateRangePicker,
   FocusedInputShape,
 } from 'react-dates';
 import { DateRage } from './StaySearchForm';
-import { FC } from 'react';
 import ClearDataButton from './ClearDataButton';
 import useWindowSize from 'hooks/useWindowResize';
 
-type Fields = 'checkIn' | 'checkOut';
+type Fields = 'Departure Date' | 'Round Trip';
 
-export interface StayDatesRangeInputProps {
-  defaultValue: DateRage;
+export interface RentalCarDatesRangeInputProps {
+  defaultDateValue: DateRage;
   defaultFocus?: FocusedInputShape | null;
-  onChange?: (data: DateRage) => void;
+  onChange?: (data: { stateDate: DateRage }) => void;
   onFocusChange?: (focus: FocusedInputShape | null) => void;
   fieldClassName?: string;
-  wrapClassName?: string;
+  wrapFieldClassName?: string;
   numberOfMonths?: number;
   anchorDirection?: AnchorDirectionShape;
 }
 
-const BusDatesRangeInput: FC<StayDatesRangeInputProps> = ({
-  defaultValue,
+const BusCarDatesRangeInput: FC<RentalCarDatesRangeInputProps> = ({
+  defaultDateValue,
   onChange,
   defaultFocus = null,
   onFocusChange,
   fieldClassName = '[ nc-hero-field-padding ]',
-  wrapClassName = 'divide-y divide-neutral-200 lg:divide-y-0 md:border-l md:border-r border-neutral-200 lg:border-none',
+  wrapFieldClassName = 'flex flex-col xl:flex-row xl:items-center w-full flex-shrink-0 relative [ nc-divide-field ]',
   numberOfMonths,
   anchorDirection,
 }) => {
   const [focusedInput, setFocusedInput] = useState(defaultFocus);
-  const [stateDate, setStateDate] = useState(defaultValue);
+  const [stateDate, setStateDate] = useState(defaultDateValue);
 
-  const windowSize = useWindowSize();
-
+  //
   useEffect(() => {
-    setStateDate(defaultValue);
-  }, [defaultValue]);
+    setStateDate(defaultDateValue);
+  }, [defaultDateValue]);
 
   useEffect(() => {
     setFocusedInput(defaultFocus);
   }, [defaultFocus]);
 
-  useEffect(() => {
-    if (onChange) {
-      onChange(stateDate);
-    }
-  }, [stateDate]);
+  const windowSize = useWindowSize();
 
   const handleClearData = (field: Fields) => {
     switch (field) {
-      case 'checkIn': {
+      case 'Departure Date': {
         return setStateDate((date) => ({ ...date, startDate: null }));
       }
-      case 'checkOut': {
+      case 'Round Trip': {
         return setStateDate((date) => ({ ...date, endDate: null }));
       }
 
@@ -70,11 +64,11 @@ const BusDatesRangeInput: FC<StayDatesRangeInputProps> = ({
     onFocusChange && onFocusChange(focus);
   };
 
-  const renderInputCheckInDate = () => {
+  const renderJourneyDate = () => {
     const focused = focusedInput === 'startDate';
     return (
       <div
-        className={`relative flex flex-1 ${fieldClassName} flex-shrink-0 items-center space-x-3 cursor-pointer ${
+        className={`flex flex-1 relative  ${fieldClassName} flex-shrink-0 items-center space-x-3 cursor-pointer ${
           focused ? 'shadow-2xl rounded-full dark:bg-neutral-800' : ' '
         }`}
         onClick={() => handleDateFocusChange('startDate')}
@@ -95,28 +89,31 @@ const BusDatesRangeInput: FC<StayDatesRangeInputProps> = ({
             />
           </svg>
         </div>
-        <div className='flex-grow'>
+
+        <div className='flex-grow flex-shrink-0'>
           <span className='block xl:text-lg font-semibold'>
             {stateDate.startDate
-              ? stateDate.startDate.format('DD MMM')
-              : 'Check in'}
+              ? stateDate.startDate.format('DD-MMM-YYYY')
+              : 'Journey Date'}
           </span>
           <span className='block mt-1 text-sm text-neutral-400 leading-none font-light'>
-            {stateDate.startDate ? 'Check in' : `Add date`}
+            {stateDate.startDate ? 'Journey Date' : `Add date`}
           </span>
           {stateDate.startDate && focused && (
-            <ClearDataButton onClick={() => handleClearData('checkIn')} />
+            <ClearDataButton
+              onClick={() => handleClearData('Departure Date')}
+            />
           )}
         </div>
       </div>
     );
   };
 
-  const renderInputCheckOutDate = () => {
+  const renderReturnDate = () => {
     const focused = focusedInput === 'endDate';
     return (
       <div
-        className={`relative flex flex-1 ${fieldClassName} flex-shrink-0 items-center space-x-3 cursor-pointer ${
+        className={`flex relative flex-1  ${fieldClassName} flex-shrink-0 items-center space-x-3 cursor-pointer ${
           focused ? 'shadow-2xl rounded-full dark:bg-neutral-800' : ' '
         }`}
         onClick={() => handleDateFocusChange('endDate')}
@@ -137,17 +134,18 @@ const BusDatesRangeInput: FC<StayDatesRangeInputProps> = ({
             />
           </svg>
         </div>
+
         <div className='flex-grow'>
           <span className='block xl:text-lg font-semibold'>
             {stateDate.endDate
-              ? stateDate.endDate.format('DD MMM')
-              : 'Check out'}
+              ? stateDate.endDate.format('DD-MMM-YYYY')
+              : 'Return Date'}
           </span>
           <span className='block mt-1 text-sm text-neutral-400 leading-none font-light'>
-            {stateDate.endDate ? 'Check out' : `Add date`}
+            {stateDate.endDate ? 'Return Date' : `Add date`}
           </span>
           {stateDate.endDate && focused && (
-            <ClearDataButton onClick={() => handleClearData('checkOut')} />
+            <ClearDataButton onClick={() => handleClearData('Round Trip')} />
           )}
         </div>
       </div>
@@ -155,7 +153,7 @@ const BusDatesRangeInput: FC<StayDatesRangeInputProps> = ({
   };
 
   return (
-    <div className='relative flex-shrink-0 flex z-10 [ lg:nc-flex-2 ] '>
+    <div className='relative flex-shrink-0 flex nc-flex-2-auto z-10 '>
       <div className='absolute inset-x-0 bottom-0'>
         <DateRangePicker
           startDate={stateDate.startDate}
@@ -179,14 +177,13 @@ const BusDatesRangeInput: FC<StayDatesRangeInputProps> = ({
       </div>
 
       <div
-        className={`flex flex-col lg:flex-row lg:items-center w-full flex-shrink-0 relative  ${wrapClassName}`}
+        className={`flex flex-col lg:flex-row lg:items-center w-full flex-shrink-0 relative  ${wrapFieldClassName}`}
       >
-        {renderInputCheckInDate()}
-
-        {renderInputCheckOutDate()}
+        {renderJourneyDate()}
+        {renderReturnDate()}
       </div>
     </div>
   );
 };
 
-export default BusDatesRangeInput;
+export default BusCarDatesRangeInput;

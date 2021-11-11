@@ -1,9 +1,9 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
+import { useHistory } from 'react-router';
 import { FocusedInputShape } from 'react-dates';
 import ButtonSubmit from './ButtonSubmit';
 import moment from 'moment';
 import BusDatesRangeInput from './BusDatesRangeInput';
-import RentalCarDatesRangeInput from './RentalCarDatesRangeInput';
 import BusOriginInput from './BusOriginInput';
 import BusDestinationInput from './BusDestinationInput';
 import BusDateSingleInput from './BusDateSingleInput';
@@ -13,39 +13,37 @@ export interface DateRage {
   endDate: moment.Moment | null;
 }
 
-export interface RentalCarSearchFormProps {
-  haveDefaultValue?: boolean;
-}
-
 const BusSearchForm = () => {
+  const [dateValue, setdateValue] = useState<moment.Moment | null>(null);
+
   const [dateRangeValue, setDateRangeValue] = useState<DateRage>({
-    startDate: null,
+    startDate: dateValue,
     endDate: null,
   });
 
-  const [timeRangeValue, setTimeRangeValue] = useState<any>({
-    startTime: '10:00 AM',
-    endTime: '10:00 AM',
-  });
-
-  const [dateValue, setdateValue] = useState<moment.Moment | null>(null);
   const [dateFocused, setDateFocused] = useState<boolean>(false);
   const [pickUpInputValue, setPickUpInputValue] = useState('');
+
+  // const [locationInputValue, setLocationInputValue] = useState<string>(
+  //   hotelUserInput?.location.cityName || ''
+  // );
+
+  const [fromInputValue, setFromInputValue] = useState<string>();
 
   const [fieldFocused, setFieldFocused] = useState<
     FocusedInputShape | 'dropOffInput' | null
   >(null);
+
   const [dropOffLocationType, setDropOffLocationType] = useState<
     'same' | 'different'
   >('same');
 
-  const formSubmitRoundtrip = (ev: any) => {
+  const formSubmitRoundtrip = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
-
     console.log(dateFocused, pickUpInputValue, fieldFocused);
   };
 
-  const formSubmitOneWay = (ev: any) => {
+  const formSubmitOneWay = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
 
     console.log(dateFocused, pickUpInputValue, fieldFocused);
@@ -106,8 +104,8 @@ const BusSearchForm = () => {
               dropOffLocationType === 'different' ? 'dropOffInput' : 'startDate'
             )
           }
-          placeHolder='City or Airport'
-          desc='Pick up location'
+          placeHolder='From'
+          desc='Your Origin'
         />
 
         <BusDestinationInput
@@ -117,8 +115,8 @@ const BusSearchForm = () => {
               dropOffLocationType === 'different' ? 'dropOffInput' : 'startDate'
             )
           }
-          placeHolder='City or Airport'
-          desc='Destination'
+          placeHolder='To'
+          desc='Your Destination City'
         />
 
         <BusDateSingleInput
@@ -153,8 +151,8 @@ const BusSearchForm = () => {
                     : 'startDate'
                 )
               }
-              placeHolder='City or Airport'
-              desc='Pick up location'
+              placeHolder='From'
+              desc='Your Origin'
             />
 
             <BusDestinationInput
@@ -166,15 +164,12 @@ const BusSearchForm = () => {
                     : 'startDate'
                 )
               }
-              placeHolder='City or Airport'
-              desc='Destination'
+              placeHolder='To'
+              desc='Your Destination City'
             />
           </div>
 
-          <RentalCarDatesRangeInput
-            defaultDateValue={dateRangeValue}
-            defaultTimeValue={timeRangeValue}
-          />
+          <BusDatesRangeInput defaultDateValue={dateRangeValue} />
 
           <div className='px-4 py-3'>
             <ButtonSubmit />

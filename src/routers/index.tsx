@@ -91,7 +91,7 @@ export const pages: Page[] = [
   { path: '/add-listing-9', component: PageAddListing9 },
   { path: '/add-listing-10', component: PageAddListing10 },
   //
-  { path: '/contact', component: PageContact },
+  { path: '/contact-us', component: PageContact },
   { path: '/about', component: PageAbout },
   { path: '/signup', component: PageSignUp },
   { path: '/login', component: PageLogin },

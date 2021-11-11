@@ -78,10 +78,10 @@ const BusDateSingleInput: FC<ExperiencesDateSingleInputProps> = ({
         </div>
         <div className='flex-grow'>
           <span className='block xl:text-lg font-semibold'>
-            {startDate ? startDate.format('DD MMM') : 'Date'}
+            {startDate ? startDate.format('DD-MMM-YYYY') : 'Date'}
           </span>
           <span className='block mt-1 text-sm text-neutral-400 leading-none font-light'>
-            {startDate ? 'Date' : `Add date`}
+            {startDate ? 'Date' : `Journey Date`}
           </span>
           {startDate && focused && (
             <ClearDataButton onClick={() => handleClearData()} />
