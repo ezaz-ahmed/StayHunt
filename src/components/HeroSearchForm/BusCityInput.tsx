@@ -15,7 +15,7 @@ export interface LocationInputProps {
   originInputValue?: string;
 }
 
-const BusOriginInput: FC<LocationInputProps> = ({
+const BusCityInput: FC<LocationInputProps> = ({
   autoFocus = false,
   onChange,
   onInputDone,
@@ -231,4 +231,4 @@ const BusOriginInput: FC<LocationInputProps> = ({
   );
 };
 
-export default BusOriginInput;
+export default BusCityInput;

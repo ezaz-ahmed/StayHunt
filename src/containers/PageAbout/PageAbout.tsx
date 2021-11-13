@@ -17,25 +17,25 @@ const PageAbout: FC<PageAboutProps> = ({ className = "" }) => {
   return (
     <div
       className={`nc-PageAbout overflow-hidden relative ${className}`}
-      data-nc-id="PageAbout"
+      data-nc-id='PageAbout'
     >
       <Helmet>
-        <title>About || Booking React Template</title>
+        <title>TicketsForTravel | Book Hotel, Bus, Launch & more</title>
       </Helmet>
 
       {/* ======== BG GLASS ======== */}
       <BgGlassmorphism />
 
-      <div className="container py-16 lg:py-28 space-y-16 lg:space-y-28">
+      <div className='container py-16 lg:py-28 space-y-16 lg:space-y-28'>
         <SectionHero
           rightImg={rightImg}
-          heading="👋 About Us."
-          btnText=""
-          subHeading="We’re impartial and independent, and every day we create distinctive, world-class programmes and content which inform, educate and entertain millions of people in the around the world."
+          heading='👋 About Us.'
+          btnText=''
+          subHeading='We’re impartial and independent, and every day we create distinctive, world-class programmes and content which inform, educate and entertain millions of people in the around the world.'
         />
 
         <SectionFounder />
-        <div className="relative py-16">
+        <div className='relative py-16'>
           <BackgroundSection />
           <SectionClientSay />
         </div>

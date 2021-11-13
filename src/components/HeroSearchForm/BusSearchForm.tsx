@@ -6,8 +6,7 @@ import { FocusedInputShape } from 'react-dates';
 import ButtonSubmit from './ButtonSubmit';
 import moment from 'moment';
 import BusDatesRangeInput from './BusDatesRangeInput';
-import BusOriginInput from './BusOriginInput';
-import BusDestinationInput from './BusDestinationInput';
+import BusCityInput from './BusCityInput';
 import BusDateSingleInput from './BusDateSingleInput';
 
 import { fetchBusCitiesAsync, addUserInput } from 'app/feature/bus/busSlice';
@@ -116,7 +115,7 @@ const BusSearchForm = () => {
   const renderOneWayForm = () => {
     return (
       <form className='flex flex-col md:flex-row' onSubmit={formSubmitOneWay}>
-        <BusOriginInput
+        <BusCityInput
           onInputDone={() =>
             setFieldFocused(
               dropOffLocationType === 'different' ? 'dropOffInput' : 'startDate'
@@ -129,7 +128,7 @@ const BusSearchForm = () => {
           desc='Your Origin'
         />
 
-        <BusOriginInput
+        <BusCityInput
           onInputDone={() =>
             setFieldFocused(
               dropOffLocationType === 'different' ? 'dropOffInput' : 'startDate'
@@ -141,17 +140,6 @@ const BusSearchForm = () => {
           placeHolder='To'
           desc='Your Destination City'
         />
-
-        {/* <BusDestinationInput
-          onChange={(e) => setPickUpInputValue(e)}
-          onInputDone={() =>
-            setFieldFocused(
-              dropOffLocationType === 'different' ? 'dropOffInput' : 'startDate'
-            )
-          }
-          placeHolder='To'
-          desc='Your Destination City'
-        /> */}
 
         <BusDateSingleInput
           defaultValue={dateValue}
@@ -176,7 +164,7 @@ const BusSearchForm = () => {
       >
         <div className=' flex flex-col md:flex-row md:items-center w-full rounded-full [ nc-divide-field ] '>
           <div className='relative flex flex-col nc-flex-2-auto [ nc-divide-field ] '>
-            <BusOriginInput
+            <BusCityInput
               onChange={(e) => setOriginInputValue(e)}
               city={city}
               onInputDone={() =>
@@ -190,7 +178,7 @@ const BusSearchForm = () => {
               desc='Your Origin'
             />
 
-            <BusOriginInput
+            <BusCityInput
               onChange={(e) => setDestinationInputValue(e)}
               city={city}
               onInputDone={() =>

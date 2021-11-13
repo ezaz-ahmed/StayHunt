@@ -16,18 +16,18 @@ const MAGAZINE1_POSTS = POSTS.filter((_, i) => i >= 0 && i < 8);
 
 const BlogPage: React.FC = () => {
   return (
-    <div className="nc-BlogPage overflow-hidden relative">
+    <div className='nc-BlogPage overflow-hidden relative'>
       <Helmet>
-        <title>Blog || Booking React Template</title>
+        <title>Blog | Tickets For Travel</title>
       </Helmet>
 
       {/* ======== BG GLASS ======== */}
       <BgGlassmorphism />
       {/* ======== ALL SECTIONS ======== */}
       {/* ======= START CONTAINER ============= */}
-      <div className="container relative">
+      <div className='container relative'>
         {/* === SECTION 1 === */}
-        <div className="pt-12 pb-16 lg:pb-28">
+        <div className='pt-12 pb-16 lg:pb-28'>
           <SectionMagazine5 posts={MAGAZINE1_POSTS} />
         </div>
 
@@ -35,10 +35,10 @@ const BlogPage: React.FC = () => {
         <SectionAds />
 
         {/* === SECTION 8 === */}
-        <SectionLatestPosts className="py-16 lg:py-28" />
+        <SectionLatestPosts className='py-16 lg:py-28' />
 
         {/* === SECTION 1 === */}
-        <SectionSubscribe2 className="pb-16 lg:pb-28" />
+        <SectionSubscribe2 className='pb-16 lg:pb-28' />
       </div>
     </div>
   );

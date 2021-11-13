@@ -300,29 +300,29 @@ const BlogSingle = () => {
   };
 
   return (
-    <div className="nc-PageSingle pt-8 lg:pt-16 ">
+    <div className='nc-PageSingle pt-8 lg:pt-16 '>
       <Helmet>
-        <title>Single Blog || Booking React Template</title>
+        <title>TicketsForTravel | Book Hotel, Bus, Launch & more</title>
       </Helmet>
       {renderHeader()}
       <NcImage
-        className="w-full rounded-xl"
-        containerClassName="container my-10 sm:my-12 "
-        src="https://images.unsplash.com/photo-1605487903301-a1dff2e6bbbe?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1957&q=80"
+        className='w-full rounded-xl'
+        containerClassName='container my-10 sm:my-12 '
+        src='https://images.unsplash.com/photo-1605487903301-a1dff2e6bbbe?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1957&q=80'
       />
 
-      <div className="nc-SingleContent container space-y-10">
+      <div className='nc-SingleContent container space-y-10'>
         {renderContent()}
         {renderTags()}
-        <div className="max-w-screen-md mx-auto border-b border-t border-neutral-100 dark:border-neutral-700"></div>
+        <div className='max-w-screen-md mx-auto border-b border-t border-neutral-100 dark:border-neutral-700'></div>
         {renderAuthor()}
         {renderCommentForm()}
         {renderCommentLists()}
       </div>
-      <div className="relative bg-neutral-100 dark:bg-neutral-800 py-16 lg:py-28 mt-16 lg:mt-24">
-        <div className="container ">
-          <h2 className="text-3xl font-semibold">Related posts</h2>
-          <div className="mt-10 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8">
+      <div className='relative bg-neutral-100 dark:bg-neutral-800 py-16 lg:py-28 mt-16 lg:mt-24'>
+        <div className='container '>
+          <h2 className='text-3xl font-semibold'>Related posts</h2>
+          <div className='mt-10 grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 md:gap-8'>
             {/*  */}
             {DEMO_POSTS.filter((_, i) => i < 4).map(renderPostRelated)}
             {/*  */}
