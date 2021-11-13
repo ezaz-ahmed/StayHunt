@@ -11,6 +11,7 @@ import moment from 'moment';
 import {
   fetchHotelLocationAsync,
   fetchAllHotelAsync,
+  addUserInput,
 } from 'app/feature/hotel/hotelSlice';
 import { useAppDispatch, useAppSelector } from 'app/hook';
 import {
@@ -18,7 +19,6 @@ import {
   Location,
   Guests,
 } from 'app/feature/hotel/hotelInterfaces';
-import { addUserInput } from 'app/feature/hotel/hotelSlice';
 
 export interface DateRage {
   startDate: moment.Moment | null;
@@ -29,8 +29,7 @@ const HotelSearchForm = () => {
   const dispatch = useAppDispatch();
   const history = useHistory();
 
-  const { locations } = useAppSelector((state) => state.hotel);
-  const { hotelUserInput } = useAppSelector((state) => state.hotel);
+  const { locations, hotelUserInput } = useAppSelector((state) => state.hotel);
 
   useEffect(() => {
     dispatch<any>(fetchHotelLocationAsync());

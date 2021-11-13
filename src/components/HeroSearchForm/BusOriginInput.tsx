@@ -1,7 +1,7 @@
 // My Component -- Inspired By GuestInput
 
 import { FC, Fragment, useEffect, useRef, useState } from 'react';
-import { Location } from 'app/feature/hotel/hotelInterfaces';
+import { City } from 'app/feature/bus/busInterfaces';
 import ClearDataButton from './ClearDataButton';
 
 export interface LocationInputProps {
@@ -11,8 +11,8 @@ export interface LocationInputProps {
   desc?: string;
   className?: string;
   autoFocus?: boolean;
-  locations?: Location[];
-  locationInputValue?: string;
+  city?: City[];
+  originInputValue?: string;
 }
 
 const BusOriginInput: FC<LocationInputProps> = ({
@@ -22,14 +22,14 @@ const BusOriginInput: FC<LocationInputProps> = ({
   placeHolder = 'Location',
   desc = 'Where are you going?',
   className = 'nc-flex-1.5',
-  locations,
-  locationInputValue,
+  city,
+  originInputValue,
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const [value, setValue] = useState(locationInputValue || '');
-  const [suggestions, setSuggestions] = useState<Location[] | undefined>([]);
+  const [value, setValue] = useState(originInputValue || '');
+  const [suggestions, setSuggestions] = useState<City[] | undefined>([]);
   const [showPopover, setShowPopover] = useState(autoFocus);
 
   useEffect(() => {
@@ -66,13 +66,13 @@ const BusOriginInput: FC<LocationInputProps> = ({
     setShowPopover(false);
   };
 
-  let matchedArray: Location[] | undefined = [];
+  let matchedArray: City[] | undefined = [];
 
   const onChangeHandler = (text: string) => {
     if (text.length > 0) {
-      matchedArray = locations?.filter((item) => {
+      matchedArray = city?.filter((item) => {
         const regex = new RegExp(`${text}`, 'gi');
-        return item.cityName.match(regex);
+        return item.locName.match(regex);
       });
     }
     setSuggestions(matchedArray);
@@ -80,9 +80,9 @@ const BusOriginInput: FC<LocationInputProps> = ({
   };
 
   const handleSelectLocation = (item: string) => {
-    matchedArray = locations?.filter((loc) => {
+    matchedArray = city?.filter((loc) => {
       const regex = new RegExp(`${item}`, 'gi');
-      return loc.cityName.match(regex);
+      return loc.locName.match(regex);
     });
     setSuggestions(matchedArray);
     setValue(item);
@@ -97,10 +97,10 @@ const BusOriginInput: FC<LocationInputProps> = ({
           Popular searches
         </h3>
         <div className='mt-2'>
-          {locations?.map((item) => (
+          {city?.map((item) => (
             <span
-              onClick={() => handleSelectLocation(item.cityName)}
-              key={item.id}
+              onClick={() => handleSelectLocation(item.locName)}
+              key={item._id}
               className='flex px-4 sm:px-8 items-center space-x-3 sm:space-x-4 py-4 sm:py-5 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer'
             >
               <span className='block text-neutral-400'>
@@ -120,7 +120,7 @@ const BusOriginInput: FC<LocationInputProps> = ({
                 </svg>
               </span>
               <span className=' block font-medium text-neutral-700 dark:text-neutral-200'>
-                {item.cityName}
+                {item.locName}
               </span>
             </span>
           ))}
@@ -135,8 +135,8 @@ const BusOriginInput: FC<LocationInputProps> = ({
         {suggestions?.length !== 0 ? (
           suggestions?.map((item) => (
             <span
-              onClick={() => handleSelectLocation(item.cityName)}
-              key={item.id}
+              onClick={() => handleSelectLocation(item.locName)}
+              key={item._id}
               className='flex px-4 sm:px-8 items-center space-x-3 sm:space-x-4 py-4 sm:py-5 hover:bg-neutral-100 dark:hover:bg-neutral-700 cursor-pointer'
             >
               <span className='block text-neutral-400'>
@@ -162,7 +162,7 @@ const BusOriginInput: FC<LocationInputProps> = ({
                 </svg>
               </span>
               <span className='block font-medium text-neutral-700 dark:text-neutral-200'>
-                {item.cityName}
+                {item.locName}
               </span>
             </span>
           ))

@@ -6,6 +6,9 @@ export interface BusState {
 
 export interface City {
   _id: string;
+  locId: string;
+  locName: string;
+  countryCode: string;
 }
 
 export interface BusUserInput {

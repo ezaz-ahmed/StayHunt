@@ -1,4 +1,6 @@
-import { useState, FormEvent } from 'react';
+// My Component
+
+import { useState, useEffect, FormEvent } from 'react';
 import { useHistory } from 'react-router';
 import { FocusedInputShape } from 'react-dates';
 import ButtonSubmit from './ButtonSubmit';
@@ -8,12 +10,24 @@ import BusOriginInput from './BusOriginInput';
 import BusDestinationInput from './BusDestinationInput';
 import BusDateSingleInput from './BusDateSingleInput';
 
+import { fetchBusCitiesAsync, addUserInput } from 'app/feature/bus/busSlice';
+import { useAppDispatch, useAppSelector } from 'app/hook';
+
 export interface DateRage {
   startDate: moment.Moment | null;
   endDate: moment.Moment | null;
 }
 
 const BusSearchForm = () => {
+  const dispatch = useAppDispatch();
+  const history = useHistory();
+
+  useEffect(() => {
+    dispatch<any>(fetchBusCitiesAsync());
+  }, [dispatch]);
+
+  const { city, busUserInput } = useAppSelector((state) => state.bus);
+
   const [dateValue, setdateValue] = useState<moment.Moment | null>(null);
 
   const [dateRangeValue, setDateRangeValue] = useState<DateRage>({
@@ -21,14 +35,19 @@ const BusSearchForm = () => {
     endDate: null,
   });
 
+  const [userInput, setUserInput] = useState();
+
   const [dateFocused, setDateFocused] = useState<boolean>(false);
-  const [pickUpInputValue, setPickUpInputValue] = useState('');
+  const [originInputValue, setOriginInputValue] = useState<string>(
+    busUserInput?.city.locName || ''
+  );
 
-  // const [locationInputValue, setLocationInputValue] = useState<string>(
-  //   hotelUserInput?.location.cityName || ''
-  // );
+  const [destinationInputValue, setDestinationInputValue] = useState<string>(
+    busUserInput?.city.locName || ''
+  );
 
-  const [fromInputValue, setFromInputValue] = useState<string>();
+  const [origin, setOrigin] = useState('');
+  const [destination, setDestination] = useState('');
 
   const [fieldFocused, setFieldFocused] = useState<
     FocusedInputShape | 'dropOffInput' | null
@@ -40,13 +59,13 @@ const BusSearchForm = () => {
 
   const formSubmitRoundtrip = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
-    console.log(dateFocused, pickUpInputValue, fieldFocused);
+    console.log(dateFocused, fieldFocused);
   };
 
   const formSubmitOneWay = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
 
-    console.log(dateFocused, pickUpInputValue, fieldFocused);
+    console.log(dateFocused, fieldFocused);
   };
 
   const renderRadioBtn = () => {
@@ -98,17 +117,32 @@ const BusSearchForm = () => {
     return (
       <form className='flex flex-col md:flex-row' onSubmit={formSubmitOneWay}>
         <BusOriginInput
-          onChange={(e) => setPickUpInputValue(e)}
           onInputDone={() =>
             setFieldFocused(
               dropOffLocationType === 'different' ? 'dropOffInput' : 'startDate'
             )
           }
+          originInputValue={originInputValue}
+          city={city}
+          onChange={(ev) => setOriginInputValue(ev)}
           placeHolder='From'
           desc='Your Origin'
         />
 
-        <BusDestinationInput
+        <BusOriginInput
+          onInputDone={() =>
+            setFieldFocused(
+              dropOffLocationType === 'different' ? 'dropOffInput' : 'startDate'
+            )
+          }
+          originInputValue={destinationInputValue}
+          city={city}
+          onChange={(ev) => setDestinationInputValue(ev)}
+          placeHolder='To'
+          desc='Your Destination City'
+        />
+
+        {/* <BusDestinationInput
           onChange={(e) => setPickUpInputValue(e)}
           onInputDone={() =>
             setFieldFocused(
@@ -117,7 +151,7 @@ const BusSearchForm = () => {
           }
           placeHolder='To'
           desc='Your Destination City'
-        />
+        /> */}
 
         <BusDateSingleInput
           defaultValue={dateValue}
@@ -143,7 +177,8 @@ const BusSearchForm = () => {
         <div className=' flex flex-col md:flex-row md:items-center w-full rounded-full [ nc-divide-field ] '>
           <div className='relative flex flex-col nc-flex-2-auto [ nc-divide-field ] '>
             <BusOriginInput
-              onChange={(e) => setPickUpInputValue(e)}
+              onChange={(e) => setOriginInputValue(e)}
+              city={city}
               onInputDone={() =>
                 setFieldFocused(
                   dropOffLocationType === 'different'
@@ -155,8 +190,9 @@ const BusSearchForm = () => {
               desc='Your Origin'
             />
 
-            <BusDestinationInput
-              onChange={(e) => setPickUpInputValue(e)}
+            <BusOriginInput
+              onChange={(e) => setDestinationInputValue(e)}
+              city={city}
               onInputDone={() =>
                 setFieldFocused(
                   dropOffLocationType === 'different'
