@@ -5,12 +5,12 @@ import { BusState } from './busInterfaces';
 
 const initialState: BusState = {
   status: 'idle',
-  city: [],
+  cities: [],
   busUserInput: undefined,
 };
 
 export const fetchBusCitiesAsync = createAsyncThunk(
-  'bus/fetchCity',
+  'bus/fetchCities',
   async () => {
     const { data }: any = await fetchBusCities();
     return data;
@@ -35,7 +35,7 @@ export const busSlice = createSlice({
       })
       .addCase(fetchBusCitiesAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.city = action.payload;
+        state.cities = action.payload;
       })
       .addCase(fetchBusCitiesAsync.rejected, (state) => {
         state.status = 'failed';
