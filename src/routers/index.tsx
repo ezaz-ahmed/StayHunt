@@ -41,6 +41,7 @@ import PageAddListing10 from 'containers/PageAddListing1/PageAddListing10';
 import HotelDetailsPage from 'containers/HotelSearchPage/HotelDetailsPage';
 import HotelCheckOut from 'containers/CheckOutPage/HotelCheckOut';
 import OtpPage from 'containers/PageSignUp/OtpPage';
+import BusSearchPage from 'containers/BusSearchPage/BusSearchPage';
 
 export const pages: Page[] = [
   { path: '/', exact: true, component: PageHome },
@@ -48,9 +49,10 @@ export const pages: Page[] = [
   { path: '/hotel', exact: true, component: HotelSearchPage },
   { path: '/hotel/checkout', exact: true, component: HotelCheckOut },
   { path: '/hotel/:id', exact: true, component: HotelDetailsPage },
-  { path: '/listing-stay-map', component: ListingStayMapPage },
-  { path: '/listing-stay-detail', component: ListingStayDetailPage },
+  // { path: '/listing-stay-map', component: ListingStayMapPage },
+  // { path: '/listing-stay-detail', component: ListingStayDetailPage },
   //
+  { path: '/bus', exact: true, component: BusSearchPage },
   {
     path: '/listing-experiences',
     component: ListingExperiencesPage,

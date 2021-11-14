@@ -28,26 +28,28 @@ const BusSearchForm = () => {
 
   const { cities, busUserInput } = useAppSelector((state) => state.bus);
 
-  const [dateValue, setdateValue] = useState<moment.Moment | null>(null);
+  const [userInput, setUserInput] = useState<BusUserInput>();
+
+  const [dateValue, setdateValue] = useState(
+    busUserInput?.journeyDate ? moment(busUserInput.journeyDate) : null
+  );
 
   const [dateRangeValue, setDateRangeValue] = useState<DateRage>({
     startDate: dateValue,
     endDate: null,
   });
 
-  const [userInput, setUserInput] = useState<BusUserInput>();
-
   const [dateFocused, setDateFocused] = useState<boolean>(false);
   const [originInputValue, setOriginInputValue] = useState<string>(
-    busUserInput?.city.locName || ''
+    busUserInput?.fromCity.locName || ''
   );
 
   const [destinationInputValue, setDestinationInputValue] = useState<string>(
-    busUserInput?.city.locName || ''
+    busUserInput?.toCity.locName || ''
   );
 
-  const [origin, setOrigin] = useState('');
-  const [destination, setDestination] = useState('');
+  const [origin, setOrigin] = useState<City>();
+  const [destination, setDestination] = useState<City>();
 
   const [fieldFocused, setFieldFocused] = useState<
     FocusedInputShape | 'dropOffInput' | null
@@ -62,30 +64,35 @@ const BusSearchForm = () => {
     console.log(dateFocused, fieldFocused);
   };
 
+  const setOriginHandler = (ev: string) => {
+    cities.forEach((city: City) => city.locName === ev && setOrigin(city));
+  };
+
+  const setDestinationHandler = (ev: string) => {
+    cities.forEach((city: City) => city.locName === ev && setDestination(city));
+  };
+
   const formSubmitOneWay = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
 
-    cities.forEach(
-      (city: City) =>
-        city.locName === originInputValue &&
-        setUserInput({
-          city: city,
-          journeyDate: dateValue?.toISOString(),
-          roundTrip: false,
-        })
-    );
-
-    console.log(userInput);
+    if (origin && destination) {
+      setUserInput({
+        fromCity: origin,
+        toCity: destination,
+        journeyDate: dateValue?.toISOString(),
+        roundTrip: false,
+      });
+    }
   };
 
   useEffect(() => {
     if (userInput?.roundTrip === false) {
-      if (userInput?.city && userInput.journeyDate) {
+      if (userInput?.fromCity && userInput?.toCity && userInput.journeyDate) {
         dispatch(addUserInput(userInput));
-        history.push('/hotel');
+        history.push('/bus');
       }
     }
-  }, []);
+  }, [userInput]);
 
   const renderRadioBtn = () => {
     return (
@@ -143,7 +150,7 @@ const BusSearchForm = () => {
           }
           originInputValue={originInputValue}
           city={cities}
-          onChange={(ev) => setOriginInputValue(ev)}
+          onChange={(ev) => setOriginHandler(ev)}
           placeHolder='From'
           desc='Your Origin'
         />
@@ -156,7 +163,7 @@ const BusSearchForm = () => {
           }
           originInputValue={destinationInputValue}
           city={cities}
-          onChange={(ev) => setDestinationInputValue(ev)}
+          onChange={(ev) => setDestinationHandler(ev)}
           placeHolder='To'
           desc='Your Destination City'
         />
@@ -170,7 +177,7 @@ const BusSearchForm = () => {
         />
 
         {/* BUTTON SUBMIT OF FORM */}
-        <div className=' px-4 py-4 lg:py-0'>
+        <div className=' px-4 py-4'>
           <button
             className='h-14 md:h-16 w-full md:w-16 rounded-full bg-primary-6000 hover:bg-primary-700 flex items-center justify-center text-neutral-50 focus:outline-none'
             type='submit'

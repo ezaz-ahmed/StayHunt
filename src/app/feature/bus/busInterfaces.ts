@@ -12,7 +12,8 @@ export interface City {
 }
 
 export interface BusUserInput {
-  city: City;
+  fromCity: City;
+  toCity: City;
   journeyDate?: string;
   returnDate?: string;
   roundTrip: Boolean;

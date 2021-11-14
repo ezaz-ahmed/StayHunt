@@ -4,7 +4,7 @@ import {
   DateRangePicker,
   FocusedInputShape,
 } from 'react-dates';
-import { DateRage } from './StaySearchForm';
+import { DateRage } from './BusSearchForm';
 import ClearDataButton from './ClearDataButton';
 import useWindowSize from 'hooks/useWindowResize';
 
