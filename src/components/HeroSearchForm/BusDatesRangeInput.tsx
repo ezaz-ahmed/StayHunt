@@ -13,7 +13,7 @@ type Fields = 'Departure Date' | 'Round Trip';
 export interface RentalCarDatesRangeInputProps {
   defaultDateValue: DateRage;
   defaultFocus?: FocusedInputShape | null;
-  onChange?: (data: { stateDate: DateRage }) => void;
+  onChange?: (data: DateRage) => void;
   onFocusChange?: (focus: FocusedInputShape | null) => void;
   fieldClassName?: string;
   wrapFieldClassName?: string;
@@ -21,7 +21,7 @@ export interface RentalCarDatesRangeInputProps {
   anchorDirection?: AnchorDirectionShape;
 }
 
-const BusCarDatesRangeInput: FC<RentalCarDatesRangeInputProps> = ({
+const BusDatesRangeInput: FC<RentalCarDatesRangeInputProps> = ({
   defaultDateValue,
   onChange,
   defaultFocus = null,
@@ -186,4 +186,4 @@ const BusCarDatesRangeInput: FC<RentalCarDatesRangeInputProps> = ({
   );
 };
 
-export default BusCarDatesRangeInput;
+export default BusDatesRangeInput;

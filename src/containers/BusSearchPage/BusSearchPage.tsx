@@ -6,7 +6,7 @@ import SectionGridAuthorBox from 'components/SectionGridAuthorBox/SectionGridAut
 import SectionHeroArchivePage from 'components/SectionHeroArchivePage/SectionHeroArchivePage';
 import SectionSliderNewCategories from 'components/SectionSliderNewCategories/SectionSliderNewCategories';
 import SectionSubscribe2 from 'components/SectionSubscribe2/SectionSubscribe2';
-import PropertyCardH from 'containers/BusSearchPage/PropertyCardH';
+import SectionGridFeatureProperty from './SectionGridFeatureProperty';
 
 import OneWayIcon from 'images/extra/one-way.svg';
 import TwoWayIcon from 'images/extra/two-way.svg';
@@ -18,7 +18,7 @@ export interface HotelSearchPageProps {
 }
 
 const BusSearchPage: FC<HotelSearchPageProps> = ({ className = '' }) => {
-  const { busUserInput } = useAppSelector((state) => state.bus);
+  const { busUserInput, busList } = useAppSelector((state) => state.bus);
 
   return (
     <div
@@ -60,11 +60,7 @@ const BusSearchPage: FC<HotelSearchPageProps> = ({ className = '' }) => {
           </div>
         )}
 
-        {busUserInput?.fromCity && busUserInput?.toCity && (
-          <div className={`mb-12 lg:mb-16 ${className}`}>
-            <PropertyCardH />
-          </div>
-        )}
+        {busList && busList.bus.length > 0 && <SectionGridFeatureProperty />}
 
         {/* SECTION 1 */}
         <div className='relative py-16'>

@@ -96,12 +96,14 @@ const HotelSearchForm = () => {
           onInputDone={() => setDateFocused('startDate')}
         />
       )}
+
       <HotelDatesRangeInput
         defaultValue={dateRangeValue}
         defaultFocus={dateFocused}
         onFocusChange={(focus) => setDateFocused(focus)}
         onChange={(data) => setDateRangeValue(data)}
       />
+
       <HotelGuestInput
         defaultValue={guestValue}
         onChange={(data) => setGuestValue(data)}

@@ -40,7 +40,7 @@ const BusSearchForm = () => {
 
   const [dateRangeValue, setDateRangeValue] = useState<DateRage>({
     startDate: dateValue,
-    endDate: null,
+    endDate: busUserInput?.returnDate ? moment(busUserInput.returnDate) : null,
   });
 
   const [dateFocused, setDateFocused] = useState<boolean>(false);
@@ -251,7 +251,10 @@ const BusSearchForm = () => {
             />
           </div>
 
-          <BusDatesRangeInput defaultDateValue={dateRangeValue} />
+          <BusDatesRangeInput
+            defaultDateValue={dateRangeValue}
+            onChange={(data) => setDateRangeValue(data)}
+          />
 
           <div className='px-4 py-3'>
             <ButtonSubmit />
