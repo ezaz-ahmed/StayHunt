@@ -12,10 +12,10 @@ export const fetchAllHotelList = async (
   checkin?: string,
   checkOut?: string
 ) => {
-  const response = await axios.get(
+  const response: any = await axios.get(
     `${URL}api/v1/hotel-list?propertyCode=${propertyCode}&checkin=${checkin}&checkout=${checkOut}`
   );
-  return response.data;
+  return response.data.hotels;
 };
 
 export const fetchSingleHotel = async (

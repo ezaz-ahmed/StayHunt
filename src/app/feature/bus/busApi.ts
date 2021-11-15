@@ -7,9 +7,14 @@ export const fetchBusCities = async () => {
   return response.data;
 };
 
-export const fetchBusList = async (userResponse: any) => {
+export const fetchBusList = async (
+  depDate: string,
+  fromCityId: string,
+  toCityId: string
+) => {
   const response = await axios.get(
-    `${URL}api/v1/bus-list?depDate=${userResponse.depDate}&fromCity=${userResponse.fromCity}&toCity=${userResponse.toCity}`
+    `${URL}api/v1/bus-list?depDate=${depDate}&fromCity=${fromCityId}&toCity=${toCityId}`
   );
   return response.data;
 };
+

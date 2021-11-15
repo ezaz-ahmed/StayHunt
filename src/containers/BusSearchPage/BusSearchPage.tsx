@@ -6,7 +6,7 @@ import SectionGridAuthorBox from 'components/SectionGridAuthorBox/SectionGridAut
 import SectionHeroArchivePage from 'components/SectionHeroArchivePage/SectionHeroArchivePage';
 import SectionSliderNewCategories from 'components/SectionSliderNewCategories/SectionSliderNewCategories';
 import SectionSubscribe2 from 'components/SectionSubscribe2/SectionSubscribe2';
-import SectionGridFilterCard from 'containers/HotelSearchPage/SectionGridFilterCard';
+import PropertyCardH from 'containers/BusSearchPage/PropertyCardH';
 
 import OneWayIcon from 'images/extra/one-way.svg';
 import TwoWayIcon from 'images/extra/two-way.svg';
@@ -57,6 +57,12 @@ const BusSearchPage: FC<HotelSearchPageProps> = ({ className = '' }) => {
               )}
               {busUserInput.toCity.locName}
             </h2>
+          </div>
+        )}
+
+        {busUserInput?.fromCity && busUserInput?.toCity && (
+          <div className={`mb-12 lg:mb-16 ${className}`}>
+            <PropertyCardH />
           </div>
         )}
 

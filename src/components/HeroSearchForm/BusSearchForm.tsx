@@ -9,7 +9,11 @@ import BusDatesRangeInput from './BusDatesRangeInput';
 import BusCityInput from './BusCityInput';
 import BusDateSingleInput from './BusDateSingleInput';
 
-import { fetchBusCitiesAsync, addUserInput } from 'app/feature/bus/busSlice';
+import {
+  fetchBusCitiesAsync,
+  addUserInput,
+  fetchBusListAsync,
+} from 'app/feature/bus/busSlice';
 import { useAppDispatch, useAppSelector } from 'app/hook';
 import { City, BusUserInput } from 'app/feature/bus/busInterfaces';
 
@@ -75,13 +79,20 @@ const BusSearchForm = () => {
   const formSubmitOneWay = (ev: FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
 
-    if (origin && destination) {
+    if (origin && destination && dateValue) {
       setUserInput({
         fromCity: origin,
         toCity: destination,
         journeyDate: dateValue?.toISOString(),
         roundTrip: false,
       });
+      dispatch<any>(
+        fetchBusListAsync({
+          fromCityId: origin.locId,
+          toCityId: destination.locId,
+          depDate: dateValue.toISOString(),
+        })
+      );
     }
   };
 

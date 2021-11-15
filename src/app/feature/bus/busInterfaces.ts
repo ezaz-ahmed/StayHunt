@@ -2,6 +2,7 @@ export interface BusState {
   status: 'idle' | 'loading' | 'failed';
   cities: City[];
   busUserInput?: BusUserInput;
+  busList: any;
 }
 
 export interface City {
