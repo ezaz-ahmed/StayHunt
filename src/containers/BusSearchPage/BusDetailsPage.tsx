@@ -1,19 +1,14 @@
 import { FC, Fragment, useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { useAppSelector, useAppDispatch } from 'app/hook';
 import HotelDatesRangeInput from 'components/HeroSearchForm/HotelDatesRangeInput';
 import { DateRage } from 'components/HeroSearchForm/StaySearchForm';
-import GoogleMapReact from 'google-map-react';
 import useWindowSize from 'hooks/useWindowResize';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
 import NcImage from 'shared/NcImage/NcImage';
 import ModalPhotos from 'containers/ListingDetailPage/ModalPhotos';
 import Badge from 'shared/Badge/Badge';
-import { addFinalInput } from 'app/feature/hotel/hotelSlice';
 import Page404 from 'containers/Page404/Page404';
-import HotelCardH from 'components/HotelCardH/HotelCardH';
-import HotelGuestInput from 'components/HeroSearchForm/HotelGuestInput';
 import { fetchSingleBuslAsync } from 'app/feature/bus/busSlice';
 import SomethingWrong from 'containers/Page404/SomethingWrong';
 // import BusDateSingleInput
@@ -24,13 +19,11 @@ interface HotelDetailsPageProps {
 
 const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
   const { busUserInput, oneBus, status } = useAppSelector((state) => state.bus);
-  const { isLogged } = useAppSelector((state) => state.user);
-  const history = useHistory();
+
   const dispatch = useAppDispatch();
 
   const [isOpen, setIsOpen] = useState(false);
   const [openFocusIndex, setOpenFocusIndex] = useState(0);
-  let night = 2;
 
   const [selectedDate, setSelectedDate] = useState<DateRage>({
     startDate: busUserInput?.journeyDate
@@ -40,8 +33,6 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
       ? moment(busUserInput.returnDate)
       : moment().add(3, 'days'),
   });
-
-  const [seats, setSeats] = useState([]);
 
   const { id } = match.params;
 
@@ -59,22 +50,10 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
     );
   }, [id]);
 
-  const serviceCharge = 50;
-
   const handleOpenModal = (index: number) => {
     setIsOpen(true);
     setOpenFocusIndex(index);
   };
-
-  let changableAmount = 0;
-  let vat = 0;
-  let totalAmount = 0;
-
-  //   if (oneHotel) {
-  //     changableAmount = oneHotel.room[selectedRooom].costPerNight * night;
-  //     vat = Math.ceil(changableAmount * 0.15);
-  //     totalAmount = changableAmount + serviceCharge + vat;
-  //   }
 
   const windowSize = useWindowSize();
 
@@ -118,56 +97,6 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
       <Fragment></Fragment>
     );
   };
-
-  //   const renderRoom = () => {
-  //     return (
-  //       <div className='listingSection__wrap shadow-xl'>
-  //         <h2 className='text-2xl font-semibold'>Select Your Room</h2>
-  //         <div className='w-14 border-b border-neutral-200 dark:border-neutral-700' />
-
-  //         {oneHotel?.room.map((item, index) => (
-  //           <div key={item._id}>
-  //             <HotelCardH
-  //               index={index}
-  //               data={item}
-  //               selected={selectedRooom}
-  //               onSelectedChange={setSelectedRooom}
-  //             />
-  //           </div>
-  //         ))}
-  //       </div>
-  //     );
-  //   };
-
-  //   const reserveBtnClick = () => {
-  //     dispatch(
-  //       addFinalInput({
-  //         checkin: selectedDate.startDate?.toISOString(),
-  //         checkout: selectedDate.endDate?.toISOString(),
-  //         adult: guestValue.guestAdults,
-  //         children: guestValue.guestChildren,
-  //         totalGuest: guestValue.guestAdults + guestValue.guestChildren,
-  //         room: oneHotel?.room[selectedRooom],
-  //         night: night,
-  //         serviceCharge: serviceCharge,
-  //         amount: changableAmount,
-  //         vat: vat,
-  //         totalAmount: totalAmount,
-  //       })
-  //     );
-
-  //     if (
-  //       totalAmount !== 0 &&
-  //       selectedDate.startDate !== null &&
-  //       selectedDate.endDate !== null
-  //     ) {
-  //       if (isLogged) {
-  //         history.push('/hotel/checkout');
-  //       } else {
-  //         history.push('/login');
-  //       }
-  //     }
-  //   };
 
   const renderSidebar = () => {
     return (
