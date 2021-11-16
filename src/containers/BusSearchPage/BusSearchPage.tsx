@@ -60,7 +60,9 @@ const BusSearchPage: FC<HotelSearchPageProps> = ({ className = '' }) => {
           </div>
         )}
 
-        {busList && busList.bus.length > 0 && <SectionGridFeatureProperty />}
+        {busList.bus && busList.bus.length > 0 && (
+          <SectionGridFeatureProperty />
+        )}
 
         {/* SECTION 1 */}
         <div className='relative py-16'>

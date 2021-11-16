@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchBusCities, fetchBusList } from './busApi';
+import { fetchBusCities, fetchBusList, fetchSingleBus } from './busApi';
 
 import { BusState } from './busInterfaces';
 
@@ -8,6 +8,7 @@ const initialState: BusState = {
   cities: [],
   busUserInput: undefined,
   busList: [],
+  oneBus: undefined,
 };
 
 export const fetchBusCitiesAsync = createAsyncThunk(
@@ -23,6 +24,15 @@ export const fetchBusListAsync = createAsyncThunk(
   async (userData: any) => {
     const { depDate, fromCityId, toCityId } = userData;
     const { data }: any = await fetchBusList(depDate, fromCityId, toCityId);
+    return data;
+  }
+);
+
+export const fetchSingleBuslAsync = createAsyncThunk(
+  'hotel/fetchSingleHotel',
+  async (userChosenData: any) => {
+    const { id, depDate, fromLocId, toLocId } = userChosenData;
+    const { data }: any = await fetchSingleBus(id, depDate, fromLocId, toLocId);
     return data;
   }
 );
@@ -58,6 +68,16 @@ export const busSlice = createSlice({
         state.busList = action.payload;
       })
       .addCase(fetchBusListAsync.rejected, (state) => {
+        state.status = 'failed';
+      })
+      .addCase(fetchSingleBuslAsync.pending, (state) => {
+        state.status = 'loading';
+      })
+      .addCase(fetchSingleBuslAsync.fulfilled, (state, action) => {
+        state.status = 'idle';
+        state.oneBus = action.payload;
+      })
+      .addCase(fetchSingleBuslAsync.rejected, (state) => {
         state.status = 'failed';
       });
   },

@@ -18,3 +18,14 @@ export const fetchBusList = async (
   return response.data;
 };
 
+export const fetchSingleBus = async (
+  id: string,
+  depDate: string,
+  fromLocId: string,
+  toLocId: string
+) => {
+  const response = await axios.get(
+    `${URL}api/v1/bus-list/${id}?depDate=${depDate}&fromCity=${fromLocId}&toCity=${toLocId}`
+  );
+  return response.data;
+};

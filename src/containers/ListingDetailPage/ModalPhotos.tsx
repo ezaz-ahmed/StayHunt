@@ -40,53 +40,53 @@ const ModalPhotos: FC<ModalPhotosProps> = ({
     return (
       <Transition
         appear
-        enter="ease-out duration-300"
-        enterFrom="opacity-0"
-        enterTo="opacity-100"
-        leave="ease-in duration-200"
-        leaveFrom="opacity-100"
-        leaveTo="opacity-0"
+        enter='ease-out duration-300'
+        enterFrom='opacity-0'
+        enterTo='opacity-100'
+        leave='ease-in duration-200'
+        leaveFrom='opacity-100'
+        leaveTo='opacity-0'
         show={isOpen}
         as={Fragment}
       >
         <Dialog
-          as="div"
-          className="fixed inset-0 z-50 overflow-y-auto"
+          as='div'
+          className='fixed inset-0 z-50 overflow-y-auto'
           onClose={onClose}
         >
-          <div className="min-h-screen px-4 text-center">
+          <div className='min-h-screen px-4 text-center'>
             <Transition.Child
               as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
+              enter='ease-out duration-300'
+              enterFrom='opacity-0'
+              enterTo='opacity-100'
+              leave='ease-in duration-200'
+              leaveFrom='opacity-100'
+              leaveTo='opacity-0'
             >
-              <Dialog.Overlay className="fixed inset-0 bg-white dark:bg-neutral-800" />
+              <Dialog.Overlay className='fixed inset-0 bg-white dark:bg-neutral-800' />
             </Transition.Child>
-            <div className="absolute left-2 top-2 md:top-4 md:left-4">
-              <ButtonClose className=" w-11 h-11" onClick={onClose} />
+            <div className='absolute left-2 top-2 md:top-4 md:left-4'>
+              <ButtonClose className=' w-11 h-11' onClick={onClose} />
             </div>
             {/* This element is to trick the browser into centering the modal contents. */}
             <span
-              className="inline-block h-screen align-middle"
-              aria-hidden="true"
+              className='inline-block h-screen align-middle'
+              aria-hidden='true'
             >
               &#8203;
             </span>
 
-            <div className="relative inline-block w-full max-w-5xl my-8 align-middle ">
+            <div className='relative inline-block w-full max-w-5xl my-8 align-middle '>
               <img
-                className="rounded-lg mx-auto max-h-screen  "
+                className='rounded-lg mx-auto max-h-screen  '
                 src={imgs[indexActive]}
-                alt="abc"
+                alt='abc'
               />
               <NextPrev
                 onClickNext={handleClickNext}
                 onClickPrev={handleClickPrev}
-                className="!absolute -inset-x-0 xl:-inset-x-14 2xl:-inset-x-20 top-1/2  -translate-y-1/2 flex justify-between"
+                className='!absolute -inset-x-0 xl:-inset-x-14 2xl:-inset-x-20 top-1/2  -translate-y-1/2 flex justify-between'
               />
             </div>
           </div>

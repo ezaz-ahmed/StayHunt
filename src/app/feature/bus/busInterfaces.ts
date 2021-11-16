@@ -3,6 +3,7 @@ export interface BusState {
   cities: City[];
   busUserInput?: BusUserInput;
   busList: any;
+  oneBus: any;
 }
 
 export interface City {
