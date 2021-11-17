@@ -11,7 +11,6 @@ import Badge from 'shared/Badge/Badge';
 import Page404 from 'containers/Page404/Page404';
 import { fetchSingleBuslAsync } from 'app/feature/bus/busSlice';
 import SomethingWrong from 'containers/Page404/SomethingWrong';
-// import BusDateSingleInput
 
 interface HotelDetailsPageProps {
   match?: any;
@@ -36,10 +35,20 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
 
   const { id } = match.params;
 
-  console.log(oneBus, '⭕');
+  let busSeats: any;
+  let threeSitter: any;
+
+  if (oneBus) {
+    threeSitter = oneBus.seatsInOneRow === 3 ? true : false;
+    busSeats = oneBus.seats.map((el: string) => ({
+      key: el,
+      selected: oneBus.bookedSeats.includes(el),
+    }));
+  }
 
   useEffect(() => {
     const depDate = selectedDate.startDate?.toISOString();
+
     dispatch<any>(
       fetchSingleBuslAsync({
         id,
@@ -59,12 +68,48 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
 
   const handleCloseModal = () => setIsOpen(false);
 
+  const renderSeat = (seat: any) => {
+    return (
+      <li
+        className={`seat flex justify-center my-1 ${
+          threeSitter
+            ? seat.key.slice(-1) === '1' && 'mr-4'
+            : seat.key.slice(-1) === '3' && 'ml-4'
+        }`}
+        key={seat.key}
+      >
+        <input type='checkbox' disabled={seat.selected} id={seat.key} />
+        <label htmlFor={seat.key}>{seat.selected ? 'X' : seat.key}</label>
+      </li>
+    );
+  };
+
   const renderSection1 = () => {
     return oneBus ? (
       <div className='listingSection__wrap !space-y-6'>
         <div className='flex justify-between items-center'>
-          <Badge color='yellow' name={oneBus.model} />
+          {oneBus.AC ? (
+            <Badge
+              name={
+                <div className='flex items-center'>
+                  <i className='text-sm las la-user-friends'></i>
+                  <span className='ml-1'>AC</span>
+                </div>
+              }
+            />
+          ) : (
+            <Badge
+              color='yellow'
+              name={
+                <div className='flex items-center'>
+                  <i className='text-sm las la-user-friends'></i>
+                  <span className='ml-1'>NON-AC</span>
+                </div>
+              }
+            />
+          )}
         </div>
+
         <h2 className='text-2xl sm:text-3xl lg:text-4xl font-semibold'>
           {oneBus.name}
         </h2>
@@ -72,25 +117,29 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
         <div className='flex items-center space-x-4'>
           <span>
             <i className='las la-fan'></i>
-            <span className='ml-1'>BDT {oneBus.fare}.000</span>
+            <span className='ml-1'>Model: {oneBus.model}</span>
           </span>
 
           <span>·</span>
 
           <span>
             <i className='las la-fan'></i>
-            <span className='ml-1'>{oneBus.AC ? 'AC' : 'Non - AC'}</span>
+            <span className='ml-1'>Total seats: {oneBus.numOfSeats}</span>
           </span>
         </div>
 
         <div className='w-full border-b border-neutral-100 dark:border-neutral-700 py-1' />
 
-        <h2 className='text-2xl font-semibold'>Select Your Seat</h2>
+        <h2 className='text-2xl font-semibold'>Please select a seat</h2>
 
         <div className='w-14 border-b border-neutral-200 dark:border-neutral-700'></div>
 
         <div className='text-neutral-6000 dark:text-neutral-300'>
-          "Seat List"
+          <div className='bus w-72'>
+            <ol className={`cabin grid grid-cols-${oneBus.seatsInOneRow}`}>
+              {busSeats.map((el: any) => renderSeat(el))}
+            </ol>
+          </div>
         </div>
       </div>
     ) : (
@@ -242,8 +291,6 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
 
         <main className='container mt-11 flex '>
           <div className='w-full lg:w-3/5 xl:w-2/3 space-y-8 lg:space-y-10 lg:pr-10'>
-            {renderSection1()}
-            {renderSection1()}
             {renderSection1()}
           </div>
 
