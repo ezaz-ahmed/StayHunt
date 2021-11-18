@@ -1,7 +1,8 @@
 import { FC, Fragment, useState, useEffect } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
 import moment from 'moment';
 import { useAppSelector, useAppDispatch } from 'app/hook';
-import HotelDatesRangeInput from 'components/HeroSearchForm/HotelDatesRangeInput';
+import BusDateSingleInput from 'components/HeroSearchForm/BusDateSingleInput';
 import { DateRage } from 'components/HeroSearchForm/StaySearchForm';
 import useWindowSize from 'hooks/useWindowResize';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
@@ -21,7 +22,10 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
 
   const dispatch = useAppDispatch();
 
+  const [selectedSeat, setSelectedSeat] = useState<string[]>([]);
+
   const [isOpen, setIsOpen] = useState(false);
+  const [seatWarningIsOpen, setSeatWarningIsOpen] = useState(false);
   const [openFocusIndex, setOpenFocusIndex] = useState(0);
 
   const [selectedDate, setSelectedDate] = useState<DateRage>({
@@ -59,6 +63,23 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
     );
   }, [id]);
 
+  const handleSeatSelect = (ev: any) => {
+    const value: string = ev.target.value;
+
+    if (selectedSeat.includes(value)) {
+      setSelectedSeat(selectedSeat.filter((seat) => seat !== value));
+    } else {
+      if (selectedSeat.length < 4) {
+        setSelectedSeat((arr) => [...arr, value]);
+      } else {
+        ev.target.checked = false;
+        handleOpenSeatWarning();
+      }
+    }
+  };
+
+  console.log(selectedSeat);
+
   const handleOpenModal = (index: number) => {
     setIsOpen(true);
     setOpenFocusIndex(index);
@@ -67,19 +88,33 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
   const windowSize = useWindowSize();
 
   const handleCloseModal = () => setIsOpen(false);
+  const handleCloseSeatWarning = () => setSeatWarningIsOpen(false);
+  const handleOpenSeatWarning = () => setSeatWarningIsOpen(true);
 
   const renderSeat = (seat: any) => {
     return (
       <li
-        className={`seat flex justify-center my-1 ${
+        className={`seat p-1 relative justify-center my-1   ${
           threeSitter
-            ? seat.key.slice(-1) === '1' && 'mr-4'
-            : seat.key.slice(-1) === '3' && 'ml-4'
+            ? seat.key.slice(-1) === '2' && 'ml-12'
+            : (seat.key.slice(-1) === '2' && 'mr-5') ||
+              (seat.key.slice(-1) === '3' && 'ml-5')
         }`}
         key={seat.key}
       >
-        <input type='checkbox' disabled={seat.selected} id={seat.key} />
-        <label htmlFor={seat.key}>{seat.selected ? 'X' : seat.key}</label>
+        <input
+          type='checkbox'
+          disabled={seat.selected}
+          id={seat.key}
+          value={seat.key}
+          onClick={handleSeatSelect}
+        />
+        <label
+          className={`${selectedSeat.length > 4 ? 'bg-gray-200' : true}`}
+          htmlFor={seat.key}
+        >
+          {seat.selected ? 'X' : seat.key}
+        </label>
       </li>
     );
   };
@@ -135,12 +170,69 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
         <div className='w-14 border-b border-neutral-200 dark:border-neutral-700'></div>
 
         <div className='text-neutral-6000 dark:text-neutral-300'>
-          <div className='bus w-72'>
+          <div className={`bus  ${threeSitter ? 'w-72' : 'w-80'} `}>
             <ol className={`cabin grid grid-cols-${oneBus.seatsInOneRow}`}>
               {busSeats.map((el: any) => renderSeat(el))}
             </ol>
           </div>
         </div>
+        <Transition appear show={seatWarningIsOpen} as={Fragment}>
+          <Dialog
+            as='div'
+            className='fixed inset-0 z-10 overflow-y-auto'
+            onClose={handleCloseSeatWarning}
+          >
+            <div className='min-h-screen px-4 text-center'>
+              <Transition.Child
+                as={Fragment}
+                enter='ease-out duration-300'
+                enterFrom='opacity-0'
+                enterTo='opacity-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100'
+                leaveTo='opacity-0'
+              >
+                <Dialog.Overlay className='fixed inset-0' />
+              </Transition.Child>
+
+              {/* This element is to trick the browser into centering the modal contents. */}
+              <span
+                className='inline-block h-screen align-middle'
+                aria-hidden='true'
+              >
+                &#8203;
+              </span>
+              <Transition.Child
+                as={Fragment}
+                enter='ease-out duration-300'
+                enterFrom='opacity-0 scale-95'
+                enterTo='opacity-100 scale-100'
+                leave='ease-in duration-200'
+                leaveFrom='opacity-100 scale-100'
+                leaveTo='opacity-0 scale-95'
+              >
+                <div className='inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl'>
+                  <Dialog.Title
+                    as='h3'
+                    className='text-lg font-medium leading-6 text-gray-900'
+                  >
+                    Maximum Four Seat is Available For One User!
+                  </Dialog.Title>
+
+                  <div className='mt-4'>
+                    <button
+                      type='button'
+                      className='inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500'
+                      onClick={handleCloseSeatWarning}
+                    >
+                      Got it, thanks!
+                    </button>
+                  </div>
+                </div>
+              </Transition.Child>
+            </div>
+          </Dialog>
+        </Transition>
       </div>
     ) : (
       <Fragment></Fragment>
@@ -150,6 +242,9 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
   const renderSidebar = () => {
     return (
       <div className='listingSection__wrap shadow-xl'>
+        <span className='font-semibold text-3xl'>
+          Class: {oneBus?.busClass}
+        </span>
         <div className='flex justify-between'>
           <span className='text-2xl'>
             BDT {oneBus?.fare}
@@ -161,19 +256,23 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
 
         {/* FORM */}
 
-        <form className='flex border divide-x divide-neutral-200 dark:divide-neutral-700 border-neutral-200 dark:border-neutral-700 rounded-3xl '>
-          <div className='flex-1'></div>
-        </form>
+        <form className='flex justify-center align-middle border divide-x divide-neutral-200 dark:divide-neutral-700 border-neutral-200 dark:border-neutral-700 rounded-3xl '>
+          <div className='flex-1'>
+            <BusDateSingleInput
+              defaultValue={selectedDate.startDate}
+              onFocusChange={() => {}}
+              onChange={(date) =>
+                setSelectedDate({ startDate: date, endDate: null })
+              }
+              dateFormat='DD-MMM'
+              anchorDirection={windowSize.width > 1400 ? 'left' : 'right'}
+              fieldClassName='p-4'
+            />
+          </div>
 
-        <form className='flex flex-col border border-neutral-200 dark:border-neutral-700 rounded-3xl '>
-          <HotelDatesRangeInput
-            wrapClassName='divide-x divide-neutral-200 dark:divide-neutral-700'
-            onChange={(date) => setSelectedDate(date)}
-            numberOfMonths={1}
-            fieldClassName='p-5'
-            defaultValue={selectedDate}
-            anchorDirection={windowSize.width > 1400 ? 'left' : 'right'}
-          />
+          <div className='flex-1 grid place-items-center'>
+            <span className='text-center text-xl font-semibold'>4 Seats</span>
+          </div>
         </form>
 
         <ButtonPrimary>Reserve</ButtonPrimary>

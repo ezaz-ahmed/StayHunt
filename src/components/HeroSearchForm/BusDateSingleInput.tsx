@@ -11,6 +11,7 @@ export interface ExperiencesDateSingleInputProps {
   fieldClassName?: string;
   onFocusChange: (focused: boolean) => void;
   className?: string;
+  dateFormat?: string;
   anchorDirection?: AnchorDirectionShape;
 }
 
@@ -19,6 +20,7 @@ const BusDateSingleInput: FC<ExperiencesDateSingleInputProps> = ({
   onChange,
   defaultFocus = false,
   onFocusChange,
+  dateFormat: format = 'DD-MMM-YYYY',
   anchorDirection,
   className = '',
   fieldClassName = '[ nc-hero-field-padding ]',
@@ -78,7 +80,7 @@ const BusDateSingleInput: FC<ExperiencesDateSingleInputProps> = ({
         </div>
         <div className='flex-grow'>
           <span className='block xl:text-lg font-semibold'>
-            {startDate ? startDate.format('DD-MMM-YYYY') : 'Date'}
+            {startDate ? startDate.format(format) : 'Date'}
           </span>
           <span className='block mt-1 text-sm text-neutral-400 leading-none font-light'>
             {startDate ? 'Date' : `Journey Date`}
