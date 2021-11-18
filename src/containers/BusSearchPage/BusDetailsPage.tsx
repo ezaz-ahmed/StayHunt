@@ -271,7 +271,9 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
           </div>
 
           <div className='flex-1 grid place-items-center'>
-            <span className='text-center text-xl font-semibold'>4 Seats</span>
+            <span className='text-center text-lg font-semibold'>
+              {selectedSeat.length} Seats Selected
+            </span>
           </div>
         </form>
 
