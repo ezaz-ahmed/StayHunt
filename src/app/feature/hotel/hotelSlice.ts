@@ -9,7 +9,6 @@ import {
   HotelState,
   Location,
   HotelUserInput,
-  HotelInList,
   Hotel,
   SingleHotelUserInput,
 } from './hotelInterfaces';
@@ -39,7 +38,7 @@ export const fetchHotelLocationAsync = createAsyncThunk(
 
 export const fetchAllHotelAsync = createAsyncThunk(
   'hotel/fetchAllHotel',
-  async (userChosenData: HotelUserInput): Promise<HotelInList[]> => {
+  async (userChosenData: HotelUserInput) => {
     const { location, checkIn, checkOut } = userChosenData;
     const { data }: any = await fetchAllHotelList(
       location.propertyId,
@@ -88,7 +87,8 @@ export const hotelSlice = createSlice({
       })
       .addCase(fetchAllHotelAsync.fulfilled, (state, action) => {
         state.status = 'idle';
-        state.allHotelList = action.payload;
+        console.log(action.payload.hotels);
+        state.allHotelList = action.payload.hotels;
       })
       .addCase(fetchAllHotelAsync.rejected, (state) => {
         state.status = 'failed';

@@ -1,4 +1,5 @@
 import { FC, Fragment, useState, useEffect } from 'react';
+import { useHistory } from 'react-router-dom';
 import { Dialog, Transition } from '@headlessui/react';
 import moment from 'moment';
 import { useAppSelector, useAppDispatch } from 'app/hook';
@@ -19,7 +20,8 @@ interface HotelDetailsPageProps {
 
 const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
   const { busUserInput, oneBus, status } = useAppSelector((state) => state.bus);
-
+  const { isLogged } = useAppSelector((state) => state.user);
+  const history = useHistory();
   const dispatch = useAppDispatch();
 
   const [selectedSeat, setSelectedSeat] = useState<string[]>([]);
@@ -78,8 +80,6 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
     }
   };
 
-  console.log(selectedSeat);
-
   const handleOpenModal = (index: number) => {
     setIsOpen(true);
     setOpenFocusIndex(index);
@@ -90,6 +90,28 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
   const handleCloseModal = () => setIsOpen(false);
   const handleCloseSeatWarning = () => setSeatWarningIsOpen(false);
   const handleOpenSeatWarning = () => setSeatWarningIsOpen(true);
+
+  let seatCount = selectedSeat.length;
+  let changableAmount = 0;
+  let vat = 0;
+  let totalAmount = 0;
+  let serviceCharge = 30;
+
+  if (oneBus) {
+    changableAmount = oneBus.fare * seatCount;
+    vat = Math.ceil(changableAmount * 0.15);
+    totalAmount = changableAmount + serviceCharge + vat;
+  }
+
+  const reserveBtnClick = () => {
+    if (totalAmount !== 0 && selectedDate.startDate !== null) {
+      if (isLogged) {
+        history.push('/bus/checkout');
+      } else {
+        history.push('/login');
+      }
+    }
+  };
 
   const renderSeat = (seat: any) => {
     return (
@@ -216,7 +238,7 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
                     as='h3'
                     className='text-lg font-medium leading-6 text-gray-900'
                   >
-                    Maximum Four Seat is Available For One User!
+                    Maximum Four Seat is Available!
                   </Dialog.Title>
 
                   <div className='mt-4'>
@@ -277,7 +299,30 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
           </div>
         </form>
 
-        <ButtonPrimary>Reserve</ButtonPrimary>
+        <div className='flex flex-col space-y-4'>
+          <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
+            <span>
+              {oneBus?.fare} x {seatCount} seats
+            </span>
+            <span>BDT {changableAmount}</span>
+          </div>
+
+          <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
+            <span>VAT(15%)</span>
+            <span>BDT {vat}</span>
+          </div>
+          <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
+            <span>Service charge</span>
+            <span>BDT {serviceCharge}</span>
+          </div>
+          <div className='border-b border-neutral-200 dark:border-neutral-700'></div>
+          <div className='flex justify-between font-semibold'>
+            <span>Total</span>
+            <span>BDT {totalAmount}</span>
+          </div>
+        </div>
+
+        <ButtonPrimary onClick={reserveBtnClick}>Book Now</ButtonPrimary>
       </div>
     );
   };

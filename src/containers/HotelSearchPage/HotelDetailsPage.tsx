@@ -312,7 +312,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
           </div>
         </div>
 
-        <ButtonPrimary onClick={reserveBtnClick}>Reserve</ButtonPrimary>
+        <ButtonPrimary onClick={reserveBtnClick}>Reserve Now</ButtonPrimary>
       </div>
     );
   };
