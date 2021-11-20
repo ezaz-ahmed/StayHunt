@@ -1,6 +1,6 @@
-import { FC, Fragment, useState, useEffect } from 'react';
+import { FC, Fragment, useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import { Dialog, Transition } from '@headlessui/react';
+import { Dialog, Transition, Listbox } from '@headlessui/react';
 import moment from 'moment';
 import { useAppSelector, useAppDispatch } from 'app/hook';
 import BusDateSingleInput from 'components/HeroSearchForm/BusDateSingleInput';
@@ -10,21 +10,21 @@ import ButtonPrimary from 'shared/Button/ButtonPrimary';
 import NcImage from 'shared/NcImage/NcImage';
 import ModalPhotos from 'containers/ListingDetailPage/ModalPhotos';
 import Badge from 'shared/Badge/Badge';
-import Page404 from 'containers/Page404/Page404';
-import { fetchSingleBuslAsync } from 'app/feature/bus/busSlice';
-import SomethingWrong from 'containers/Page404/SomethingWrong';
+import { fetchSingleBuslAsync, addFinalInput } from 'app/feature/bus/busSlice';
 
-interface HotelDetailsPageProps {
+interface BusDetailsPageProps {
   match?: any;
 }
 
-const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
-  const { busUserInput, oneBus, status } = useAppSelector((state) => state.bus);
+const BusDetailsPage: FC<BusDetailsPageProps> = ({ match }) => {
+  const { busUserInput, oneBus } = useAppSelector((state) => state.bus);
   const { isLogged } = useAppSelector((state) => state.user);
   const history = useHistory();
   const dispatch = useAppDispatch();
 
   const [selectedSeat, setSelectedSeat] = useState<string[]>([]);
+  const [boardingPoint, setBoardingPoint] = useState(oneBus?.boardingPoints[0]);
+  const [droppingPoint, setDroppingPoint] = useState(oneBus?.droppingPoints[0]);
 
   const [isOpen, setIsOpen] = useState(false);
   const [seatWarningIsOpen, setSeatWarningIsOpen] = useState(false);
@@ -52,18 +52,20 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
     }));
   }
 
-  useEffect(() => {
-    const depDate = selectedDate.startDate?.toISOString();
-
+  const fetchOneBus = useCallback(() => {
     dispatch<any>(
       fetchSingleBuslAsync({
         id,
-        depDate: depDate,
+        depDate: selectedDate.startDate?.toISOString(),
         fromLocId: busUserInput?.fromCity.locId,
         toLocId: busUserInput?.toCity.locId,
       })
     );
-  }, [id]);
+  }, [dispatch]);
+
+  useEffect(() => {
+    fetchOneBus();
+  }, [id, oneBus]);
 
   const handleSeatSelect = (ev: any) => {
     const value: string = ev.target.value;
@@ -95,7 +97,11 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
   let changableAmount = 0;
   let vat = 0;
   let totalAmount = 0;
-  let serviceCharge = 30;
+  let serviceCharge = 0;
+
+  if (seatCount !== 0) {
+    serviceCharge = 30;
+  }
 
   if (oneBus) {
     changableAmount = oneBus.fare * seatCount;
@@ -104,7 +110,35 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
   }
 
   const reserveBtnClick = () => {
-    if (totalAmount !== 0 && selectedDate.startDate !== null) {
+    dispatch<any>(
+      addFinalInput({
+        journey: {
+          bus: oneBus._id,
+          busName: oneBus.name,
+          startingPoint: busUserInput?.fromCity.locId,
+          endingPoint: busUserInput?.toCity.locId,
+          amont: totalAmount,
+          depDate: oneBus.depDate,
+          depTime: oneBus.depTime,
+          arrTime: oneBus.arrTime,
+          seats: selectedSeat,
+          seatCount: seatCount,
+          boardingPoint: boardingPoint,
+          droppingPoint: droppingPoint,
+          serviceCharge: serviceCharge,
+          amount: changableAmount,
+          vat: vat,
+          totalAmount: totalAmount,
+        },
+      })
+    );
+
+    if (
+      totalAmount !== 0 &&
+      selectedDate.startDate !== null &&
+      boardingPoint &&
+      droppingPoint
+    ) {
       if (isLogged) {
         history.push('/bus/checkout');
       } else {
@@ -138,6 +172,118 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
           {seat.selected ? 'X' : seat.key}
         </label>
       </li>
+    );
+  };
+
+  const renderBoardingPoint = () => {
+    return (
+      <Listbox value={boardingPoint} onChange={setBoardingPoint}>
+        <div className='relative mt-1'>
+          <Listbox.Button className='relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm'>
+            <span className='block truncate'>{boardingPoint}</span>
+            <span className='absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none'>
+              <i className='las la-angle-down'></i>
+            </span>
+          </Listbox.Button>
+          <Transition
+            as={Fragment}
+            leave='transition ease-in duration-100'
+            leaveFrom='opacity-100'
+            leaveTo='opacity-0'
+          >
+            <Listbox.Options className='absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
+              {oneBus.boardingPoints.map((brdPoint: any, brdIdx: any) => (
+                <Listbox.Option
+                  key={brdIdx}
+                  className={({ active }) =>
+                    `${active ? 'text-amber-900 bg-amber-100' : 'text-gray-900'}
+            cursor-default select-none relative py-2 pl-10 pr-4`
+                  }
+                  value={brdPoint}
+                >
+                  {({ selected, active }) => (
+                    <>
+                      <span
+                        className={`${
+                          selected ? 'font-medium' : 'font-normal'
+                        } block truncate`}
+                      >
+                        {brdPoint}
+                      </span>
+                      {selected ? (
+                        <span
+                          className={`${
+                            active ? 'text-amber-600' : 'text-amber-600'
+                          }
+                  absolute inset-y-0 left-0 flex items-center pl-3`}
+                        >
+                          <i className='las la-check'></i>
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Transition>
+        </div>
+      </Listbox>
+    );
+  };
+
+  const renderDroppingPoint = () => {
+    return (
+      <Listbox value={droppingPoint} onChange={setDroppingPoint}>
+        <div className='relative mt-1'>
+          <Listbox.Button className='relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm'>
+            <span className='block truncate'>{droppingPoint}</span>
+            <span className='absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none'>
+              <i className='las la-angle-down'></i>
+            </span>
+          </Listbox.Button>
+          <Transition
+            as={Fragment}
+            leave='transition ease-in duration-100'
+            leaveFrom='opacity-100'
+            leaveTo='opacity-0'
+          >
+            <Listbox.Options className='absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm'>
+              {oneBus.droppingPoints.map((drpPoint: any, drpIndex: any) => (
+                <Listbox.Option
+                  key={drpIndex}
+                  className={({ active }) =>
+                    `${active ? 'text-amber-900 bg-amber-100' : 'text-gray-900'}
+            cursor-default select-none relative py-2 pl-10 pr-4`
+                  }
+                  value={drpPoint}
+                >
+                  {({ selected, active }) => (
+                    <>
+                      <span
+                        className={`${
+                          selected ? 'font-medium' : 'font-normal'
+                        } block truncate`}
+                      >
+                        {drpPoint}
+                      </span>
+                      {selected ? (
+                        <span
+                          className={`${
+                            active ? 'text-amber-600' : 'text-amber-600'
+                          }
+                  absolute inset-y-0 left-0 flex items-center pl-3`}
+                        >
+                          <i className='las la-check'></i>
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Transition>
+        </div>
+      </Listbox>
     );
   };
 
@@ -191,11 +337,36 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
 
         <div className='w-14 border-b border-neutral-200 dark:border-neutral-700'></div>
 
-        <div className='text-neutral-6000 dark:text-neutral-300'>
-          <div className={`bus  ${threeSitter ? 'w-72' : 'w-80'} `}>
-            <ol className={`cabin grid grid-cols-${oneBus.seatsInOneRow}`}>
-              {busSeats.map((el: any) => renderSeat(el))}
-            </ol>
+        <div className='text-neutral-6000 dark:text-neutral-300 flex justify-between'>
+          <div className='flex-1'>
+            <span className='text-lg font-semibold'>Select your Seats</span>
+            <div className='pt-5'>
+              <div className={`bus  ${threeSitter ? 'w-72' : 'w-80'}`}>
+                <ol className={`cabin grid grid-cols-${oneBus.seatsInOneRow}`}>
+                  {busSeats.map((el: any) => renderSeat(el))}
+                </ol>
+              </div>
+            </div>
+          </div>
+          <div className='flex-1 w-72'>
+            <span className='text-lg font-semibold'>
+              Select your boarding point
+            </span>
+            {oneBus.boardingPoints && (
+              <div className='py-5'>{renderBoardingPoint()}</div>
+            )}
+
+            <div className='w-14 border-b border-neutral-200 dark:border-neutral-700 pt-4'></div>
+
+            <div className='pb-4'></div>
+
+            <span className='text-lg font-semibold'>
+              Select your dropping point
+            </span>
+
+            {oneBus.droppingPoints && (
+              <div className='pt-5'>{renderDroppingPoint()}</div>
+            )}
           </div>
         </div>
         <Transition appear show={seatWarningIsOpen} as={Fragment}>
@@ -301,6 +472,15 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
 
         <div className='flex flex-col space-y-4'>
           <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
+            <span>Boarding Point</span>
+            <span>{boardingPoint}</span>
+          </div>
+
+          <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
+            <span>Dropping Point</span>
+            <span>{droppingPoint}</span>
+          </div>
+          <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
             <span>
               {oneBus?.fare} x {seatCount} seats
             </span>
@@ -311,10 +491,14 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
             <span>VAT(15%)</span>
             <span>BDT {vat}</span>
           </div>
-          <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
-            <span>Service charge</span>
-            <span>BDT {serviceCharge}</span>
-          </div>
+
+          {serviceCharge !== 0 && (
+            <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
+              <span>Service charge</span>
+              <span>BDT {serviceCharge}</span>
+            </div>
+          )}
+
           <div className='border-b border-neutral-200 dark:border-neutral-700'></div>
           <div className='flex justify-between font-semibold'>
             <span>Total</span>
@@ -425,10 +609,10 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
     );
   };
 
-  return status === 'loading' ? (
-    <h1>Loading</h1>
-  ) : status === 'idle' ? (
-    oneBus ? (
+  if (!oneBus) {
+    return <h1>Loading...</h1>;
+  } else {
+    return (
       <div
         className={`nc-ListingStayDetailPage pb-20`}
         data-nc-id='ListingStayDetailPage'
@@ -445,12 +629,8 @@ const BusDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
           </div>
         </main>
       </div>
-    ) : (
-      <SomethingWrong />
-    )
-  ) : (
-    <Page404 />
-  );
+    );
+  }
 };
 
 export default BusDetailsPage;

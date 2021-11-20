@@ -8,6 +8,7 @@ const initialState: BusState = {
   cities: [],
   busUserInput: undefined,
   busList: [],
+  busFinalInput: undefined,
   oneBus: undefined,
 };
 
@@ -29,7 +30,7 @@ export const fetchBusListAsync = createAsyncThunk(
 );
 
 export const fetchSingleBuslAsync = createAsyncThunk(
-  'hotel/fetchSingleHotel',
+  'bus/fetchSingleBus',
   async (userChosenData: any) => {
     const { id, depDate, fromLocId, toLocId } = userChosenData;
     const { data }: any = await fetchSingleBus(id, depDate, fromLocId, toLocId);
@@ -45,7 +46,7 @@ export const busSlice = createSlice({
       state.busUserInput = action.payload;
     },
     addFinalInput: (state, action) => {
-      state.busUserInput = action.payload;
+      state.busFinalInput = action.payload;
     },
   },
   extraReducers: (builder) => {

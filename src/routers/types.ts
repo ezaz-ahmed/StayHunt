@@ -9,6 +9,7 @@ export interface LocationStates {
   '/hotel/checkout'?: {};
   '/bus'?: {};
   '/bus/:id'?: {};
+  '/bus/checkout'?: {};
   '/listing-stay'?: {};
   '/listing-stay-map'?: {};
   '/listing-stay-detail'?: {};
