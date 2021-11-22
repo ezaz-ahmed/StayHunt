@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from "axios";
 
 const URL = process.env.REACT_APP_SERVER_URL_HOTEL;
 
@@ -44,6 +44,6 @@ export const fetchPaymentHotel = async (body: any, token: string) => {
     return response.data;
   } catch (error) {
     console.log(error);
-    throw new Error('Something went wrong');
+    throw new Error("Something went wrong");
   }
 };

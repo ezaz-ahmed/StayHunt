@@ -1,5 +1,5 @@
 import { PostDataType } from "data/types";
-import React, { FC } from "react";
+import { FC } from "react";
 import Badge from "shared/Badge/Badge";
 
 export interface CategoryBadgeListProps {

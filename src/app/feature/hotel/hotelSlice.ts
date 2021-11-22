@@ -1,9 +1,9 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import {
   fetchHotelLocation,
   fetchAllHotelList,
   fetchSingleHotel,
-} from './hotelApi';
+} from "./hotelAPI";
 
 import {
   HotelState,
@@ -11,10 +11,10 @@ import {
   HotelUserInput,
   Hotel,
   SingleHotelUserInput,
-} from './hotelInterfaces';
+} from "./hotelInterfaces";
 
 const initialState: HotelState = {
-  status: 'idle',
+  status: "idle",
   locations: [],
   hotelUserInput: undefined,
   allHotelList: [],
@@ -23,21 +23,21 @@ const initialState: HotelState = {
 };
 
 export const fetchHotelLocationAsync = createAsyncThunk(
-  'hotel/fetchLocation',
+  "hotel/fetchLocation",
   async () => {
     const { data }: any = await fetchHotelLocation();
     const locationArray: Location[] = [];
 
     data.map(
       (property: Location) =>
-        property.variant === 'city' && locationArray.push(property)
+        property.variant === "city" && locationArray.push(property)
     );
     return locationArray;
   }
 );
 
 export const fetchAllHotelAsync = createAsyncThunk(
-  'hotel/fetchAllHotel',
+  "hotel/fetchAllHotel",
   async (userChosenData: HotelUserInput) => {
     const { location, checkIn, checkOut } = userChosenData;
     const { data }: any = await fetchAllHotelList(
@@ -51,7 +51,7 @@ export const fetchAllHotelAsync = createAsyncThunk(
 );
 
 export const fetchSingleHotelAsync = createAsyncThunk(
-  'hotel/fetchSingleHotel',
+  "hotel/fetchSingleHotel",
   async (userChosenData: SingleHotelUserInput): Promise<Hotel> => {
     const { id, checkIn, checkOut } = userChosenData;
     const { data }: any = await fetchSingleHotel(id, checkIn, checkOut);
@@ -60,7 +60,7 @@ export const fetchSingleHotelAsync = createAsyncThunk(
 );
 
 export const hotelSlice = createSlice({
-  name: 'hotel',
+  name: "hotel",
   initialState,
   reducers: {
     addUserInput: (state, action) => {
@@ -73,35 +73,35 @@ export const hotelSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchHotelLocationAsync.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchHotelLocationAsync.fulfilled, (state, action) => {
-        state.status = 'idle';
+        state.status = "idle";
         state.locations = action.payload;
       })
       .addCase(fetchHotelLocationAsync.rejected, (state) => {
-        state.status = 'failed';
+        state.status = "failed";
       })
       .addCase(fetchAllHotelAsync.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchAllHotelAsync.fulfilled, (state, action) => {
-        state.status = 'idle';
+        state.status = "idle";
         console.log(action.payload.hotels);
         state.allHotelList = action.payload.hotels;
       })
       .addCase(fetchAllHotelAsync.rejected, (state) => {
-        state.status = 'failed';
+        state.status = "failed";
       })
       .addCase(fetchSingleHotelAsync.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchSingleHotelAsync.fulfilled, (state, action) => {
-        state.status = 'idle';
+        state.status = "idle";
         state.oneHotel = action.payload;
       })
       .addCase(fetchSingleHotelAsync.rejected, (state) => {
-        state.status = 'failed';
+        state.status = "failed";
       });
   },
 });

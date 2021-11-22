@@ -8,9 +8,9 @@ import "react-dates/lib/css/_datepicker.css";
 import "./styles/index.scss";
 import "./index.css";
 import "./fonts/line-awesome-1.3.0/css/line-awesome.css";
-// 
-import { PersistGate } from 'redux-persist/integration/react'
-import { persistStore } from 'redux-persist'
+//
+import { PersistGate } from "redux-persist/integration/react";
+import { persistStore } from "redux-persist";
 //
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
