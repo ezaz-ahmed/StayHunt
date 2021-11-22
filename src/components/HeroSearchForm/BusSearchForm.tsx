@@ -1,21 +1,21 @@
 // My Component
 
-import { useState, useEffect, FormEvent } from 'react';
-import { useHistory } from 'react-router';
-import { FocusedInputShape } from 'react-dates';
-import ButtonSubmit from './ButtonSubmit';
-import moment from 'moment';
-import BusDatesRangeInput from './BusDatesRangeInput';
-import BusCityInput from './BusCityInput';
-import BusDateSingleInput from './BusDateSingleInput';
+import { useState, useEffect, FormEvent } from "react";
+import { useHistory } from "react-router";
+import { FocusedInputShape } from "react-dates";
+import ButtonSubmit from "./ButtonSubmit";
+import moment from "moment";
+import BusDatesRangeInput from "./BusDatesRangeInput";
+import BusCityInput from "./BusCityInput";
+import BusDateSingleInput from "./BusDateSingleInput";
 
 import {
   fetchBusCitiesAsync,
   addUserInput,
   fetchBusListAsync,
-} from 'app/feature/bus/busSlice';
-import { useAppDispatch, useAppSelector } from 'app/hook';
-import { City, BusUserInput } from 'app/feature/bus/busInterfaces';
+} from "app/feature/bus/busSlice";
+import { useAppDispatch, useAppSelector } from "app/hook";
+import { City, BusUserInput } from "app/feature/bus/busInterfaces";
 
 export interface DateRage {
   startDate: moment.Moment | null;
@@ -33,7 +33,7 @@ const BusSearchForm = () => {
   const { cities, busUserInput } = useAppSelector((state) => state.bus);
 
   const [userInput, setUserInput] = useState<BusUserInput>();
-
+  const [roundTrip, setRoundTrip] = useState(false);
   const [dateValue, setdateValue] = useState(
     busUserInput?.journeyDate ? moment(busUserInput.journeyDate) : null
   );
@@ -44,29 +44,20 @@ const BusSearchForm = () => {
   });
 
   const [dateFocused, setDateFocused] = useState<boolean>(false);
-  const [originInputValue, setOriginInputValue] = useState<string>(
-    busUserInput?.fromCity.locName || ''
-  );
 
-  const [destinationInputValue, setDestinationInputValue] = useState<string>(
-    busUserInput?.toCity.locName || ''
-  );
+  const originInputValue = busUserInput?.fromCity.locName || "";
+  const destinationInputValue = busUserInput?.toCity.locName || "";
 
   const [origin, setOrigin] = useState<City>();
   const [destination, setDestination] = useState<City>();
 
   const [fieldFocused, setFieldFocused] = useState<
-    FocusedInputShape | 'dropOffInput' | null
+    FocusedInputShape | "dropOffInput" | null
   >(null);
 
   const [dropOffLocationType, setDropOffLocationType] = useState<
-    'same' | 'different'
-  >('same');
-
-  const formSubmitRoundtrip = (ev: FormEvent<HTMLFormElement>) => {
-    ev.preventDefault();
-    console.log(dateFocused, fieldFocused);
-  };
+    "same" | "different"
+  >("same");
 
   const setOriginHandler = (ev: string) => {
     cities.forEach((city: City) => city.locName === ev && setOrigin(city));
@@ -84,7 +75,8 @@ const BusSearchForm = () => {
         fromCity: origin,
         toCity: destination,
         journeyDate: dateValue?.toISOString(),
-        roundTrip: false,
+
+        roundTrip: roundTrip,
       });
       dispatch<any>(
         fetchBusListAsync({
@@ -96,52 +88,90 @@ const BusSearchForm = () => {
     }
   };
 
+  const formSubmitRoundtrip = (ev: FormEvent<HTMLFormElement>) => {
+    ev.preventDefault();
+
+    if (
+      origin &&
+      destination &&
+      dateRangeValue.startDate &&
+      dateRangeValue.endDate
+    ) {
+      setUserInput({
+        fromCity: origin,
+        toCity: destination,
+        journeyDate: dateRangeValue.startDate?.toISOString(),
+        returnDate: dateRangeValue.endDate?.toISOString(),
+        roundTrip: roundTrip,
+      });
+      dispatch<any>(
+        fetchBusListAsync({
+          fromCityId: origin.locId,
+          toCityId: destination.locId,
+          depDate: dateRangeValue.startDate?.toISOString(),
+        })
+      );
+    }
+  };
+
   useEffect(() => {
-    if (userInput?.roundTrip === false) {
+    if (roundTrip) {
+      if (
+        userInput?.fromCity &&
+        userInput?.toCity &&
+        userInput.journeyDate &&
+        userInput.roundTrip
+      ) {
+        dispatch(addUserInput(userInput));
+        history.push("/bus");
+      }
+    } else {
       if (userInput?.fromCity && userInput?.toCity && userInput.journeyDate) {
         dispatch(addUserInput(userInput));
-        history.push('/bus');
+        history.push("/bus");
       }
     }
   }, [userInput]);
 
   const renderRadioBtn = () => {
     return (
-      <div className=' py-5 [ nc-hero-field-padding ] flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:space-x-10 border-b border-neutral-100 dark:border-neutral-800'>
-        <div className='flex  items-center'>
+      <div className=" py-5 [ nc-hero-field-padding ] flex flex-col space-y-4 sm:space-y-0 sm:flex-row sm:space-x-10 border-b border-neutral-100 dark:border-neutral-800">
+        <div className="flex  items-center">
           <input
-            id='same-drop-off'
-            name='drop-off-type'
-            type='radio'
-            value='same'
-            className='focus:ring-primary-500 h-4 w-4 text-primary-500 border-neutral-300'
-            checked={dropOffLocationType === 'same'}
-            onChange={(e) =>
-              setDropOffLocationType(e.currentTarget.value as 'same')
-            }
+            id="same-drop-off"
+            name="drop-off-type"
+            type="radio"
+            value="same"
+            className="focus:ring-primary-500 h-4 w-4 text-primary-500 border-neutral-300"
+            checked={dropOffLocationType === "same"}
+            onChange={(e) => {
+              setRoundTrip(false);
+              setDropOffLocationType(e.currentTarget.value as "same");
+            }}
           />
           <label
-            htmlFor='same-drop-off'
-            className='ml-2 sm:ml-3 block text-sm font-medium text-gray-700 dark:text-neutral-300'
+            htmlFor="same-drop-off"
+            className="ml-2 sm:ml-3 block text-sm font-medium text-gray-700 dark:text-neutral-300"
           >
             One Way
           </label>
         </div>
-        <div className='flex items-center'>
+        <div className="flex items-center">
           <input
-            id='different-drop-off'
-            name='drop-off-type'
-            value='different'
-            type='radio'
-            className='focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300'
-            checked={dropOffLocationType === 'different'}
-            onChange={(e) =>
-              setDropOffLocationType(e.currentTarget.value as 'different')
-            }
+            id="different-drop-off"
+            name="drop-off-type"
+            value="different"
+            type="radio"
+            className="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300"
+            checked={dropOffLocationType === "different"}
+            onChange={(e) => {
+              setRoundTrip(true);
+              setDropOffLocationType(e.currentTarget.value as "different");
+            }}
           />
           <label
-            htmlFor='different-drop-off'
-            className='ml-2 sm:ml-3 block text-sm font-medium text-gray-700 dark:text-neutral-300'
+            htmlFor="different-drop-off"
+            className="ml-2 sm:ml-3 block text-sm font-medium text-gray-700 dark:text-neutral-300"
           >
             Round Trip
           </label>
@@ -152,35 +182,36 @@ const BusSearchForm = () => {
 
   const renderOneWayForm = () => {
     return (
-      <form className='flex flex-col md:flex-row' onSubmit={formSubmitOneWay}>
+      <form className="flex flex-col md:flex-row" onSubmit={formSubmitOneWay}>
         <BusCityInput
           onInputDone={() =>
             setFieldFocused(
-              dropOffLocationType === 'different' ? 'dropOffInput' : 'startDate'
+              dropOffLocationType === "different" ? "dropOffInput" : "startDate"
             )
           }
           originInputValue={originInputValue}
           city={cities}
           onChange={(ev) => setOriginHandler(ev)}
-          placeHolder='From'
-          desc='Your Origin'
+          placeHolder="From"
+          desc="Your Origin"
         />
 
         <BusCityInput
           onInputDone={() =>
             setFieldFocused(
-              dropOffLocationType === 'different' ? 'dropOffInput' : 'startDate'
+              dropOffLocationType === "different" ? "dropOffInput" : "startDate"
             )
           }
           originInputValue={destinationInputValue}
           city={cities}
           onChange={(ev) => setDestinationHandler(ev)}
-          placeHolder='To'
-          desc='Your Destination City'
+          placeHolder="To"
+          desc="Your Destination City"
         />
 
         <BusDateSingleInput
           defaultValue={dateValue}
+          defaultFocus={dateFocused}
           onChange={(date) => setdateValue(date)}
           onFocusChange={(focus: boolean) => {
             setDateFocused(focus);
@@ -188,24 +219,24 @@ const BusSearchForm = () => {
         />
 
         {/* BUTTON SUBMIT OF FORM */}
-        <div className=' px-4 py-4'>
+        <div className=" px-4 py-4">
           <button
-            className='h-14 md:h-16 w-full md:w-16 rounded-full bg-primary-6000 hover:bg-primary-700 flex items-center justify-center text-neutral-50 focus:outline-none'
-            type='submit'
+            className="h-14 md:h-16 w-full md:w-16 rounded-full bg-primary-6000 hover:bg-primary-700 flex items-center justify-center text-neutral-50 focus:outline-none"
+            type="submit"
           >
-            <span className='mr-3 md:hidden'>Search</span>
+            <span className="mr-3 md:hidden">Search</span>
             <svg
-              xmlns='http://www.w3.org/2000/svg'
-              className='h-6 w-6'
-              fill='none'
-              viewBox='0 0 24 24'
-              stroke='currentColor'
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-6 w-6"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
               <path
-                strokeLinecap='round'
-                strokeLinejoin='round'
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 strokeWidth={1.5}
-                d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
               />
             </svg>
           </button>
@@ -218,36 +249,39 @@ const BusSearchForm = () => {
     return (
       <form
         onSubmit={formSubmitRoundtrip}
-        className='w-full relative mt-8 rounded-3xl shadow-xl dark:shadow-2xl bg-white dark:bg-neutral-900'
+        className="w-full relative mt-8 rounded-3xl shadow-xl dark:shadow-2xl bg-white dark:bg-neutral-900"
       >
-        <div className=' flex flex-col md:flex-row md:items-center w-full rounded-full [ nc-divide-field ] '>
-          <div className='relative flex flex-col nc-flex-2-auto [ nc-divide-field ] '>
+        <div className=" flex flex-col md:flex-row md:items-center w-full rounded-full [ nc-divide-field ] ">
+          <div className="relative flex flex-col nc-flex-2-auto [ nc-divide-field ] ">
             <BusCityInput
-              onChange={(e) => setOriginInputValue(e)}
-              city={cities}
               onInputDone={() =>
                 setFieldFocused(
-                  dropOffLocationType === 'different'
-                    ? 'dropOffInput'
-                    : 'startDate'
+                  dropOffLocationType === "different"
+                    ? "dropOffInput"
+                    : "startDate"
                 )
               }
-              placeHolder='From'
-              desc='Your Origin'
+              originInputValue={originInputValue}
+              city={cities}
+              autoFocus={fieldFocused === "dropOffInput"}
+              onChange={(ev) => setOriginHandler(ev)}
+              placeHolder="From"
+              desc="Your Origin"
             />
 
             <BusCityInput
-              onChange={(e) => setDestinationInputValue(e)}
-              city={cities}
               onInputDone={() =>
                 setFieldFocused(
-                  dropOffLocationType === 'different'
-                    ? 'dropOffInput'
-                    : 'startDate'
+                  dropOffLocationType === "different"
+                    ? "dropOffInput"
+                    : "startDate"
                 )
               }
-              placeHolder='To'
-              desc='Your Destination City'
+              originInputValue={destinationInputValue}
+              city={cities}
+              onChange={(ev) => setDestinationHandler(ev)}
+              placeHolder="To"
+              desc="Your Destination City"
             />
           </div>
 
@@ -256,7 +290,7 @@ const BusSearchForm = () => {
             onChange={(data) => setDateRangeValue(data)}
           />
 
-          <div className='px-4 py-3'>
+          <div className="px-4 py-3">
             <ButtonSubmit />
           </div>
         </div>
@@ -265,11 +299,11 @@ const BusSearchForm = () => {
   };
 
   return (
-    <div className='w-full'>
-      <div className='w-full relative mt-8 rounded-3xl shadow-xl dark:shadow-2xl bg-white dark:bg-neutral-900'>
+    <div className="w-full">
+      <div className="w-full relative mt-8 rounded-3xl shadow-xl dark:shadow-2xl bg-white dark:bg-neutral-900">
         {renderRadioBtn()}
-        {dropOffLocationType === 'same' && renderOneWayForm()}
-        {dropOffLocationType === 'different' && renderRoundTrip()}
+        {dropOffLocationType === "same" && renderOneWayForm()}
+        {dropOffLocationType === "different" && renderRoundTrip()}
       </div>
     </div>
   );

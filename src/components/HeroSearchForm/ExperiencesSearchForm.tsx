@@ -1,14 +1,14 @@
-import { FC, useEffect, useState } from 'react';
-import LocationInput from './LocationInput';
-import GuestsInput, { GuestsInputProps } from './GuestsInput';
-import ExperiencesDateSingleInput from './ExperiencesDateSingleInput';
-import ButtonSubmit from './ButtonSubmit';
-import moment from 'moment';
+import { FC, useEffect, useState } from "react";
+import LocationInput from "./LocationInput";
+import GuestsInput, { GuestsInputProps } from "./GuestsInput";
+import ExperiencesDateSingleInput from "./ExperiencesDateSingleInput";
+import ButtonSubmit from "./ButtonSubmit";
+import moment from "moment";
 
 // DEFAULT DATA FOR ARCHIVE PAGE
-const defaultLocationValue = 'Tokyo, Jappan';
+const defaultLocationValue = "Tokyo, Jappan";
 const defaultDate = moment();
-const defaultGuestValue: GuestsInputProps['defaultValue'] = {
+const defaultGuestValue: GuestsInputProps["defaultValue"] = {
   guestAdults: 2,
   guestChildren: 2,
   guestRooms: 1,
@@ -22,7 +22,7 @@ const ExperiencesSearchForm: FC<ExperiencesSearchFormProps> = ({
   haveDefaultValue,
 }) => {
   const [dateValue, setdateValue] = useState<moment.Moment | null>(null);
-  const [locationInputValue, setLocationInputValue] = useState('');
+  const [locationInputValue, setLocationInputValue] = useState("");
   const [guestValue, setGuestValue] = useState({});
 
   const [dateFocused, setDateFocused] = useState<boolean>(false);
@@ -40,7 +40,7 @@ const ExperiencesSearchForm: FC<ExperiencesSearchFormProps> = ({
 
   const renderForm = () => {
     return (
-      <form className='w-full relative mt-8 flex flex-col md:flex-row md:items-center rounded-3xl md:rounded-full shadow-xl dark:shadow-2xl bg-white dark:bg-neutral-900 divide-y divide-neutral-200 md:divide-y-0'>
+      <form className="w-full relative mt-8 flex flex-col md:flex-row md:items-center rounded-3xl md:rounded-full shadow-xl dark:shadow-2xl bg-white dark:bg-neutral-900 divide-y divide-neutral-200 md:divide-y-0">
         <LocationInput
           defaultValue={locationInputValue}
           onChange={(e) => setLocationInputValue(e)}
@@ -61,7 +61,7 @@ const ExperiencesSearchForm: FC<ExperiencesSearchFormProps> = ({
           onChange={(data) => setGuestValue(data)}
         />
         {/* BUTTON SUBMIT OF FORM */}
-        <div className='px-4 py-4 lg:py-0'>
+        <div className="px-4 py-4 lg:py-0">
           <ButtonSubmit />
         </div>
       </form>
