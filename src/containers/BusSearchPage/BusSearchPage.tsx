@@ -13,6 +13,7 @@ import TwoWayIcon from "images/extra/two-way.svg";
 
 import { useAppSelector } from "app/hook";
 import RoundtripSectionGridFeature from "./RoundtripSectionGridFeature";
+import Heading from "components/Heading/Heading";
 
 export interface HotelSearchPageProps {
   className?: string;
@@ -41,23 +42,32 @@ const BusSearchPage: FC<HotelSearchPageProps> = ({ className = "" }) => {
 
         {busUserInput?.fromCity && busUserInput?.toCity && (
           <div className={`mb-12 lg:mb-16 ${className}`}>
-            <h2 className="flex align-middle text-4xl font-semibold">
-              Bus in {busUserInput.fromCity.locName}
-              {busUserInput.roundTrip ? (
-                <img
-                  src={TwoWayIcon}
-                  alt="Two Way Icon"
-                  className="w-11 h-auto mx-4"
-                />
-              ) : (
-                <img
-                  src={OneWayIcon}
-                  alt="One Way Icon"
-                  className="w-11 h-auto mx-4"
-                />
-              )}
-              {busUserInput.toCity.locName}
-            </h2>
+            <Heading
+              desc={
+                busUserInput.roundTrip
+                  ? `Choose a bus for ${busUserInput?.fromCity.locName} to
+          ${busUserInput?.toCity.locName}`
+                  : ""
+              }
+            >
+              <span className="flex align-middle text-4xl font-semibold">
+                Bus in {busUserInput.fromCity.locName}
+                {busUserInput.roundTrip ? (
+                  <img
+                    src={TwoWayIcon}
+                    alt="Two Way Icon"
+                    className="w-11 h-auto mx-4"
+                  />
+                ) : (
+                  <img
+                    src={OneWayIcon}
+                    alt="One Way Icon"
+                    className="w-11 h-auto mx-4"
+                  />
+                )}
+                {busUserInput.toCity.locName}
+              </span>
+            </Heading>
           </div>
         )}
 

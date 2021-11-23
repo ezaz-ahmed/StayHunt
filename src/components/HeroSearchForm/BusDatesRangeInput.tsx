@@ -140,11 +140,10 @@ const BusDatesRangeInput: FC<RentalCarDatesRangeInputProps> = ({
             />
           </svg>
         </div>
-
         <div className="flex-grow">
           <span className="block xl:text-lg font-semibold">
             {stateDate.endDate
-              ? stateDate.endDate.format("DD-MMM-Y  Y")
+              ? stateDate.endDate.format("DD-MMM-YY")
               : "Return Date"}
           </span>
           <span className="block mt-1 text-sm text-neutral-400 leading-none font-light">

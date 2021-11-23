@@ -1,14 +1,11 @@
 import { FC, ReactNode } from "react";
-import { DEMO_STAY_LISTINGS } from "data/listings";
 import { StayDataType } from "data/types";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import PropertyCardH from "./PropertyCardH";
+import BusReturnDateProperty from "./BusReturnDatePropertyCard";
 
 import { useAppSelector } from "app/hook";
 
-// OTHER DEMO WILL PASS PROPS
-const DEMO_DATA: StayDataType[] = DEMO_STAY_LISTINGS.filter((_, i) => i < 8);
-//
 export interface SectionGridFeaturePropertyProps {
   stayListings?: StayDataType[];
   gridClass?: string;
@@ -19,16 +16,18 @@ export interface SectionGridFeaturePropertyProps {
 }
 
 const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
-  stayListings = DEMO_DATA,
   gridClass = "",
-  heading = "Featured places to stay",
-  subHeading = "Popular places to stay that Chisfis recommends for you",
-  headingIsCenter,
 }) => {
   const { busList, busUserInput } = useAppSelector((state) => state.bus);
 
-  const renderCard = (oneBus: any, index: number) => {
+  const renderCardClick = (oneBus: any, index: number) => {
     return <PropertyCardH key={index} className="h-full" data={oneBus} />;
+  };
+
+  const renderCard = (oneBus: any, index: number) => {
+    return (
+      <BusReturnDateProperty key={index} className="h-full" data={oneBus} />
+    );
   };
 
   console.log(busList.roundTrip, "👻");
@@ -36,17 +35,13 @@ const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
     <div className="nc-SectionGridFeatureProperty relative">
       {busUserInput?.roundTrip ? (
         <div className={`grid gap-6 w-100% grid-cols-1 ${gridClass}`}>
-          {/* <h1>
-            Select A Bus From {busUserInput.fromCity.locName} to{" "}
-            {busUserInput.toCity.locName}
-          </h1> */}
           {busList.bus && busList.bus.map(renderCard)}
         </div>
       ) : (
         <div
           className={`grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 ${gridClass}`}
         >
-          {busList.bus && busList.bus.map(renderCard)}
+          {busList.bus && busList.bus.map(renderCardClick)}
         </div>
       )}
 

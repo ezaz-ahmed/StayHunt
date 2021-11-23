@@ -69,7 +69,7 @@ const RoundtripSectionGridFeature = () => {
 
         <form className="flex flex-col border border-neutral-200 dark:border-neutral-700 rounded-3xl ">
           <BusDatesRangeInput
-            wrapFieldClassName="flex flex-col w-full flex-shrink-0 relative divide-y divide-neutral-200 dark:divide-neutral-700"
+            wrapFieldClassName="divide-x divide-neutral-200 dark:divide-neutral-700"
             numberOfMonths={1}
             fieldClassName="p-5"
             defaultDateValue={dateRangeValue}
