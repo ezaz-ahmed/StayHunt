@@ -99,7 +99,7 @@ const BusDatesRangeInput: FC<RentalCarDatesRangeInputProps> = ({
         <div className="flex-grow flex-shrink-0">
           <span className="block xl:text-lg font-semibold">
             {stateDate.startDate
-              ? stateDate.startDate.format("DD-MMM-YYYY")
+              ? stateDate.startDate.format("DD-MMM-YY")
               : "Journey Date"}
           </span>
           <span className="block mt-1 text-sm text-neutral-400 leading-none font-light">
@@ -144,7 +144,7 @@ const BusDatesRangeInput: FC<RentalCarDatesRangeInputProps> = ({
         <div className="flex-grow">
           <span className="block xl:text-lg font-semibold">
             {stateDate.endDate
-              ? stateDate.endDate.format("DD-MMM-YYYY")
+              ? stateDate.endDate.format("DD-MMM-Y  Y")
               : "Return Date"}
           </span>
           <span className="block mt-1 text-sm text-neutral-400 leading-none font-light">

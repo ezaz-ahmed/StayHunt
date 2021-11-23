@@ -31,13 +31,16 @@ const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
     return <PropertyCardH key={index} className="h-full" data={oneBus} />;
   };
 
+  console.log(busList.roundTrip, "👻");
   return (
     <div className="nc-SectionGridFeatureProperty relative">
       {busUserInput?.roundTrip ? (
-        <div
-          className={`grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 ${gridClass}`}
-        >
-          {DEMO_DATA.map(renderCard)}
+        <div className={`grid gap-6 w-100% grid-cols-1 ${gridClass}`}>
+          {/* <h1>
+            Select A Bus From {busUserInput.fromCity.locName} to{" "}
+            {busUserInput.toCity.locName}
+          </h1> */}
+          {busList.bus && busList.bus.map(renderCard)}
         </div>
       ) : (
         <div

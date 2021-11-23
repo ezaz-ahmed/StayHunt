@@ -4,7 +4,7 @@ import { Dialog, Transition, Listbox } from "@headlessui/react";
 import moment from "moment";
 import { useAppSelector, useAppDispatch } from "app/hook";
 import BusDateSingleInput from "components/HeroSearchForm/BusDateSingleInput";
-import { DateRage } from "components/HeroSearchForm/StaySearchForm";
+import { DateRage } from "components/HeroSearchForm/BusSearchForm";
 import useWindowSize from "hooks/useWindowResize";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import NcImage from "shared/NcImage/NcImage";

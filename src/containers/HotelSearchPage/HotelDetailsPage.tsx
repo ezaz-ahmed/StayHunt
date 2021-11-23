@@ -282,6 +282,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
             defaultValue={selectedDate}
             anchorDirection={windowSize.width > 1400 ? "left" : "right"}
           />
+          <div className="w-full border-b border-neutral-200 dark:border-neutral-700"></div>
           <HotelGuestInput
             fieldClassName="p-5"
             defaultValue={guestValue}

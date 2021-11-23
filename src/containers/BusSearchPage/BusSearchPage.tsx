@@ -68,16 +68,8 @@ const BusSearchPage: FC<HotelSearchPageProps> = ({ className = "" }) => {
         )}
 
         {/* SECTION 1 */}
-        <div className="relative py-16">
-          <BackgroundSection />
-          <SectionSliderNewCategories
-            heading="Explore by types of stays"
-            subHeading="Explore houses based on 10 types of stays"
-            categoryCardType="card5"
-            itemPerRow={5}
-            sliderStyle="style2"
-          />
-
+        {/* Will Change */}
+        <div className="mt-24">
           <div className="relative py-16">
             <BackgroundSection />
             <SectionSliderNewCategories
@@ -87,6 +79,17 @@ const BusSearchPage: FC<HotelSearchPageProps> = ({ className = "" }) => {
               itemPerRow={5}
               sliderStyle="style2"
             />
+
+            <div className="relative py-16">
+              <BackgroundSection />
+              <SectionSliderNewCategories
+                heading="Explore by types of stays"
+                subHeading="Explore houses based on 10 types of stays"
+                categoryCardType="card5"
+                itemPerRow={5}
+                sliderStyle="style2"
+              />
+            </div>
           </div>
         </div>
 
