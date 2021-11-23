@@ -12,8 +12,18 @@ export interface PropertyCardHProps {
 }
 
 const PropertyCardH: FC<PropertyCardHProps> = ({ className = "", data }) => {
-  const { _id, images, AC, model, numOfSeats, name, fare, depTime, arrTime } =
-    data;
+  const {
+    _id,
+    images,
+    AC,
+    model,
+    numOfSeats,
+    name,
+    fare,
+    depTime,
+    arrTime,
+    busClass,
+  } = data;
 
   const renderSliderGallery = () => {
     return (
@@ -102,6 +112,7 @@ const PropertyCardH: FC<PropertyCardHProps> = ({ className = "", data }) => {
           {renderTienIch()}
           <div className="w-14 border-b border-neutral-100 dark:border-neutral-800 "></div>
           <div className="flex w-full justify-between items-end">
+            <span className="font-semibold">{busClass}</span>
             <span className="flex items-center justify-center px-3 py-2 border border-primary-6000 rounded leading-none text-base font-medium text-primary-6000">
               {`BDT ${fare}.000`}
             </span>

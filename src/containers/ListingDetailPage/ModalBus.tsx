@@ -1,40 +1,17 @@
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import NextPrev from "shared/NextPrev/NextPrev";
 import ButtonClose from "shared/ButtonClose/ButtonClose";
 
 export interface ModalPhotosProps {
-  imgs: string[];
   onClose: () => void;
   isOpen: boolean;
-  initFocus?: number;
+  initFocus: string;
 }
 
-const ModalPhotos: FC<ModalPhotosProps> = ({
-  imgs,
-  isOpen,
-  onClose,
-  initFocus = 0,
-}) => {
-  const [indexActive, setindexActive] = useState(initFocus);
-
-  useEffect(() => {
-    setindexActive(initFocus);
-  }, [initFocus]);
-
-  const handleClickNext = () => {
-    if (indexActive >= imgs.length - 1) {
-      return setindexActive(() => 0);
-    }
-    setindexActive((i) => i + 1);
-  };
-
-  const handleClickPrev = () => {
-    if (indexActive <= 0) {
-      return setindexActive(() => imgs.length - 1);
-    }
-    setindexActive((i) => i - 1);
-  };
+const ModalBus: FC<ModalPhotosProps> = ({ isOpen, onClose, initFocus }) => {
+  //   useEffect(() => {
+  //     setindexActive(initFocus);
+  //   }, [initFocus]);
 
   const renderModalPhotos = () => {
     return (
@@ -78,16 +55,8 @@ const ModalPhotos: FC<ModalPhotosProps> = ({
             </span>
 
             <div className="relative inline-block w-full max-w-5xl my-8 align-middle ">
-              <img
-                className="rounded-lg mx-auto max-h-screen  "
-                src={imgs[indexActive]}
-                alt="abc"
-              />
-              <NextPrev
-                onClickNext={handleClickNext}
-                onClickPrev={handleClickPrev}
-                className="!absolute -inset-x-0 xl:-inset-x-14 2xl:-inset-x-20 top-1/2  -translate-y-1/2 flex justify-between"
-              />
+              Bus Bus Bus
+              {initFocus}
             </div>
           </div>
         </Dialog>
@@ -98,4 +67,4 @@ const ModalPhotos: FC<ModalPhotosProps> = ({
   return renderModalPhotos();
 };
 
-export default ModalPhotos;
+export default ModalBus;

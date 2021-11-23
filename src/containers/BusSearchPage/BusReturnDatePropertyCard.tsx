@@ -1,8 +1,8 @@
-import { FC, Fragment, useState } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import { FC, useState } from "react";
 import GallerySlider from "components/GallerySlider/GallerySlider";
 import Badge from "shared/Badge/Badge";
 import moment from "moment";
+import ModalBus from "containers/ListingDetailPage/ModalBus";
 
 import OneWayIcon from "images/extra/one-way.svg";
 
@@ -15,18 +15,30 @@ const BusReturnDateProperty: FC<PropertyCardHProps> = ({
   className = "",
   data,
 }) => {
-  const { _id, images, AC, model, numOfSeats, name, fare, depTime, arrTime } =
-    data;
+  const {
+    _id,
+    images,
+    AC,
+    model,
+    numOfSeats,
+    name,
+    fare,
+    depTime,
+    arrTime,
+    busClass,
+  } = data;
 
+  const [openFocusIndex, setOpenFocusIndex] = useState<string>(_id);
   const [isOpen, setIsOpen] = useState(false);
 
-  function closeModal() {
+  const closeModal = () => {
     setIsOpen(false);
-  }
+  };
 
-  function openModal() {
+  const openModal = (index: string) => {
     setIsOpen(true);
-  }
+    setOpenFocusIndex(index);
+  };
 
   const renderSliderGallery = () => {
     return (
@@ -115,6 +127,7 @@ const BusReturnDateProperty: FC<PropertyCardHProps> = ({
           {renderTienIch()}
           <div className="w-14 border-b border-neutral-100 dark:border-neutral-800 "></div>
           <div className="flex w-full justify-between items-end">
+            <span className="font-semibold">{busClass}</span>
             <span className="flex items-center justify-center px-3 py-2 border border-primary-6000 rounded leading-none text-base font-medium text-primary-6000">
               {`BDT ${fare}.000`}
             </span>
@@ -127,80 +140,20 @@ const BusReturnDateProperty: FC<PropertyCardHProps> = ({
   return (
     <div
       className={`nc-PropertyCardH group relative bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 rounded-3xl overflow-hidden hover:shadow-xl transition-shadow ${className}`}
-      data-nc-id="PropertyCardH"
+      data-nc-id="ReturnPropertyCard"
     >
       <div className="h-full w-full flex flex-col sm:flex-row sm:items-center cursor-pointer">
         {renderSliderGallery()}
-        <div onClick={openModal} className="cursor-pointer">
+        <div onClick={() => openModal(_id)} className="cursor-pointer">
           {renderContent()}
         </div>
       </div>
 
-      {/* These codes are used for modal */}
-
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog
-          as="div"
-          className="fixed inset-0 z-10 overflow-y-auto"
-          onClose={closeModal}
-        >
-          <div className="min-h-screen px-4 text-center">
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0"
-              enterTo="opacity-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100"
-              leaveTo="opacity-0"
-            >
-              <Dialog.Overlay className="fixed inset-0" />
-            </Transition.Child>
-
-            {/* This element is to trick the browser into centering the modal contents. */}
-            <span
-              className="inline-block h-screen align-middle"
-              aria-hidden="true"
-            >
-              &#8203;
-            </span>
-            <Transition.Child
-              as={Fragment}
-              enter="ease-out duration-300"
-              enterFrom="opacity-0 scale-95"
-              enterTo="opacity-100 scale-100"
-              leave="ease-in duration-200"
-              leaveFrom="opacity-100 scale-100"
-              leaveTo="opacity-0 scale-95"
-            >
-              <div className="inline-block w-full max-w-md p-6 my-8 overflow-hidden text-left align-middle transition-all transform bg-white shadow-xl rounded-2xl">
-                <Dialog.Title
-                  as="h3"
-                  className="text-lg font-medium leading-6 text-gray-900"
-                >
-                  Payment successful
-                </Dialog.Title>
-                <div className="mt-2">
-                  <p className="text-sm text-gray-500">
-                    Your payment has been successfully submitted. We’ve sent you
-                    an email with all of the details of your order.
-                  </p>
-                </div>
-
-                <div className="mt-4">
-                  <button
-                    type="button"
-                    className="inline-flex justify-center px-4 py-2 text-sm font-medium text-blue-900 bg-blue-100 border border-transparent rounded-md hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-blue-500"
-                    onClick={closeModal}
-                  >
-                    Got it, thanks!
-                  </button>
-                </div>
-              </div>
-            </Transition.Child>
-          </div>
-        </Dialog>
-      </Transition>
+      <ModalBus
+        isOpen={isOpen}
+        onClose={closeModal}
+        initFocus={openFocusIndex}
+      />
     </div>
   );
 };
