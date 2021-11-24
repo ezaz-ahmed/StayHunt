@@ -1,4 +1,4 @@
-import React, { FC, Fragment, ReactNode, useEffect, useState } from "react";
+import { FC, Fragment, ReactNode, useEffect, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ButtonClose from "shared/ButtonClose/ButtonClose";
 import Button from "shared/Button/Button";

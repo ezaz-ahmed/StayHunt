@@ -86,7 +86,10 @@ const BusReturnDateProperty: FC<PropertyCardHProps> = ({
 
   const renderContent = () => {
     return (
-      <div className="flex-grow p-3 sm:pr-6 flex flex-col items-start">
+      <div
+        className="flex-grow p-3 sm:pr-6 flex flex-col items-start cursor-pointer"
+        onClick={() => openModal(_id)}
+      >
         <div className="space-y-4 w-full">
           <div className="inline-flex space-x-3">
             <Badge
@@ -127,7 +130,7 @@ const BusReturnDateProperty: FC<PropertyCardHProps> = ({
           {renderTienIch()}
           <div className="w-14 border-b border-neutral-100 dark:border-neutral-800 "></div>
           <div className="flex w-full justify-between items-end">
-            <span className="font-semibold">{busClass}</span>
+            <span className="font-semibold">{busClass} Class</span>
             <span className="flex items-center justify-center px-3 py-2 border border-primary-6000 rounded leading-none text-base font-medium text-primary-6000">
               {`BDT ${fare}.000`}
             </span>
@@ -140,13 +143,11 @@ const BusReturnDateProperty: FC<PropertyCardHProps> = ({
   return (
     <div
       className={`nc-PropertyCardH group relative bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 rounded-3xl overflow-hidden hover:shadow-xl transition-shadow ${className}`}
-      data-nc-id="ReturnPropertyCard"
+      data-nc-id="PropertyCardH"
     >
-      <div className="h-full w-full flex flex-col sm:flex-row sm:items-center cursor-pointer">
+      <div className="h-full w-full flex flex-col sm:flex-row sm:items-center">
         {renderSliderGallery()}
-        <div onClick={() => openModal(_id)} className="cursor-pointer">
-          {renderContent()}
-        </div>
+        {renderContent()}
       </div>
 
       <ModalBus
@@ -154,6 +155,8 @@ const BusReturnDateProperty: FC<PropertyCardHProps> = ({
         onClose={closeModal}
         initFocus={openFocusIndex}
       />
+
+      {/* <NcModal /> */}
     </div>
   );
 };
