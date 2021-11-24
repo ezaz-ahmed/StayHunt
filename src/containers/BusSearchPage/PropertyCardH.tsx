@@ -72,7 +72,7 @@ const PropertyCardH: FC<PropertyCardHProps> = ({ className = "", data }) => {
   const renderContent = () => {
     return (
       <div className="flex-grow p-3 sm:pr-6 flex flex-col items-start">
-        <div className="space-y-4 w-full">
+        <Link to={`/bus/${_id}`} className="space-y-4 w-full">
           <div className="inline-flex space-x-3">
             <Badge
               name={
@@ -117,7 +117,7 @@ const PropertyCardH: FC<PropertyCardHProps> = ({ className = "", data }) => {
               {`BDT ${fare}.000`}
             </span>
           </div>
-        </div>
+        </Link>
       </div>
     );
   };
@@ -129,7 +129,7 @@ const PropertyCardH: FC<PropertyCardHProps> = ({ className = "", data }) => {
     >
       <div className="h-full w-full flex flex-col sm:flex-row sm:items-center">
         {renderSliderGallery()}
-        <Link to={`/bus/${_id}`}>{renderContent()}</Link>
+        {renderContent()}
       </div>
     </div>
   );

@@ -8,7 +8,7 @@ import BusPayDone from "./BusPayDone";
 const PayPage = ({ match }: any) => {
   const { data } = match.params;
 
-  console.log(data, "✌");
+  console.log(data, "✌ PayPage ➡ Data");
 
   const className = "";
 
@@ -28,7 +28,7 @@ const PayPage = ({ match }: any) => {
 
   const type = parameters.get("type");
 
-  console.log(type, "🤣🤣");
+  console.log(type, "✌ PayPage ➡ Type");
 
   const renderContent = () => {
     return (

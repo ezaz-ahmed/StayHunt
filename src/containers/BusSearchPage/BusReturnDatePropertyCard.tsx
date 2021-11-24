@@ -140,6 +140,8 @@ const BusReturnDateProperty: FC<PropertyCardHProps> = ({
     );
   };
 
+  console.log(isOpen, "😢");
+
   return (
     <div
       className={`nc-PropertyCardH group relative bg-white dark:bg-neutral-900 border border-neutral-100 dark:border-neutral-800 rounded-3xl overflow-hidden hover:shadow-xl transition-shadow ${className}`}
@@ -155,8 +157,6 @@ const BusReturnDateProperty: FC<PropertyCardHProps> = ({
         onClose={closeModal}
         initFocus={openFocusIndex}
       />
-
-      {/* <NcModal /> */}
     </div>
   );
 };

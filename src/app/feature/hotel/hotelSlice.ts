@@ -87,7 +87,7 @@ export const hotelSlice = createSlice({
       })
       .addCase(fetchAllHotelAsync.fulfilled, (state, action) => {
         state.status = "idle";
-        console.log(action.payload.hotels);
+       
         state.allHotelList = action.payload.hotels;
       })
       .addCase(fetchAllHotelAsync.rejected, (state) => {

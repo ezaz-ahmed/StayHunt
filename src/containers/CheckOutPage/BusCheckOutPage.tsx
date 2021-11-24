@@ -44,11 +44,7 @@ const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = "" }) => {
     }
   }, [name, validEmail, phone, check]);
 
-  console.log("🤷‍♂️");
-
   const handlePaymentSubmit = () => {
-    console.log("💀");
-
     const dataForBody = {
       journey: {
         bus: oneBus._id,

@@ -30,7 +30,6 @@ const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
     );
   };
 
-  console.log(busList.roundTrip, "👻");
   return (
     <div className="nc-SectionGridFeatureProperty relative">
       {busUserInput?.roundTrip ? (

@@ -298,7 +298,6 @@ const ListingCarDetailPage: FC<ListingCarDetailPageProps> = ({
               rounded="rounded-xl"
               id="endTime"
               type="time"
-              onChange={(e) => console.log(e)}
             />
           </div>
         </div>
