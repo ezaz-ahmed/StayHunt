@@ -28,15 +28,15 @@ const BusReturnDateProperty: FC<PropertyCardHProps> = ({
     busClass,
   } = data;
 
-  const [openFocusIndex, setOpenFocusIndex] = useState<string>(_id);
-  const [isOpen, setIsOpen] = useState(false);
+  const [openFocusIndex, setOpenFocusIndex] = useState<string>("");
+  const [isModalOpen, setModalIsOpen] = useState(false);
 
   const closeModal = () => {
-    setIsOpen(false);
+    setModalIsOpen(false);
   };
 
   const openModal = (index: string) => {
-    setIsOpen(true);
+    setModalIsOpen(true);
     setOpenFocusIndex(index);
   };
 
@@ -135,12 +135,18 @@ const BusReturnDateProperty: FC<PropertyCardHProps> = ({
               {`BDT ${fare}.000`}
             </span>
           </div>
+
+          {isModalOpen && (
+            <ModalBus
+              isOpen={isModalOpen}
+              onClose={closeModal}
+              initFocus={openFocusIndex}
+            />
+          )}
         </div>
       </div>
     );
   };
-
-  console.log(isOpen, "😢");
 
   return (
     <div
@@ -150,13 +156,13 @@ const BusReturnDateProperty: FC<PropertyCardHProps> = ({
       <div className="h-full w-full flex flex-col sm:flex-row sm:items-center">
         {renderSliderGallery()}
         {renderContent()}
-      </div>
 
-      <ModalBus
-        isOpen={isOpen}
-        onClose={closeModal}
-        initFocus={openFocusIndex}
-      />
+        {/* <ModalBus
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          initFocus={openFocusIndex}
+        /> */}
+      </div>
     </div>
   );
 };

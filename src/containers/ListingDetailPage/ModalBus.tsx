@@ -7,8 +7,8 @@ import { fetchSingleBuslAsync } from "app/feature/bus/busSlice";
 import Badge from "shared/Badge/Badge";
 
 export interface ModalPhotosProps {
-  onClose: () => void;
   isOpen: boolean;
+  onClose: () => void;
   initFocus: string;
   contentExtraClass?: string;
   contentPaddingClass?: string;
@@ -39,6 +39,7 @@ const ModalBus: FC<ModalPhotosProps> = ({
   const [boardingPoint, setBoardingPoint] = useState(oneBus?.boardingPoints[0]);
   const [droppingPoint, setDroppingPoint] = useState(oneBus?.droppingPoints[0]);
   const [errorMessage, setErrorMessage] = useState<string>();
+  const [errorNoSeat, setErrorNoSeat] = useState<string>();
 
   let busSeats: any;
   let threeSitter: any;
@@ -72,6 +73,7 @@ const ModalBus: FC<ModalPhotosProps> = ({
       setSelectedSeat(selectedSeat.filter((seat) => seat !== value));
     } else {
       if (seatCount < 4) {
+        setErrorNoSeat("");
         setSelectedSeat((arr) => [...arr, value]);
       } else {
         ev.target.checked = false;
@@ -81,7 +83,11 @@ const ModalBus: FC<ModalPhotosProps> = ({
   };
 
   const reserveBtnClick = () => {
-    console.log(selectedSeat, "😢😢");
+    if (seatCount > 0) {
+      console.log(selectedSeat, "😢😢");
+    } else {
+      setErrorNoSeat("You've to select at least one seat to continue!");
+    }
   };
 
   const renderSeat = (seat: any) => {
@@ -100,7 +106,7 @@ const ModalBus: FC<ModalPhotosProps> = ({
           disabled={seat.selected}
           id={seat.key}
           value={seat.key}
-          checked={selectedSeat.includes(seat.key)}
+          readOnly={selectedSeat.includes(seat.key)}
           onClick={handleSeatSelect}
         />
         <label
@@ -117,53 +123,58 @@ const ModalBus: FC<ModalPhotosProps> = ({
     return (
       <Listbox value={boardingPoint} onChange={setBoardingPoint}>
         <div className="relative mt-1">
-          <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
+          <Listbox.Button className="relative w-full py-4 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
             <span className="block truncate">{boardingPoint}</span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
               <i className="las la-angle-down"></i>
             </span>
           </Listbox.Button>
-          <Transition
-            as={Fragment}
-            leave="transition ease-in duration-100"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {oneBus.boardingPoints.map((brdPoint: any, brdIdx: any) => (
-                <Listbox.Option
-                  key={brdIdx}
-                  className={({ active }) =>
-                    `${active ? "text-amber-900 bg-amber-100" : "text-gray-900"}
-            cursor-default select-none relative py-2 pl-10 pr-4`
-                  }
-                  value={brdPoint}
-                >
-                  {({ selected, active }) => (
-                    <>
-                      <span
-                        className={`${
-                          selected ? "font-medium" : "font-normal"
-                        } block truncate`}
-                      >
-                        {brdPoint}
-                      </span>
-                      {selected ? (
+
+          {oneBus.boardingPoints && (
+            <Transition
+              as={Fragment}
+              leave="transition ease-in duration-100"
+              leaveFrom="opacity-100"
+              leaveTo="opacity-0"
+            >
+              <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+                {oneBus.boardingPoints.map((brdPoint: any, brdIdx: any) => (
+                  <Listbox.Option
+                    key={brdIdx}
+                    className={({ active }) =>
+                      `${
+                        active ? "text-amber-900 bg-amber-100" : "text-gray-900"
+                      }
+                cursor-default select-none relative py-2 pl-10 pr-4`
+                    }
+                    value={brdPoint}
+                  >
+                    {({ selected, active }) => (
+                      <>
                         <span
                           className={`${
-                            active ? "text-amber-600" : "text-amber-600"
-                          }
-                  absolute inset-y-0 left-0 flex items-center pl-3`}
+                            selected ? "font-medium" : "font-normal"
+                          } block truncate`}
                         >
-                          <i className="las la-check"></i>
+                          {brdPoint}
                         </span>
-                      ) : null}
-                    </>
-                  )}
-                </Listbox.Option>
-              ))}
-            </Listbox.Options>
-          </Transition>
+                        {selected ? (
+                          <span
+                            className={`${
+                              active ? "text-amber-600" : "text-amber-600"
+                            }
+                        absolute inset-y-0 left-0 flex items-center pl-3`}
+                          >
+                            <i className="las la-check"></i>
+                          </span>
+                        ) : null}
+                      </>
+                    )}
+                  </Listbox.Option>
+                ))}
+              </Listbox.Options>
+            </Transition>
+          )}
         </div>
       </Listbox>
     );
@@ -173,7 +184,7 @@ const ModalBus: FC<ModalPhotosProps> = ({
     return (
       <Listbox value={droppingPoint} onChange={setDroppingPoint}>
         <div className="relative mt-1">
-          <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
+          <Listbox.Button className="relative w-full py-4 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
             <span className="block truncate">{droppingPoint}</span>
             <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
               <i className="las la-angle-down"></i>
@@ -275,11 +286,11 @@ const ModalBus: FC<ModalPhotosProps> = ({
 
         <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
 
-        <div className="text-neutral-6000 dark:text-neutral-300 flex justify-between">
+        <div className="text-neutral-6000 dark:text-neutral-300 flex justify-around">
           <div className="flex-1">
             <span className="text-lg font-semibold">Select your Seats</span>
             <div className="pt-5">
-              <div className={`bus  ${threeSitter ? "w-72" : "w-80"}`}>
+              <div className={`bus ${threeSitter ? "w-72" : "w-80"}`}>
                 <ol className={`cabin grid grid-cols-${oneBus.seatsInOneRow}`}>
                   {busSeats.map((el: any) => renderSeat(el))}
                 </ol>
@@ -287,7 +298,7 @@ const ModalBus: FC<ModalPhotosProps> = ({
               <span className="mt-12">{errorMessage}</span>
             </div>
           </div>
-          <div className="flex-1 w-72">
+          <div className="flex-1 px-5">
             <span className="text-lg font-semibold">
               Select your boarding point
             </span>
@@ -306,6 +317,9 @@ const ModalBus: FC<ModalPhotosProps> = ({
             {oneBus.droppingPoints && (
               <div className="pt-5">{renderDroppingPoint()}</div>
             )}
+          </div>
+
+          <div className="flex-1 px-5">
             <div className="pt-5">
               <div className="listingSection__wrap shadow-xl">
                 <span className="font-semibold text-xl">
@@ -355,6 +369,8 @@ const ModalBus: FC<ModalPhotosProps> = ({
                   <ButtonPrimary onClick={reserveBtnClick}>
                     Book Now
                   </ButtonPrimary>
+
+                  <span className="text-base mt-5">{errorNoSeat}</span>
                 </div>
               </div>
             </div>
@@ -370,7 +386,7 @@ const ModalBus: FC<ModalPhotosProps> = ({
     return status === "loading" ? (
       <div>Loading....</div>
     ) : (
-      <div> {oneBus && renderSection1()} </div>
+      <div>{renderSection1()}</div>
     );
   };
 
@@ -394,7 +410,7 @@ const ModalBus: FC<ModalPhotosProps> = ({
             >
               <Dialog.Overlay className="fixed inset-0 bg-white dark:bg-neutral-800" />
             </Transition.Child>
-            {/* This element is to trick the browser into centering the modal contents. */}
+            {/* This element is to trick the browser into centering the modal contents.  */}
             <span
               className="inline-block h-screen align-middle"
               aria-hidden="true"
