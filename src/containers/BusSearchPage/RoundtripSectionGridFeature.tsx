@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Fragment, useState } from "react";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import BusDatesRangeInput from "components/HeroSearchForm/BusDatesRangeInput";
 import { DateRage } from "components/HeroSearchForm/BusSearchForm";
@@ -7,7 +7,7 @@ import moment from "moment";
 import SectionGridFeatureProperty from "./SectionGridFeatureProperty";
 
 const RoundtripSectionGridFeature = () => {
-  const { busUserInput } = useAppSelector((state) => state.bus);
+  const { busUserInput, inputFirstBus } = useAppSelector((state) => state.bus);
 
   const [dateRangeValue, setDateRangeValue] = useState<DateRage>({
     startDate: busUserInput?.journeyDate
@@ -30,12 +30,29 @@ const RoundtripSectionGridFeature = () => {
           </div>
           <div className="ml-4 space-y-14 text-sm">
             <div className="flex flex-col space-y-2">
-              <span className=" text-neutral-500 dark:text-neutral-400">
-                Monday, August 12 · 10:00
-              </span>
-              <span className=" font-semibold">
-                Saint Petersburg City Center
-              </span>
+              {inputFirstBus ? (
+                <Fragment>
+                  <span className=" text-neutral-500 dark:text-neutral-400">
+                    Select A Bus For Journey
+                  </span>
+                  <span className=" font-semibold">No Bus Is Selected</span>{" "}
+                </Fragment>
+              ) : (
+                // <Fragment>
+                //   <span className=" text-neutral-500 dark:text-neutral-400">
+                //     {moment(inputFirstBus?.depDate, "DD-MM-YYYY")}
+                //   </span>
+                //   <span className=" font-semibold">
+                //     Saint Petersburg City Center
+                //   </span>{" "}
+                // </Fragment>
+                <Fragment>
+                  <span className=" text-neutral-500 dark:text-neutral-400">
+                    Select A Bus For Journey
+                  </span>
+                  <span className=" font-semibold">No Bus Is Selected</span>{" "}
+                </Fragment>
+              )}
             </div>
             <div className="flex flex-col space-y-2">
               <span className=" text-neutral-500 dark:text-neutral-400">

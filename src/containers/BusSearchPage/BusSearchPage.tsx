@@ -7,12 +7,12 @@ import SectionHeroArchivePage from "components/SectionHeroArchivePage/SectionHer
 import SectionSliderNewCategories from "components/SectionSliderNewCategories/SectionSliderNewCategories";
 import SectionSubscribe2 from "components/SectionSubscribe2/SectionSubscribe2";
 import SectionGridFeatureProperty from "./SectionGridFeatureProperty";
+import RoundtripSectionGridFeature from "./RoundtripSectionGridFeature";
 
 import OneWayIcon from "images/extra/one-way.svg";
 import TwoWayIcon from "images/extra/two-way.svg";
 
 import { useAppSelector } from "app/hook";
-import RoundtripSectionGridFeature from "./RoundtripSectionGridFeature";
 import Heading from "components/Heading/Heading";
 
 export interface HotelSearchPageProps {

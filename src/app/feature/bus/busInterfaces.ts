@@ -1,7 +1,9 @@
 export interface BusState {
-  status: 'idle' | 'loading' | 'failed';
+  status: "idle" | "loading" | "failed";
   cities: City[];
   busUserInput?: BusUserInput;
+  inputFirstBus?: any;
+  firstBusSelected: Boolean;
   busFinalInput?: any;
   busList: any;
   oneBus: any;

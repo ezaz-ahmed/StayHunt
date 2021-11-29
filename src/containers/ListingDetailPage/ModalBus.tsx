@@ -1,10 +1,14 @@
 import { FC, Fragment, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import { Dialog, Transition, Listbox } from "@headlessui/react";
-import ButtonClose from "shared/ButtonClose/ButtonClose";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import { useAppDispatch, useAppSelector } from "app/hook";
-import { fetchSingleBuslAsync } from "app/feature/bus/busSlice";
+import {
+  fetchSingleBuslAsync,
+  addInputFirstBus,
+} from "app/feature/bus/busSlice";
 import Badge from "shared/Badge/Badge";
+import ButtonClose from "shared/ButtonClose/ButtonClose";
 
 export interface ModalPhotosProps {
   isOpen: boolean;
@@ -21,8 +25,11 @@ const ModalBus: FC<ModalPhotosProps> = ({
   contentExtraClass = "max-w-screen-xl",
   contentPaddingClass = "py-4 px-6 md:py-5",
 }) => {
-  const { busUserInput, status, oneBus } = useAppSelector((state) => state.bus);
+  const { busUserInput, status, oneBus, firstBusSelected } = useAppSelector(
+    (state) => state.bus
+  );
   const dispatch = useAppDispatch();
+  const history = useHistory();
 
   useEffect(() => {
     dispatch<any>(
@@ -45,19 +52,8 @@ const ModalBus: FC<ModalPhotosProps> = ({
   let threeSitter: any;
 
   let seatCount = selectedSeat.length;
-  let changableAmount = 0;
-  let vat = 0;
-  let totalAmount = 0;
-  let serviceCharge = 0;
-
-  if (seatCount !== 0) {
-    serviceCharge = 50;
-  }
 
   if (oneBus) {
-    changableAmount = oneBus.fare * seatCount;
-    vat = changableAmount * 0.15;
-    totalAmount = Math.ceil(changableAmount + serviceCharge + vat);
     threeSitter = oneBus.seatsInOneRow === 3 ? true : false;
     busSeats = oneBus.seats.map((el: string) => ({
       key: el,
@@ -84,7 +80,28 @@ const ModalBus: FC<ModalPhotosProps> = ({
 
   const reserveBtnClick = () => {
     if (seatCount > 0) {
-      console.log(selectedSeat, "😢😢");
+      dispatch<any>(
+        addInputFirstBus({
+          bus: oneBus._id,
+          busName: oneBus.name,
+          startingPoint: busUserInput?.fromCity.locId,
+          endingPoint: busUserInput?.toCity.locId,
+          depDate: oneBus.depDate,
+          depTime: oneBus.depTime,
+          arrTime: oneBus.arrTime,
+          seats: selectedSeat,
+          seatCount: seatCount,
+          boardingPoint: boardingPoint,
+          droppingPoint: droppingPoint,
+          amount: oneBus.fare * seatCount,
+        })
+      );
+
+      if (firstBusSelected) {
+        history.push("bus/checkout");
+      } else {
+        onClose();
+      }
     } else {
       setErrorNoSeat("You've to select at least one seat to continue!");
     }
@@ -345,25 +362,13 @@ const ModalBus: FC<ModalPhotosProps> = ({
                     <span>
                       {oneBus?.fare} x {seatCount} seats
                     </span>
-                    <span>BDT {changableAmount}</span>
+                    <span>BDT {oneBus?.fare * seatCount}</span>
                   </div>
-
-                  <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
-                    <span>VAT(15%)</span>
-                    <span>BDT {vat}</span>
-                  </div>
-
-                  {serviceCharge !== 0 && (
-                    <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
-                      <span>Service charge</span>
-                      <span>BDT {serviceCharge}</span>
-                    </div>
-                  )}
 
                   <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
                   <div className="flex justify-between font-semibold">
                     <span>Total</span>
-                    <span>BDT {totalAmount}</span>
+                    <span>BDT {oneBus?.fare * seatCount}</span>
                   </div>
 
                   <ButtonPrimary onClick={reserveBtnClick}>
@@ -440,7 +445,9 @@ const ModalBus: FC<ModalPhotosProps> = ({
                     as="h3"
                     className="text-base font-semibold text-neutral-900 lg:text-xl dark:text-neutral-200 mx-10"
                   >
-                    Please! Select Bus Seats
+                    {firstBusSelected
+                      ? `Please! Select Bus Seats For ${busUserInput?.toCity.locName} to ${busUserInput?.fromCity.locName}`
+                      : `Please! Select Bus Seats For ${busUserInput?.fromCity.locName} to ${busUserInput?.toCity.locName}`}
                   </Dialog.Title>
                 </div>
                 <div className={contentPaddingClass}>{renderContent()}</div>
