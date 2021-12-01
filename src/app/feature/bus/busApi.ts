@@ -12,6 +12,7 @@ export const fetchBusList = async (
   fromCityId: string,
   toCityId: string
 ) => {
+  console.log(fromCityId, toCityId, depDate, "👈");
   const response = await axios.get(
     `${URL}api/v1/bus-list?depDate=${depDate}&fromCity=${fromCityId}&toCity=${toCityId}`
   );

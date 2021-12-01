@@ -20,6 +20,8 @@ const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
 }) => {
   const { busList, busUserInput } = useAppSelector((state) => state.bus);
 
+  console.log(busList, "🤣");
+
   const renderCardClick = (oneBus: any, index: number) => {
     return <PropertyCardH key={index} className="h-full" data={oneBus} />;
   };

@@ -20,7 +20,9 @@ export interface HotelSearchPageProps {
 }
 
 const BusSearchPage: FC<HotelSearchPageProps> = ({ className = "" }) => {
-  const { busUserInput } = useAppSelector((state) => state.bus);
+  const { busUserInput, firstBusSelected } = useAppSelector(
+    (state) => state.bus
+  );
 
   return (
     <div
@@ -45,7 +47,10 @@ const BusSearchPage: FC<HotelSearchPageProps> = ({ className = "" }) => {
             <Heading
               desc={
                 busUserInput.roundTrip
-                  ? `Choose a bus for ${busUserInput?.fromCity.locName} to
+                  ? firstBusSelected
+                    ? `Choose a bus for ${busUserInput?.toCity.locName} to
+          ${busUserInput?.fromCity.locName}`
+                    : `Choose a bus for ${busUserInput?.fromCity.locName} to
           ${busUserInput?.toCity.locName}`
                   : ""
               }

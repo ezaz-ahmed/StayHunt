@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from "app/hook";
 import {
   fetchSingleBuslAsync,
   addInputFirstBus,
+  addInputSecendBus,
+  fetchBusListAsync,
 } from "app/feature/bus/busSlice";
 import Badge from "shared/Badge/Badge";
 import ButtonClose from "shared/ButtonClose/ButtonClose";
@@ -80,26 +82,50 @@ const ModalBus: FC<ModalPhotosProps> = ({
 
   const reserveBtnClick = () => {
     if (seatCount > 0) {
-      dispatch<any>(
-        addInputFirstBus({
-          bus: oneBus._id,
-          busName: oneBus.name,
-          startingPoint: busUserInput?.fromCity.locId,
-          endingPoint: busUserInput?.toCity.locId,
-          depDate: oneBus.depDate,
-          depTime: oneBus.depTime,
-          arrTime: oneBus.arrTime,
-          seats: selectedSeat,
-          seatCount: seatCount,
-          boardingPoint: boardingPoint,
-          droppingPoint: droppingPoint,
-          amount: oneBus.fare * seatCount,
-        })
-      );
-
       if (firstBusSelected) {
-        history.push("bus/checkout");
+        dispatch<any>(
+          addInputSecendBus({
+            bus: oneBus._id,
+            busName: oneBus.name,
+            startingPoint: busUserInput?.fromCity,
+            endingPoint: busUserInput?.toCity,
+            depDate: oneBus.depDate,
+            depTime: oneBus.depTime,
+            arrTime: oneBus.arrTime,
+            seats: selectedSeat,
+            seatCount: seatCount,
+            boardingPoint: boardingPoint,
+            droppingPoint: droppingPoint,
+            amount: oneBus.fare * seatCount,
+          })
+        );
+
+        history.push("bus/roundtrip-checkout");
       } else {
+        dispatch<any>(
+          addInputFirstBus({
+            bus: oneBus._id,
+            busName: oneBus.name,
+            startingPoint: busUserInput?.fromCity,
+            endingPoint: busUserInput?.toCity,
+            depDate: oneBus.depDate,
+            depTime: oneBus.depTime,
+            arrTime: oneBus.arrTime,
+            seats: selectedSeat,
+            seatCount: seatCount,
+            boardingPoint: boardingPoint,
+            droppingPoint: droppingPoint,
+            amount: oneBus.fare * seatCount,
+          })
+        );
+
+        dispatch<any>(
+          fetchBusListAsync({
+            fromCityId: busUserInput?.toCity.locId,
+            toCityId: busUserInput?.fromCity.locId,
+            depDate: busUserInput?.returnDate,
+          })
+        );
         onClose();
       }
     } else {

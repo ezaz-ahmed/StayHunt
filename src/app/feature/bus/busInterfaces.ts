@@ -3,7 +3,9 @@ export interface BusState {
   cities: City[];
   busUserInput?: BusUserInput;
   inputFirstBus?: any;
+  inputSecendBus?: any;
   firstBusSelected: Boolean;
+  secendBusSelected: Boolean;
   busFinalInput?: any;
   busList: any;
   oneBus: any;

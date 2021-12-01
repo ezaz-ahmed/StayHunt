@@ -41,6 +41,7 @@ import OtpPage from "containers/PageSignUp/OtpPage";
 import BusSearchPage from "containers/BusSearchPage/BusSearchPage";
 import BusDetailsPage from "containers/BusSearchPage/BusDetailsPage";
 import BusCheckOut from "containers/CheckOutPage/BusCheckOutPage";
+import BusCheckOutRound from "containers/CheckOutPage/BusCheckoutRoundPage";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome },
@@ -53,6 +54,7 @@ export const pages: Page[] = [
   //
   { path: "/bus", exact: true, component: BusSearchPage },
   { path: "/bus/checkout", exact: true, component: BusCheckOut },
+  { path: "/bus/roundtrip-checkout", exact: true, component: BusCheckOutRound },
   { path: "/bus/:id", exact: true, component: BusDetailsPage },
   // { path: '/listing-experiences', component: ListingExperiencesPage },
   {

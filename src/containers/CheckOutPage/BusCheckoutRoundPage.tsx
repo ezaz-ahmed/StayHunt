@@ -16,8 +16,9 @@ export interface BusCheckOutPageProps {
   className?: string;
 }
 
-const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = "" }) => {
-  const { busFinalInput, oneBus } = useAppSelector((state) => state.bus);
+const BusCheckOutRound: FC<BusCheckOutPageProps> = ({ className = "" }) => {
+  const { busFinalInput, oneBus, inputFirstBus, inputSecendBus } =
+    useAppSelector((state) => state.bus);
   const { userDetails } = useAppSelector((state) => state.user);
   const [btnDisalbe, setBtnDisalbe] = useState(true);
   const [name, setName] = useState(userDetails.name || "");
@@ -252,7 +253,9 @@ const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = "" }) => {
     );
   };
 
-  return busFinalInput ? (
+  console.log(inputFirstBus, "1️⃣", inputSecendBus, "2️⃣");
+
+  return inputFirstBus && inputSecendBus ? (
     <div className={`nc-CheckOutPage ${className}`} data-nc-id="CheckOutPage">
       <main className="container mt-11 mb-24 lg:mb-32 flex flex-col-reverse lg:flex-row">
         {/* <div className="w-full lg:w-3/5 xl:w-2/3 lg:pr-10 ">{renderMain()}</div> */}
@@ -265,4 +268,4 @@ const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = "" }) => {
   );
 };
 
-export default BusCheckOut;
+export default BusCheckOutRound;

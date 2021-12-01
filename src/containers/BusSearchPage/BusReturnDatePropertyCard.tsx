@@ -156,12 +156,6 @@ const BusReturnDateProperty: FC<PropertyCardHProps> = ({
       <div className="h-full w-full flex flex-col sm:flex-row sm:items-center">
         {renderSliderGallery()}
         {renderContent()}
-
-        {/* <ModalBus
-          isOpen={isModalOpen}
-          onClose={closeModal}
-          initFocus={openFocusIndex}
-        /> */}
       </div>
     </div>
   );

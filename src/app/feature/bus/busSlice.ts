@@ -9,7 +9,9 @@ const initialState: BusState = {
   busUserInput: undefined,
   busList: [],
   inputFirstBus: undefined,
+  inputSecendBus: undefined,
   firstBusSelected: false,
+  secendBusSelected: false,
   busFinalInput: undefined,
   oneBus: undefined,
 };
@@ -54,6 +56,10 @@ export const busSlice = createSlice({
       state.firstBusSelected = true;
       state.inputFirstBus = action.payload;
     },
+    addInputSecendBus: (state, action) => {
+      state.secendBusSelected = true;
+      state.inputSecendBus = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -90,7 +96,11 @@ export const busSlice = createSlice({
   },
 });
 
-export const { addUserInput, addFinalInput, addInputFirstBus } =
-  busSlice.actions;
+export const {
+  addUserInput,
+  addFinalInput,
+  addInputFirstBus,
+  addInputSecendBus,
+} = busSlice.actions;
 
 export default busSlice.reducer;
