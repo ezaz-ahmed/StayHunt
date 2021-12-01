@@ -255,7 +255,7 @@ const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = "" }) => {
   return busFinalInput ? (
     <div className={`nc-CheckOutPage ${className}`} data-nc-id="CheckOutPage">
       <main className="container mt-11 mb-24 lg:mb-32 flex flex-col-reverse lg:flex-row">
-        {/* <div className="w-full lg:w-3/5 xl:w-2/3 lg:pr-10 ">{renderMain()}</div> */}
+        <div className="w-full lg:w-3/5 xl:w-2/3 lg:pr-10 ">{renderMain()}</div>
         <div>Hello</div>
         <div className="hidden lg:block flex-grow">{renderSidebar()}</div>
       </main>

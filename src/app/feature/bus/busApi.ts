@@ -12,7 +12,6 @@ export const fetchBusList = async (
   fromCityId: string,
   toCityId: string
 ) => {
-  console.log(fromCityId, toCityId, depDate, "👈");
   const response = await axios.get(
     `${URL}api/v1/bus-list?depDate=${depDate}&fromCity=${fromCityId}&toCity=${toCityId}`
   );
@@ -36,6 +35,8 @@ export const fetchPaymentBus = async (body: any, token: string) => {
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
+
+    console.log(body, "❤");
 
     const response = await axios.post(
       `${URL}api/v1/bookings/checkout-sslcommerz`,

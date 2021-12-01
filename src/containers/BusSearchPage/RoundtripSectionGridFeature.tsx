@@ -1,20 +1,10 @@
-import { Fragment, useState } from "react";
-import ButtonPrimary from "shared/Button/ButtonPrimary";
-import BusDatesRangeInput from "components/HeroSearchForm/BusDatesRangeInput";
-import { DateRage } from "components/HeroSearchForm/BusSearchForm";
+import { Fragment } from "react";
 import { useAppSelector } from "app/hook";
 import moment from "moment";
 import SectionGridFeatureProperty from "./SectionGridFeatureProperty";
 
 const RoundtripSectionGridFeature = () => {
-  const { busUserInput, inputFirstBus } = useAppSelector((state) => state.bus);
-
-  const [dateRangeValue, setDateRangeValue] = useState<DateRage>({
-    startDate: busUserInput?.journeyDate
-      ? moment(busUserInput.returnDate)
-      : null,
-    endDate: busUserInput?.returnDate ? moment(busUserInput.returnDate) : null,
-  });
+  const { inputFirstBus } = useAppSelector((state) => state.bus);
 
   const renderSidebarDetail = () => {
     return (

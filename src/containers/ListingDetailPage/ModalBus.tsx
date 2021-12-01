@@ -34,15 +34,24 @@ const ModalBus: FC<ModalPhotosProps> = ({
   const history = useHistory();
 
   useEffect(() => {
-    dispatch<any>(
-      fetchSingleBuslAsync({
-        id: initFocus,
-        depDate: busUserInput?.journeyDate,
-        fromLocId: busUserInput?.fromCity.locId,
-        toLocId: busUserInput?.toCity.locId,
-      })
-    );
-  }, []);
+    firstBusSelected
+      ? dispatch<any>(
+          fetchSingleBuslAsync({
+            id: initFocus,
+            depDate: busUserInput?.returnDate,
+            fromLocId: busUserInput?.toCity.locId,
+            toLocId: busUserInput?.fromCity.locId,
+          })
+        )
+      : dispatch<any>(
+          fetchSingleBuslAsync({
+            id: initFocus,
+            depDate: busUserInput?.journeyDate,
+            fromLocId: busUserInput?.fromCity.locId,
+            toLocId: busUserInput?.toCity.locId,
+          })
+        );
+  }, [firstBusSelected]);
 
   const [selectedSeat, setSelectedSeat] = useState<string[]>([]);
   const [boardingPoint, setBoardingPoint] = useState(oneBus?.boardingPoints[0]);
@@ -83,12 +92,13 @@ const ModalBus: FC<ModalPhotosProps> = ({
   const reserveBtnClick = () => {
     if (seatCount > 0) {
       if (firstBusSelected) {
+        // For Return Trip Data Set
         dispatch<any>(
           addInputSecendBus({
             bus: oneBus._id,
             busName: oneBus.name,
-            startingPoint: busUserInput?.fromCity,
-            endingPoint: busUserInput?.toCity,
+            startingPoint: busUserInput?.toCity,
+            endingPoint: busUserInput?.fromCity,
             depDate: oneBus.depDate,
             depTime: oneBus.depTime,
             arrTime: oneBus.arrTime,
@@ -96,12 +106,14 @@ const ModalBus: FC<ModalPhotosProps> = ({
             seatCount: seatCount,
             boardingPoint: boardingPoint,
             droppingPoint: droppingPoint,
+            fare: oneBus.fare,
             amount: oneBus.fare * seatCount,
           })
         );
 
         history.push("bus/roundtrip-checkout");
       } else {
+        // For First Input Trip Data Set
         dispatch<any>(
           addInputFirstBus({
             bus: oneBus._id,
@@ -115,6 +127,7 @@ const ModalBus: FC<ModalPhotosProps> = ({
             seatCount: seatCount,
             boardingPoint: boardingPoint,
             droppingPoint: droppingPoint,
+            fare: oneBus.fare,
             amount: oneBus.fare * seatCount,
           })
         );
