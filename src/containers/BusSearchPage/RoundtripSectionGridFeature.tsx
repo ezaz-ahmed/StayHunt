@@ -1,10 +1,75 @@
-import { Fragment } from "react";
+import { Fragment, FC } from "react";
 import { useAppSelector } from "app/hook";
 import moment from "moment";
 import SectionGridFeatureProperty from "./SectionGridFeatureProperty";
 
-const RoundtripSectionGridFeature = () => {
-  const { inputFirstBus } = useAppSelector((state) => state.bus);
+export interface RoundtripSectionGridFeatureProps {
+  variant: "Bus" | "Launch";
+}
+
+const RoundtripSectionGridFeature: FC<RoundtripSectionGridFeatureProps> = ({
+  variant,
+}) => {
+  const { inputFirstBus, busUserInput } = useAppSelector((state) => state.bus);
+  const { inputFirstLaunch } = useAppSelector((state) => state.launch);
+
+  const BusJourneyDetails = () => (
+    <div className="ml-4 space-y-14 text-sm">
+      <div className="flex flex-col space-y-2">
+        {inputFirstBus ? (
+          <Fragment>
+            <span className=" text-neutral-500 dark:text-neutral-400">
+              {moment(inputFirstBus?.depDate).format("MMMM d, YYYY")}
+            </span>
+            <span className=" font-semibold">
+              {inputFirstBus.busName} {JSON.stringify(inputFirstBus.seats)}
+            </span>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <span className=" text-neutral-500 dark:text-neutral-400">
+              Select A Bus For Journey
+            </span>
+            <span className=" font-semibold">No Bus Is Selected</span>{" "}
+          </Fragment>
+        )}
+      </div>
+      <div className="flex flex-col space-y-2">
+        <span className=" text-neutral-500 dark:text-neutral-400">
+          {moment(busUserInput?.returnDate).format("MMMM d, YYYY")}
+        </span>
+        <span className=" font-semibold">No Bus Is Selected</span>
+      </div>
+    </div>
+  );
+
+  const LaunchJourneyDetails = () => (
+    <div className="ml-4 space-y-14 text-sm">
+      <div className="flex flex-col space-y-2">
+        {inputFirstLaunch ? (
+          <Fragment>
+            <span className=" text-neutral-500 dark:text-neutral-400">
+              {moment(inputFirstLaunch?.depDate).format("MMMM d, YYYY")}
+            </span>
+            <span className=" font-semibold">{inputFirstLaunch.busName}</span>
+          </Fragment>
+        ) : (
+          <Fragment>
+            <span className=" text-neutral-500 dark:text-neutral-400">
+              Select A Launch For Journey
+            </span>
+            <span className=" font-semibold">No Bus Is Selected</span>{" "}
+          </Fragment>
+        )}
+      </div>
+      <div className="flex flex-col space-y-2">
+        <span className=" text-neutral-500 dark:text-neutral-400">
+          {moment(busUserInput?.returnDate).format("MMMM d, YYYY")}
+        </span>
+        <span className=" font-semibold">No Launch Is Selected</span>
+      </div>
+    </div>
+  );
 
   const renderSidebarDetail = () => {
     return (
@@ -18,43 +83,15 @@ const RoundtripSectionGridFeature = () => {
             <span className="block flex-grow border-l border-neutral-400 border-dashed my-1"></span>
             <span className="block w-6 h-6 rounded-full border border-neutral-400"></span>
           </div>
-          <div className="ml-4 space-y-14 text-sm">
-            <div className="flex flex-col space-y-2">
-              {inputFirstBus ? (
-                <Fragment>
-                  <span className=" text-neutral-500 dark:text-neutral-400">
-                    {moment(inputFirstBus?.depDate).format("MMMM d, YYYY")}
-                  </span>
-                  <span className=" font-semibold">
-                    {inputFirstBus.busName}{" "}
-                    {JSON.stringify(inputFirstBus.seats)}
-                  </span>
-                </Fragment>
-              ) : (
-                <Fragment>
-                  <span className=" text-neutral-500 dark:text-neutral-400">
-                    Select A Bus For Journey
-                  </span>
-                  <span className=" font-semibold">No Bus Is Selected</span>{" "}
-                </Fragment>
-              )}
-            </div>
-            <div className="flex flex-col space-y-2">
-              <span className=" text-neutral-500 dark:text-neutral-400">
-                Monday, August 16 · 10:00
-              </span>
-              <span className=" font-semibold">
-                Saint Petersburg City Center
-              </span>
-            </div>
-          </div>
+          {variant === "Bus" && BusJourneyDetails()}
+          {variant === "Launch" && LaunchJourneyDetails()}
         </div>
       </div>
     );
   };
 
   const renderSection = () => {
-    return <SectionGridFeatureProperty />;
+    return <SectionGridFeatureProperty variant={variant} />;
   };
 
   return (

@@ -1,26 +1,32 @@
-import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
-import storage from 'redux-persist/lib/storage';
-import sessionStorage from 'redux-persist/lib/storage/session';
-import { combineReducers } from 'redux';
-import { persistReducer } from 'redux-persist';
-import thunk from 'redux-thunk';
-import hotelReducer from './feature/hotel/hotelSlice';
-import busReducer from './feature/bus/busSlice';
-import userReducer from './feature/user/userSlices';
+import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit";
+import storage from "redux-persist/lib/storage";
+import sessionStorage from "redux-persist/lib/storage/session";
+import { combineReducers } from "redux";
+import { persistReducer } from "redux-persist";
+import thunk from "redux-thunk";
+import hotelReducer from "./feature/hotel/hotelSlice";
+import busReducer from "./feature/bus/busSlice";
+import launchReducer from "./feature/launch/launchSlice";
+import userReducer from "./feature/user/userSlices";
 
 const rootPersistConfig = {
-  key: 'root',
+  key: "root",
   storage,
-  whitelist: ['user'],
+  whitelist: ["user"],
 };
 
 const hotelPersistConfig = {
-  key: 'hotel',
+  key: "hotel",
+  storage: sessionStorage,
+};
+
+const launchPersistConfig = {
+  key: "launch",
   storage: sessionStorage,
 };
 
 const busPersistConfig = {
-  key: 'bus',
+  key: "bus",
   storage: sessionStorage,
 };
 
@@ -28,6 +34,7 @@ const rootReducer = combineReducers({
   user: userReducer,
   bus: persistReducer(busPersistConfig, busReducer),
   hotel: persistReducer(hotelPersistConfig, hotelReducer),
+  launch: persistReducer(launchPersistConfig, launchReducer),
 });
 
 const persistedReducer = persistReducer(rootPersistConfig, rootReducer);

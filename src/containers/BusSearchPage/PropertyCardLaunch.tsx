@@ -6,20 +6,22 @@ import moment from "moment";
 
 import OneWayIcon from "images/extra/one-way.svg";
 
-export interface PropertyCardHProps {
+export interface PropertyCardLaunchProps {
   className?: string;
   data?: any;
 }
 
-const PropertyCardH: FC<PropertyCardHProps> = ({ className = "", data }) => {
+const PropertyCardLaunch: FC<PropertyCardLaunchProps> = ({
+  className = "",
+  data,
+}) => {
   const {
     _id,
     images,
-    AC,
-    model,
-    numOfSeats,
+    companyName,
+    totalAvailable,
     name,
-    fare,
+    minPrice,
     depTime,
     arrTime,
     busClass,
@@ -135,4 +137,4 @@ const PropertyCardH: FC<PropertyCardHProps> = ({ className = "", data }) => {
   );
 };
 
-export default PropertyCardH;
+export default PropertyCardLaunch;

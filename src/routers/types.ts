@@ -7,10 +7,17 @@ export interface LocationStates {
   "/hotel"?: {};
   "/hotel/:id"?: {};
   "/hotel/checkout"?: {};
+  //
   "/bus"?: {};
   "/bus/:id"?: {};
   "/bus/checkout"?: {};
   "/bus/roundtrip-checkout"?: {};
+  //
+  "/launch"?: {};
+  "/launch/:id"?: {};
+  "/launch/checkout"?: {};
+  "/launch/roundtrip-checkout"?: {};
+  //
   "/listing-stay"?: {};
   "/listing-stay-map"?: {};
   "/listing-stay-detail"?: {};

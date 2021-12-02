@@ -19,9 +19,9 @@ export interface HotelSearchPageProps {
   className?: string;
 }
 
-const BusSearchPage: FC<HotelSearchPageProps> = ({ className = "" }) => {
-  const { busUserInput, firstBusSelected } = useAppSelector(
-    (state) => state.bus
+const LaunchSearchPage: FC<HotelSearchPageProps> = ({ className = "" }) => {
+  const { launchUserInput, firstLaunchSelected } = useAppSelector(
+    (state) => state.launch
   );
 
   return (
@@ -30,34 +30,34 @@ const BusSearchPage: FC<HotelSearchPageProps> = ({ className = "" }) => {
       data-nc-id="ListingStayPage"
     >
       <Helmet>
-        <title>TicketsForTravel | Buy Bus Tickets Online</title>
+        <title>TicketsForTravel | Buy Launch Tickets Online</title>
       </Helmet>
       <BgGlassmorphism />
 
       <div className="container relative overflow-hidden">
         {/* SECTION HERO */}
         <SectionHeroArchivePage
-          currentPage="Bus"
-          currentTab="Bus"
+          currentPage="Launch"
+          currentTab="Launch"
           className="pt-10 pb-24 lg:pb-20 lg:pt-20"
         />
 
-        {busUserInput?.fromCity && busUserInput?.toCity && (
+        {launchUserInput?.fromCity && launchUserInput?.toCity && (
           <div className={`mb-12 lg:mb-16 ${className}`}>
             <Heading
               desc={
-                busUserInput.roundTrip
-                  ? firstBusSelected
-                    ? `Choose a bus for ${busUserInput?.toCity.locName} to
-          ${busUserInput?.fromCity.locName}`
-                    : `Choose a bus for ${busUserInput?.fromCity.locName} to
-          ${busUserInput?.toCity.locName}`
+                launchUserInput.roundTrip
+                  ? firstLaunchSelected
+                    ? `Choose a launch for ${launchUserInput?.toCity.locName} to
+          ${launchUserInput?.fromCity.locName}`
+                    : `Choose a launch for ${launchUserInput?.fromCity.locName} to
+          ${launchUserInput?.toCity.locName}`
                   : ""
               }
             >
               <span className="flex align-middle text-4xl font-semibold">
-                Bus in {busUserInput.fromCity.locName}
-                {busUserInput.roundTrip ? (
+                Launch in {launchUserInput.fromCity.locName}
+                {launchUserInput.roundTrip ? (
                   <img
                     src={TwoWayIcon}
                     alt="Two Way Icon"
@@ -70,16 +70,16 @@ const BusSearchPage: FC<HotelSearchPageProps> = ({ className = "" }) => {
                     className="w-11 h-auto mx-4"
                   />
                 )}
-                {busUserInput.toCity.locName}
+                {launchUserInput.toCity.locName}
               </span>
             </Heading>
           </div>
         )}
 
-        {busUserInput?.roundTrip ? (
-          <RoundtripSectionGridFeature variant="Bus" />
+        {launchUserInput?.roundTrip ? (
+          <RoundtripSectionGridFeature variant="Launch" />
         ) : (
-          <SectionGridFeatureProperty variant="Bus" />
+          <SectionGridFeatureProperty variant="Launch" />
         )}
 
         {/* SECTION 1 */}
@@ -110,4 +110,4 @@ const BusSearchPage: FC<HotelSearchPageProps> = ({ className = "" }) => {
   );
 };
 
-export default BusSearchPage;
+export default LaunchSearchPage;
