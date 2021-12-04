@@ -65,7 +65,7 @@ const BusDetailsPage: FC<BusDetailsPageProps> = ({ match }) => {
 
   useEffect(() => {
     fetchOneBus();
-  }, [id, oneBus]);
+  }, [id]);
 
   const handleSeatSelect = (ev: any) => {
     const value: string = ev.target.value;
