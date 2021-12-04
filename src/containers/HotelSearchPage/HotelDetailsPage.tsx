@@ -398,7 +398,7 @@ const HotelDetailsPage: FC<HotelDetailsPageProps> = ({ match }) => {
   };
 
   return status === "loading" ? (
-    <h1>Loading</h1>
+    <h1>Loading...</h1>
   ) : status === "idle" ? (
     oneHotel ? (
       <div

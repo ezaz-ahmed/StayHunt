@@ -1,5 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { fetchLaunchCities, fetchLauchList } from "./launchAPI";
+import {
+  fetchLaunchCities,
+  fetchLauchList,
+  fetchSingleLaunch,
+} from "./launchAPI";
 
 import { LaunchState } from "./launchInterfaces";
 
@@ -33,12 +37,29 @@ export const fetchLaunchListAsync = createAsyncThunk(
   }
 );
 
+export const fetchSingleLaunchlAsync = createAsyncThunk(
+  "launch/fetchSingleLaunch",
+  async (userChosenData: any) => {
+    const { id, depDate, fromLocId, toLocId } = userChosenData;
+    const { data }: any = await fetchSingleLaunch(
+      id,
+      depDate,
+      fromLocId,
+      toLocId
+    );
+    return data;
+  }
+);
+
 export const launchSlice = createSlice({
   name: "lauch",
   initialState,
   reducers: {
     addUserInput: (state, action) => {
       state.launchUserInput = action.payload;
+    },
+    addFinalInput: (state, action) => {
+      state.launchFinalInput = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -62,10 +83,20 @@ export const launchSlice = createSlice({
       })
       .addCase(fetchLaunchListAsync.rejected, (state) => {
         state.status = "failed";
+      })
+      .addCase(fetchSingleLaunchlAsync.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchSingleLaunchlAsync.fulfilled, (state, action) => {
+        state.status = "idle";
+        state.oneLaunch = action.payload;
+      })
+      .addCase(fetchSingleLaunchlAsync.rejected, (state) => {
+        state.status = "failed";
       });
   },
 });
 
-export const { addUserInput } = launchSlice.actions;
+export const { addUserInput, addFinalInput } = launchSlice.actions;
 
 export default launchSlice.reducer;

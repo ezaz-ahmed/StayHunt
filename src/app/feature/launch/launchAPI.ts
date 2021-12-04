@@ -17,3 +17,15 @@ export const fetchLauchList = async (
   );
   return response.data;
 };
+
+export const fetchSingleLaunch = async (
+  id: string,
+  depDate: string,
+  fromLocId: string,
+  toLocId: string
+) => {
+  const response = await axios.get(
+    `${URL}api/v1/launch-list/${id}?depDate=${depDate}&fromCity=${fromLocId}&toCity=${toLocId}`
+  );
+  return response.data;
+};

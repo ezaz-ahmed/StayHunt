@@ -43,6 +43,7 @@ import BusDetailsPage from "containers/BusSearchPage/BusDetailsPage";
 import BusCheckOut from "containers/CheckOutPage/BusCheckOutPage";
 import BusCheckOutRound from "containers/CheckOutPage/BusCheckoutRoundPage";
 import LaunchSearchPage from "containers/BusSearchPage/LaunchSearchPage";
+import LaunchDetailsPage from "containers/BusSearchPage/LaunchDetailsPage";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome },
@@ -50,15 +51,14 @@ export const pages: Page[] = [
   { path: "/hotel", exact: true, component: HotelSearchPage },
   { path: "/hotel/checkout", exact: true, component: HotelCheckOut },
   { path: "/hotel/:id", exact: true, component: HotelDetailsPage },
-  // { path: '/listing-stay-map', component: ListingStayMapPage },
-  // { path: '/listing-stay-detail', component: ListingStayDetailPage },
   //
   { path: "/bus", exact: true, component: BusSearchPage },
   { path: "/bus/checkout", exact: true, component: BusCheckOut },
   { path: "/bus/roundtrip-checkout", exact: true, component: BusCheckOutRound },
   { path: "/bus/:id", exact: true, component: BusDetailsPage },
-  // { path: '/listing-experiences', component: ListingExperiencesPage },
+  //
   { path: "/launch", exact: true, component: LaunchSearchPage },
+  { path: "/launch/:id", exact: true, component: LaunchDetailsPage },
   {
     path: "/listing-experiences-map",
     component: ListingExperiencesMapPage,

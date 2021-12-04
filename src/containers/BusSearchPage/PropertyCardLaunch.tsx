@@ -17,14 +17,13 @@ const PropertyCardLaunch: FC<PropertyCardLaunchProps> = ({
 }) => {
   const {
     _id,
+    name,
     images,
     companyName,
-    totalAvailable,
-    name,
+    totalCabins,
     minPrice,
     depTime,
     arrTime,
-    busClass,
   } = data;
 
   const renderSliderGallery = () => {
@@ -74,13 +73,13 @@ const PropertyCardLaunch: FC<PropertyCardLaunchProps> = ({
   const renderContent = () => {
     return (
       <div className="flex-grow p-3 sm:pr-6 flex flex-col items-start">
-        <Link to={`/bus/${_id}`} className="space-y-4 w-full">
+        <Link to={`/launch/${_id}`} className="space-y-4 w-full">
           <div className="inline-flex space-x-3">
             <Badge
               name={
                 <div className="flex items-center">
                   <i className="text-sm las la-user-friends"></i>
-                  <span className="ml-1">{model}</span>
+                  <span className="ml-1">{companyName}</span>
                 </div>
               }
               color="yellow"
@@ -89,22 +88,10 @@ const PropertyCardLaunch: FC<PropertyCardLaunchProps> = ({
               name={
                 <div className="flex items-center">
                   <i className="text-sm las la-share-alt"></i>
-                  <span className="ml-1">{numOfSeats} Seats</span>
+                  <span className="ml-1">{totalCabins} Cabins</span>
                 </div>
               }
             />
-
-            {AC && (
-              <Badge
-                name={
-                  <div className="flex items-center">
-                    <i className="text-sm las la-user-friends"></i>
-                    <span className="ml-1">AC</span>
-                  </div>
-                }
-                color="yellow"
-              />
-            )}
           </div>
           <div className="flex items-center space-x-2">
             <h2 className="text-lg font-medium capitalize">
@@ -114,9 +101,9 @@ const PropertyCardLaunch: FC<PropertyCardLaunchProps> = ({
           {renderTienIch()}
           <div className="w-14 border-b border-neutral-100 dark:border-neutral-800 "></div>
           <div className="flex w-full justify-between items-end">
-            <span className="font-semibold">{busClass}</span>
+            <span className="font-semibold">&nbsp;</span>
             <span className="flex items-center justify-center px-3 py-2 border border-primary-6000 rounded leading-none text-base font-medium text-primary-6000">
-              {`BDT ${fare}.000`}
+              {`BDT ${minPrice}.000`}
             </span>
           </div>
         </Link>

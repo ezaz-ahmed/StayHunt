@@ -36,8 +36,6 @@ export const fetchPaymentBus = async (body: any, token: string) => {
       headers: { Authorization: `Bearer ${token}` },
     };
 
-    console.log(body, "❤");
-
     const response = await axios.post(
       `${URL}api/v1/bookings/checkout-sslcommerz`,
       body,

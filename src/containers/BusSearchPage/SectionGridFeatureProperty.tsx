@@ -36,11 +36,11 @@ const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
     );
   };
 
-  // const renderCardLaunch = (oneLaunch: any, index: number) => {
-  //   return (
-  //     <PropertyCardLaunch key={index} className="h-full" data={oneLaunch} />
-  //   );
-  // };
+  const renderCardLaunch = (oneLaunch: any, index: number) => {
+    return (
+      <PropertyCardLaunch key={index} className="h-full" data={oneLaunch} />
+    );
+  };
 
   return (
     <div className="nc-SectionGridFeatureProperty relative">
@@ -61,8 +61,7 @@ const SectionGridFeatureProperty: FC<SectionGridFeaturePropertyProps> = ({
         <div
           className={`grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-1 lg:grid-cols-2 ${gridClass}`}
         >
-          {JSON.stringify(launchList)}
-          {/* {launchList.launches && launchList.launches.map(renderCardClick)} */}
+          {launchList.launches && launchList.launches.map(renderCardLaunch)}
         </div>
       )}
 
