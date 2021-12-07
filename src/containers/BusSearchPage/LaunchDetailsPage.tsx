@@ -31,12 +31,11 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
   const history = useHistory();
   const dispatch = useAppDispatch();
 
-  const [selectedSeat, setSelectedSeat] = useState<string[]>([]);
   const [boardingPoint, setBoardingPoint] = useState(
-    oneLaunch?.boardingPoints[0]
+    oneLaunch ? oneLaunch.boardingPoints[0] : "Droppoing Points"
   );
   const [droppingPoint, setDroppingPoint] = useState(
-    oneLaunch?.droppingPoints[0]
+    oneLaunch ? oneLaunch.droppingPoints[0] : "Boarding Points"
   );
 
   const [isOpen, setIsOpen] = useState(false);
@@ -225,6 +224,133 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
     );
   };
 
+  const renderBoardingPoint = () => {
+    return (
+      <Listbox value={boardingPoint} onChange={setBoardingPoint}>
+        <div className="relative mt-1">
+          <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
+            <span className="block truncate">{boardingPoint}</span>
+            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+              <i className="las la-angle-down"></i>
+            </span>
+          </Listbox.Button>
+          <Transition
+            as={Fragment}
+            leave="transition ease-in duration-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <Listbox.Options className="absolute w-full py-1 mt-1 z-50 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              {oneLaunch.boardingPoints.map((brdPoint: any, brdIdx: any) => (
+                <Listbox.Option
+                  key={brdIdx}
+                  className={({ active }) =>
+                    `${active ? "text-amber-900 bg-amber-100" : "text-gray-900"}
+            cursor-default select-none relative py-2 pl-10 pr-4`
+                  }
+                  value={brdPoint}
+                >
+                  {({ selected, active }) => (
+                    <>
+                      <span
+                        className={`${
+                          selected ? "font-medium" : "font-normal"
+                        } block truncate`}
+                      >
+                        {brdPoint}
+                      </span>
+                      {selected ? (
+                        <span
+                          className={`${
+                            active ? "text-amber-600" : "text-amber-600"
+                          }
+                  absolute inset-y-0 left-0 flex items-center pl-3`}
+                        >
+                          <i className="las la-check"></i>
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Transition>
+        </div>
+      </Listbox>
+    );
+  };
+
+  const renderDroppingPoint = () => {
+    return (
+      <Listbox value={droppingPoint} onChange={setDroppingPoint}>
+        <div className="relative mt-1">
+          <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
+            <span className="block truncate">{droppingPoint}</span>
+            <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+              <i className="las la-angle-down"></i>
+            </span>
+          </Listbox.Button>
+          <Transition
+            as={Fragment}
+            leave="transition ease-in duration-100"
+            leaveFrom="opacity-100"
+            leaveTo="opacity-0"
+          >
+            <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              {oneLaunch.droppingPoints.map((drpPoint: any, drpIndex: any) => (
+                <Listbox.Option
+                  key={drpIndex}
+                  className={({ active }) =>
+                    `${active ? "text-amber-900 bg-amber-100" : "text-gray-900"}
+            cursor-default select-none relative py-2 pl-10 pr-4`
+                  }
+                  value={drpPoint}
+                >
+                  {({ selected, active }) => (
+                    <>
+                      <span
+                        className={`${
+                          selected ? "font-medium" : "font-normal"
+                        } block truncate`}
+                      >
+                        {drpPoint}
+                      </span>
+                      {selected ? (
+                        <span
+                          className={`${
+                            active ? "text-amber-600" : "text-amber-600"
+                          }
+                  absolute inset-y-0 left-0 flex items-center pl-3`}
+                        >
+                          <i className="las la-check"></i>
+                        </span>
+                      ) : null}
+                    </>
+                  )}
+                </Listbox.Option>
+              ))}
+            </Listbox.Options>
+          </Transition>
+        </div>
+      </Listbox>
+    );
+  };
+
+  const renderSection2 = () => {
+    return (
+      <div className="listingSection__wrap !space-y-6">
+        <h4 className="text-lg font-semibold">Cancellation policy</h4>
+        <span className="block mt-3 text-neutral-500 dark:text-neutral-400">
+          Refund 50% of the booking value when customers cancel the room within
+          48 hours after successful booking and 14 days before the check-in
+          time. <br />
+          Then, cancel the room 14 days before the check-in time, get a 50%
+          refund of the total amount paid (minus the service fee).
+        </span>
+      </div>
+    );
+  };
+
   const renderSidebar = () => {
     return (
       <div className="listingSection__wrap shadow-xl">
@@ -264,12 +390,12 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
         <div className="flex flex-col space-y-4">
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
             <span>Boarding Point</span>
-            <span>{boardingPoint}</span>
+            <div className="w-max">{renderBoardingPoint()}</div>
           </div>
 
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
             <span>Dropping Point</span>
-            <span>{droppingPoint}</span>
+            <div className="w-max">{renderBoardingPoint()}</div>
           </div>
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
             <span>
@@ -314,7 +440,7 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
           <div className="w-full lg:w-3/5 xl:w-2/3 space-y-8 lg:space-y-10 lg:pr-10">
             {renderSection1()}
             {renderCabin()}
-            {/* {renderSection2()} */}
+            {renderSection2()}
           </div>
 
           <div className="hidden lg:block flex-grow">
