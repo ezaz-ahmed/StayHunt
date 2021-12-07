@@ -41,6 +41,7 @@ export const fetchSingleLaunchlAsync = createAsyncThunk(
   "launch/fetchSingleLaunch",
   async (userChosenData: any) => {
     const { id, depDate, fromLocId, toLocId } = userChosenData;
+
     const { data }: any = await fetchSingleLaunch(
       id,
       depDate,

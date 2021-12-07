@@ -2,13 +2,12 @@
 
 import { FC } from "react";
 import GallerySlider from "components/GallerySlider/GallerySlider";
-import { Room } from "app/feature/hotel/hotelInterfaces";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
 
-export interface StayCardHProps {
+export interface LaunchCardHProps {
   className?: string;
-  data: Room;
+  data: any;
   selected: number;
   index: number;
   onSelectedChange: any;
@@ -16,14 +15,14 @@ export interface StayCardHProps {
 
 // const DEMO_DATA = DEMO_STAY_LISTINGS[0];
 
-const HotelCardH: FC<StayCardHProps> = ({
+const LauchCardH: FC<LaunchCardHProps> = ({
   className = "",
   data,
   index,
   selected,
   onSelectedChange,
 }) => {
-  const { images, type, costPerNight, roomAmenities, meals } = data;
+  const { images, type, price, cabinFacilities, maxAdults } = data;
   let targeted = false;
 
   if (selected === index) {
@@ -45,28 +44,26 @@ const HotelCardH: FC<StayCardHProps> = ({
     return (
       <div className="hidden sm:grid grid-cols-3 gap-2">
         <div>
-          <span>Room Facilities</span>
-          {roomAmenities.map((am, i) => (
+          <span>Cabin Facilities</span>
+          {cabinFacilities.map((cf: any, i: any) => (
             <div className="space-y-3" key={i}>
               <div className="flex items-center space-x-3">
                 <span className="text-sm text-neutral-500 dark:text-neutral-400">
-                  {am}
+                  {cf}
                 </span>
               </div>
             </div>
           ))}
         </div>
         <div>
-          <span>Meals</span>
-          {meals.map((m, i) => (
-            <div className="space-y-3" key={i}>
-              <div className="flex items-center space-x-3">
-                <span className="text-sm text-neutral-500 dark:text-neutral-400">
-                  {m}
-                </span>
-              </div>
+          <span>Tickets</span>
+          <div className="space-y-3">
+            <div className="flex items-center space-x-3">
+              <span className="text-sm text-neutral-500 dark:text-neutral-400">
+                {maxAdults}
+              </span>
             </div>
-          ))}
+          </div>
         </div>
       </div>
     );
@@ -87,10 +84,10 @@ const HotelCardH: FC<StayCardHProps> = ({
         <div className="w-14 border-b border-neutral-100 dark:border-neutral-800 my-4"></div>
         <div className="flex justify-between items-end">
           <span className="text-base font-semibold">
-            {costPerNight}
+            {price}
             {` `}
             <span className="text-sm text-neutral-500 dark:text-neutral-400 font-normal">
-              /night
+              /cabin
             </span>
           </span>
           <span>
@@ -129,4 +126,4 @@ const HotelCardH: FC<StayCardHProps> = ({
   );
 };
 
-export default HotelCardH;
+export default LauchCardH;
