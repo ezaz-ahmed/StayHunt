@@ -9,15 +9,17 @@ import ButtonPrimary from "shared/Button/ButtonPrimary";
 import NcImage from "shared/NcImage/NcImage";
 import NcModal from "shared/NcModal/NcModal";
 import { useAppSelector } from "app/hook";
-import { fetchPaymentBus } from "app/feature/bus/busApi";
+import { fetchPaymentLaunch } from "app/feature/launch/launchAPI";
 import SomethingWrong from "containers/Page404/SomethingWrong";
 
-export interface BusCheckOutPageProps {
+export interface LaunchCheckOutPageProps {
   className?: string;
 }
 
-const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = "" }) => {
-  const { busFinalInput, oneBus } = useAppSelector((state) => state.bus);
+const LaunchCheckOut: FC<LaunchCheckOutPageProps> = ({ className = "" }) => {
+  const { launchFinalInput, oneLaunch } = useAppSelector(
+    (state) => state.launch
+  );
   const { userDetails } = useAppSelector((state) => state.user);
   const [btnDisalbe, setBtnDisalbe] = useState(true);
   const [name, setName] = useState(userDetails.name || "");
@@ -47,31 +49,33 @@ const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = "" }) => {
   const handlePaymentSubmit = () => {
     const dataForBody = {
       journey: {
-        bus: oneBus._id,
-        busName: oneBus.name,
-        startingPoint: busFinalInput.journey.startingPoint,
-        endingPoint: busFinalInput.journey.endingPoint,
+        launch: launchFinalInput.launch,
+        cabin: launchFinalInput.cabin,
+        numOfCabins: launchFinalInput.numOfCabins,
+        amount: launchFinalInput.totalAmount,
+        adults: launchFinalInput.adults,
+        children: launchFinalInput.children,
+        startingPoint: launchFinalInput.startingPoint.locId,
+        endingPoint: launchFinalInput.endingPoint.locId,
         cusName: name,
         cusEmail: email,
         cusPhone: phone,
-        amount: busFinalInput.journey.amount,
-        depDate: busFinalInput.journey.depDate,
-        depTime: busFinalInput.journey.depTime,
-        arrTime: busFinalInput.journey.arrTime,
-        seats: busFinalInput.journey.seats,
-        boardingPoint: busFinalInput.journey.boardingPoint,
-        droppingPoint: busFinalInput.journey.boardingPoint,
-        specialNote: "Thanks Bhai",
+        depDate: launchFinalInput.depDate,
+        depTime: launchFinalInput.depTime,
+        arrTime: launchFinalInput.arrTime,
+        boardingPoint: launchFinalInput.boardingPoint,
+        droppingPoint: launchFinalInput.droppingPoint,
       },
+      returnStatus: false,
       medium: "web",
-      totalAmount: busFinalInput.journey.totalAmount,
+      totalAmount: launchFinalInput.totalAmount,
     };
 
     getData(dataForBody);
   };
 
   const getData = async (body: any) => {
-    const hotelSSL: any = await fetchPaymentBus(body, token);
+    const hotelSSL: any = await fetchPaymentLaunch(body, token);
 
     if (hotelSSL.status === "success") window.location.replace(hotelSSL.data);
     else if (hotelSSL.status === "error") {
@@ -82,22 +86,19 @@ const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = "" }) => {
   const renderSidebar = () => {
     return (
       <div className="w-full flex flex-col sm:rounded-2xl sm:border border-neutral-200 dark:border-neutral-700 space-y-6 sm:space-y-8 px-0 sm:p-6 xl:p-8">
-        <span className="text-2xl text-center">{oneBus?.name}</span>
+        <span className="text-2xl text-center">{oneLaunch?.name}</span>
         <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
         <div className="flex flex-col sm:flex-row sm:items-center">
           <div className="flex-shrink-0 w-full sm:w-40">
             <div className=" aspect-w-4 aspect-h-3 sm:aspect-h-4 rounded-2xl overflow-hidden">
-              <NcImage src={oneBus.images[0]} />
+              <NcImage src={oneLaunch.images[0]} />
             </div>
           </div>
           <div className="py-5 sm:px-5 space-y-3">
             <div>
-              <span className="text-base font-medium mt-1 block">
-                {oneBus.class}
-              </span>
               <span className="text-sm text-neutral-500 dark:text-neutral-400 line-clamp-1">
                 <i className="las la-map-marker-alt"></i>
-                <span className="ml-1">{oneBus?.name}</span>
+                <span className="ml-1">{oneLaunch?.companyName}</span>
               </span>
             </div>
 
@@ -107,24 +108,22 @@ const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = "" }) => {
         <div className="flex flex-col space-y-4">
           <h3 className="text-2xl font-semibold">Price detail</h3>
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
-            <span>
-              {oneBus.fare} x {busFinalInput.seatCount} seats
-            </span>
-            <span>BDT {oneBus.fare * busFinalInput.seatCount}</span>
+            <span>total cabin price</span>
+            <span>BDT {launchFinalInput.amount}</span>
           </div>
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
             <span>VAT(15%)</span>
-            <span>BDT {busFinalInput.vat}</span>
+            <span>BDT {launchFinalInput.vat}</span>
           </div>
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
             <span>Service charge</span>
-            <span>BDT {busFinalInput.serviceCharge}</span>
+            <span>BDT {launchFinalInput.serviceCharge}</span>
           </div>
 
           <div className="border-b border-neutral-200 dark:border-neutral-700"></div>
           <div className="flex justify-between font-semibold">
-            <span>Total Amouth</span>
-            <span>BDT {busFinalInput.totalAmount}</span>
+            <span>Total Amount</span>
+            <span>BDT {launchFinalInput.totalAmount}</span>
           </div>
         </div>
       </div>
@@ -141,7 +140,8 @@ const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = "" }) => {
         <div>
           <div>
             <h3 className="text-2xl font-semibold">
-              {oneBus.startingPoint} to {oneBus.endingPoint}
+              {launchFinalInput.startingPoint.locName} to{" "}
+              {launchFinalInput.endingPoint.locName}
             </h3>
             <NcModal
               renderTrigger={(openModal) => (
@@ -160,11 +160,8 @@ const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = "" }) => {
               <div className="flex flex-col">
                 <span className="text-sm text-neutral-400">Date</span>
                 <span className="mt-1.5 text-lg font-semibold">
-                  {moment(busFinalInput.journey.depTime)
-                    .utc()
-                    .format("DD, MMM")}{" "}
-                  -{" "}
-                  {moment(busFinalInput.journey.arrTime)
+                  {moment(launchFinalInput.depTime).utc().format("DD, MMM")} -{" "}
+                  {moment(launchFinalInput.arrTime)
                     .utc()
                     .format("DD, MMM, YYYY")}
                 </span>
@@ -175,7 +172,7 @@ const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = "" }) => {
               <div className="flex flex-col">
                 <span className="text-sm text-neutral-400">Guests</span>
                 <span className="mt-1.5 text-lg font-semibold">
-                  {busFinalInput.journey.seats.length}
+                  {launchFinalInput.adults + launchFinalInput.children} Persons
                 </span>
               </div>
               <PencilAltIcon className="w-6 h-6 text-neutral-300 dark:text-neutral-6000" />
@@ -252,11 +249,10 @@ const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = "" }) => {
     );
   };
 
-  return busFinalInput ? (
+  return launchFinalInput ? (
     <div className={`nc-CheckOutPage ${className}`} data-nc-id="CheckOutPage">
       <main className="container mt-11 mb-24 lg:mb-32 flex flex-col-reverse lg:flex-row">
         <div className="w-full lg:w-3/5 xl:w-2/3 lg:pr-10 ">{renderMain()}</div>
-
         <div className="hidden lg:block flex-grow">{renderSidebar()}</div>
       </main>
     </div>
@@ -265,4 +261,4 @@ const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = "" }) => {
   );
 };
 
-export default BusCheckOut;
+export default LaunchCheckOut;

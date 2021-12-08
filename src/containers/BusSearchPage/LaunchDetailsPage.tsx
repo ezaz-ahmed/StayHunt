@@ -32,10 +32,10 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
   const dispatch = useAppDispatch();
 
   const [boardingPoint, setBoardingPoint] = useState(
-    oneLaunch ? oneLaunch.boardingPoints[0] : "Droppoing Points"
+    oneLaunch?.boardingPoints[0]
   );
   const [droppingPoint, setDroppingPoint] = useState(
-    oneLaunch ? oneLaunch.droppingPoints[0] : "Boarding Points"
+    oneLaunch?.droppingPoints[0]
   );
 
   const [isOpen, setIsOpen] = useState(false);
@@ -85,7 +85,39 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
   const windowSize = useWindowSize();
 
   const reserveBtnClick = () => {
-    return console.log("😹");
+    dispatch<any>(
+      addFinalInput({
+        launch: oneLaunch._id,
+        cabin: oneLaunch.cabins[selectedCabin]._id,
+        numOfCabins: 1,
+        adults: oneLaunch.cabins[selectedCabin].maxAdults,
+        children: oneLaunch.cabins[selectedCabin].maxChildrens,
+        startingPoint: launchUserInput?.fromCity,
+        endingPoint: launchUserInput?.toCity,
+        depDate: oneLaunch.depDate,
+        depTime: oneLaunch.depTime,
+        arrTime: oneLaunch.arrTime,
+        boardingPoint: boardingPoint,
+        droppingPoint: droppingPoint,
+        serviceCharge: serviceCharge,
+        amount: changableAmount,
+        vat: vat,
+        totalAmount: totalAmount,
+      })
+    );
+
+    if (
+      totalAmount !== 0 &&
+      selectedDate.startDate !== null &&
+      boardingPoint &&
+      droppingPoint
+    ) {
+      if (isLogged) {
+        history.push("/launch/checkout");
+      } else {
+        history.push("/login");
+      }
+    }
   };
 
   const renderPhotoSection = () => {
@@ -197,6 +229,24 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
 
         <div className="text-neutral-6000 dark:text-neutral-300">
           {oneLaunch.description}
+        </div>
+
+        <div className="w-14 border-b border-neutral-200 dark:border-neutral-700"></div>
+
+        <div className="flex">
+          <div className="w-auto pr-20">
+            <span className="text-lg font-semibold">
+              Select your boarding point
+            </span>
+            <div>{renderBoardingPoint()}</div>
+          </div>
+
+          <div className="w-auto pl-20">
+            <span className="text-lg font-semibold">
+              Select your dropping point
+            </span>
+            <div>{renderDroppingPoint()}</div>
+          </div>
         </div>
       </div>
     ) : (
@@ -390,12 +440,12 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
         <div className="flex flex-col space-y-4">
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
             <span>Boarding Point</span>
-            <div className="w-max">{renderBoardingPoint()}</div>
+            <div className="w-max">{boardingPoint}</div>
           </div>
 
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
             <span>Dropping Point</span>
-            <div className="w-max">{renderBoardingPoint()}</div>
+            <div className="w-max">{droppingPoint}</div>
           </div>
           <div className="flex justify-between text-neutral-6000 dark:text-neutral-300">
             <span>

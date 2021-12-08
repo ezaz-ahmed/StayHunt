@@ -11,7 +11,9 @@ const RoundtripSectionGridFeature: FC<RoundtripSectionGridFeatureProps> = ({
   variant,
 }) => {
   const { inputFirstBus, busUserInput } = useAppSelector((state) => state.bus);
-  const { inputFirstLaunch } = useAppSelector((state) => state.launch);
+  const { inputFirstLaunch, launchUserInput } = useAppSelector(
+    (state) => state.launch
+  );
 
   const BusJourneyDetails = () => (
     <div className="ml-4 space-y-14 text-sm">
@@ -49,16 +51,16 @@ const RoundtripSectionGridFeature: FC<RoundtripSectionGridFeatureProps> = ({
         {inputFirstLaunch ? (
           <Fragment>
             <span className=" text-neutral-500 dark:text-neutral-400">
-              {moment(inputFirstLaunch?.depDate).format("MMMM d, YYYY")}
+              {moment(launchUserInput?.journeyDate).format("MMMM d, YYYY")}
             </span>
             <span className=" font-semibold">{inputFirstLaunch.busName}</span>
           </Fragment>
         ) : (
           <Fragment>
             <span className=" text-neutral-500 dark:text-neutral-400">
-              Select A Launch For Journey
+              {moment(launchUserInput?.returnDate).format("MMMM d, YYYY")}
             </span>
-            <span className=" font-semibold">No Bus Is Selected</span>{" "}
+            <span className=" font-semibold">Select A Launch For Journey</span>{" "}
           </Fragment>
         )}
       </div>
@@ -66,7 +68,7 @@ const RoundtripSectionGridFeature: FC<RoundtripSectionGridFeatureProps> = ({
         <span className=" text-neutral-500 dark:text-neutral-400">
           {moment(busUserInput?.returnDate).format("MMMM d, YYYY")}
         </span>
-        <span className=" font-semibold">No Launch Is Selected</span>
+        <span className=" font-semibold">Select A Launch For Return</span>
       </div>
     </div>
   );

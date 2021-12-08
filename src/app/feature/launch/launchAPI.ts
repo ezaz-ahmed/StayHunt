@@ -29,3 +29,23 @@ export const fetchSingleLaunch = async (
   );
   return response.data;
 };
+
+export const fetchPaymentLaunch = async (body: any, token: string) => {
+  try {
+    console.log(body, "👃");
+
+    const config = {
+      headers: { Authorization: `Bearer ${token}` },
+    };
+
+    const response = await axios.post(
+      `${URL}api/v1/bookings/checkout-sslcommerz`,
+      body,
+      config
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw new Error("Something went wrong");
+  }
+};

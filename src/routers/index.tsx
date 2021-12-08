@@ -44,6 +44,7 @@ import BusCheckOut from "containers/CheckOutPage/BusCheckOutPage";
 import BusCheckOutRound from "containers/CheckOutPage/BusCheckoutRoundPage";
 import LaunchSearchPage from "containers/BusSearchPage/LaunchSearchPage";
 import LaunchDetailsPage from "containers/BusSearchPage/LaunchDetailsPage";
+import LaunchCheckOut from "containers/CheckOutPage/LaunchCheckOutPage";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome },
@@ -58,6 +59,7 @@ export const pages: Page[] = [
   { path: "/bus/:id", exact: true, component: BusDetailsPage },
   //
   { path: "/launch", exact: true, component: LaunchSearchPage },
+  { path: "/launch/checkout", exact: true, component: LaunchCheckOut },
   { path: "/launch/:id", exact: true, component: LaunchDetailsPage },
   {
     path: "/listing-experiences-map",
