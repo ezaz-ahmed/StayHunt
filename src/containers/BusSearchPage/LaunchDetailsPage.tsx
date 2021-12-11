@@ -1,6 +1,6 @@
-import { FC, Fragment, useState, useEffect, useCallback } from "react";
+import { FC, Fragment, useState, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { Dialog, Transition, Listbox } from "@headlessui/react";
+import { Transition, Listbox } from "@headlessui/react";
 import moment from "moment";
 import { useAppSelector, useAppDispatch } from "app/hook";
 import BusDateSingleInput from "components/HeroSearchForm/BusDateSingleInput";
@@ -9,7 +9,6 @@ import useWindowSize from "hooks/useWindowResize";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import NcImage from "shared/NcImage/NcImage";
 import ModalPhotos from "containers/ListingDetailPage/ModalPhotos";
-import Badge from "shared/Badge/Badge";
 import {
   fetchSingleLaunchlAsync,
   addFinalInput,
@@ -41,7 +40,6 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [selectedCabin, setSelectedCabin] = useState(0);
   const [openFocusIndex, setOpenFocusIndex] = useState(0);
-  let night = 2;
 
   const [selectedDate, setSelectedDate] = useState<DateRage>({
     startDate: launchUserInput?.journeyDate
@@ -51,8 +49,6 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
       ? moment(launchUserInput.returnDate)
       : moment().add(3, "days"),
   });
-
-  const { id } = match.params;
 
   useEffect(() => {
     dispatch<any>(
