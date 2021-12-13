@@ -2,7 +2,7 @@ import { FC, useState } from "react";
 import GallerySlider from "components/GallerySlider/GallerySlider";
 import Badge from "shared/Badge/Badge";
 import moment from "moment";
-import ModalBus from "containers/ListingDetailPage/ModalBus";
+import ModalLaunch from "containers/ListingDetailPage/ModalLaunch";
 
 import OneWayIcon from "images/extra/one-way.svg";
 
@@ -18,14 +18,12 @@ const LaunchReturnProperty: FC<LaunchReturnPropertyProps> = ({
   const {
     _id,
     images,
-    AC,
-    model,
-    numOfSeats,
+    totalAvailable,
     name,
-    fare,
+    minPrice,
     depTime,
     arrTime,
-    busClass,
+    companyName,
   } = data;
 
   const [openFocusIndex, setOpenFocusIndex] = useState<string>("");
@@ -95,32 +93,13 @@ const LaunchReturnProperty: FC<LaunchReturnPropertyProps> = ({
             <Badge
               name={
                 <div className="flex items-center">
-                  <i className="text-sm las la-user-friends"></i>
-                  <span className="ml-1">{model}</span>
-                </div>
-              }
-              color="yellow"
-            />
-            <Badge
-              name={
-                <div className="flex items-center">
                   <i className="text-sm las la-share-alt"></i>
-                  <span className="ml-1">{numOfSeats} Seats</span>
+                  <span className="ml-1">
+                    Available {totalAvailable} Cabins
+                  </span>
                 </div>
               }
             />
-
-            {AC && (
-              <Badge
-                name={
-                  <div className="flex items-center">
-                    <i className="text-sm las la-user-friends"></i>
-                    <span className="ml-1">AC</span>
-                  </div>
-                }
-                color="yellow"
-              />
-            )}
           </div>
           <div className="flex items-center space-x-2">
             <h2 className="text-lg font-medium capitalize">
@@ -130,14 +109,14 @@ const LaunchReturnProperty: FC<LaunchReturnPropertyProps> = ({
           {renderTienIch()}
           <div className="w-14 border-b border-neutral-100 dark:border-neutral-800 "></div>
           <div className="flex w-full justify-between items-end">
-            <span className="font-semibold">{busClass} Class</span>
+            <span className="font-semibold">{companyName}</span>
             <span className="flex items-center justify-center px-3 py-2 border border-primary-6000 rounded leading-none text-base font-medium text-primary-6000">
-              {`BDT ${fare}.00`}
+              {`BDT ${minPrice}.00`}
             </span>
           </div>
 
           {isModalOpen && (
-            <ModalBus
+            <ModalLaunch
               isOpen={isModalOpen}
               onClose={closeModal}
               initFocus={openFocusIndex}

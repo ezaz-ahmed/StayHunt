@@ -21,7 +21,7 @@ const RoundtripSectionGridFeature: FC<RoundtripSectionGridFeatureProps> = ({
         {inputFirstBus ? (
           <Fragment>
             <span className=" text-neutral-500 dark:text-neutral-400">
-              {moment(inputFirstBus?.depDate).format("MMMM d, YYYY")}
+              {moment(busUserInput?.journeyDate).format("MMMM D, YYYY")}
             </span>
             <span className=" font-semibold">
               {inputFirstBus.busName} {JSON.stringify(inputFirstBus.seats)}
@@ -30,7 +30,7 @@ const RoundtripSectionGridFeature: FC<RoundtripSectionGridFeatureProps> = ({
         ) : (
           <Fragment>
             <span className=" text-neutral-500 dark:text-neutral-400">
-              Select A Bus For Journey
+              {moment(busUserInput?.journeyDate).format("MMMM D, YYYY")}
             </span>
             <span className=" font-semibold">No Bus Is Selected</span>{" "}
           </Fragment>
@@ -38,7 +38,7 @@ const RoundtripSectionGridFeature: FC<RoundtripSectionGridFeatureProps> = ({
       </div>
       <div className="flex flex-col space-y-2">
         <span className=" text-neutral-500 dark:text-neutral-400">
-          {moment(busUserInput?.returnDate).format("MMMM d, YYYY")}
+          {moment(busUserInput?.returnDate).format("D MMMM, YYYY")}
         </span>
         <span className=" font-semibold">No Bus Is Selected</span>
       </div>
@@ -51,14 +51,16 @@ const RoundtripSectionGridFeature: FC<RoundtripSectionGridFeatureProps> = ({
         {inputFirstLaunch ? (
           <Fragment>
             <span className=" text-neutral-500 dark:text-neutral-400">
-              {moment(launchUserInput?.journeyDate).format("MMMM d, YYYY")}
+              {moment(launchUserInput?.journeyDate).format("MMMM D, YYYY")}
             </span>
-            <span className=" font-semibold">{inputFirstLaunch.busName}</span>
+            <span className=" font-semibold">
+              {inputFirstLaunch.launchName}
+            </span>
           </Fragment>
         ) : (
           <Fragment>
             <span className=" text-neutral-500 dark:text-neutral-400">
-              {moment(launchUserInput?.returnDate).format("MMMM d, YYYY")}
+              {moment(launchUserInput?.returnDate).format("MMMM D, YYYY")}
             </span>
             <span className=" font-semibold">Select A Launch For Journey</span>{" "}
           </Fragment>
@@ -66,7 +68,7 @@ const RoundtripSectionGridFeature: FC<RoundtripSectionGridFeatureProps> = ({
       </div>
       <div className="flex flex-col space-y-2">
         <span className=" text-neutral-500 dark:text-neutral-400">
-          {moment(busUserInput?.returnDate).format("MMMM d, YYYY")}
+          {moment(busUserInput?.returnDate).format("MMMM D, YYYY")}
         </span>
         <span className=" font-semibold">Select A Launch For Return</span>
       </div>

@@ -45,6 +45,7 @@ import BusCheckOutRound from "containers/CheckOutPage/BusCheckoutRoundPage";
 import LaunchSearchPage from "containers/BusSearchPage/LaunchSearchPage";
 import LaunchDetailsPage from "containers/BusSearchPage/LaunchDetailsPage";
 import LaunchCheckOut from "containers/CheckOutPage/LaunchCheckOutPage";
+import PartnershipWithUs from "containers/Page404/PartnershipWithUs";
 
 export const pages: Page[] = [
   { path: "/", exact: true, component: PageHome },
@@ -82,6 +83,7 @@ export const pages: Page[] = [
   { path: "/account-password", component: AccountPass },
   { path: "/account-savelists", component: AccountSavelists },
   { path: "/account-billing", component: AccountBilling },
+  { path: "/partnership-with-us", component: PartnershipWithUs },
   //
   { path: "/blog", component: BlogPage },
   { path: "/blog-single", component: BlogSingle },

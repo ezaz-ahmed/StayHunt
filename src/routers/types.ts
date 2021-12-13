@@ -61,6 +61,7 @@ export interface LocationStates {
   "/phone-verfication"?: {};
   "/forgot-pass"?: {};
   "/page404"?: {};
+  "/partnership-with-us"?: {};
   "/subscription"?: {};
 }
 

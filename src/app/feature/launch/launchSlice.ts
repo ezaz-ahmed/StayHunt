@@ -62,6 +62,14 @@ export const launchSlice = createSlice({
     addFinalInput: (state, action) => {
       state.launchFinalInput = action.payload;
     },
+    addInputFirstLaunch: (state, action) => {
+      state.firstLaunchSelected = true;
+      state.inputFirstLaunch = action.payload;
+    },
+    addInputSecendLaunch: (state, action) => {
+      state.SecendLaunchSelected = true;
+      state.inputSecendLaunch = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -98,6 +106,11 @@ export const launchSlice = createSlice({
   },
 });
 
-export const { addUserInput, addFinalInput } = launchSlice.actions;
+export const {
+  addUserInput,
+  addFinalInput,
+  addInputFirstLaunch,
+  addInputSecendLaunch,
+} = launchSlice.actions;
 
 export default launchSlice.reducer;
