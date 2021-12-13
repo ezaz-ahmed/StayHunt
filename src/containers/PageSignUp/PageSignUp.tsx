@@ -9,6 +9,9 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'app/hook';
 import { fetchSignUpAsync } from 'app/feature/user/userSlices';
 
+import PhoneInput from 'react-phone-input-2';
+import 'react-phone-input-2/lib/style.css';
+
 export interface PageSignUpProps {
   className?: string;
 }
@@ -104,15 +107,18 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
               <span className='text-neutral-800 dark:text-neutral-200'>
                 Phone
               </span>
-              <Input
+              <PhoneInput
+                country={'bd'}
                 value={phone}
-                onChange={(ev) => setPhone(ev.target.value)}
-                type='text'
-                placeholder='+8801*********'
-                className='mt-1 rounded-md'
+                onChange={(phone) => setPhone(phone)}
+                containerClass='mt-1 rounded-md w-full'
+                inputStyle={{
+                  width: '100%',
+                }}
               />
             </label>
-            <label className='block'>
+
+            <label className='block w-full'>
               <span className='flex justify-between items-center text-neutral-800 dark:text-neutral-200'>
                 Password
               </span>
@@ -120,11 +126,12 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
                 type='password'
                 className='mt-1 rounded-md'
                 value={password}
-                onChange={(ev) => setPassword(ev.target.value)}
                 placeholder='****'
+                onChange={(ev) => setPassword(ev.target.value)}
               />
             </label>
-            <label className='block'>
+
+            <label className='block w-full'>
               <span className='flex justify-between items-center text-neutral-800 dark:text-neutral-200'>
                 Confirm Password
               </span>
