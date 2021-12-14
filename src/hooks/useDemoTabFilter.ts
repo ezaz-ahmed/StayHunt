@@ -1,6 +1,6 @@
-import { PostDataType } from "data/types";
-import { useState, useEffect } from "react";
-import { DEMO_POSTS } from "data/posts";
+import { PostDataType } from 'data/types';
+import { useState, useEffect } from 'react';
+import { DEMO_POSTS } from 'data/posts';
 
 // WE USE THIS HOOK FOR DEMO  TAB FILTER ON ANY PAGE
 // WITH PRODUCT MODE PLEASE INSTEAD THIS HOOK FOR YOU WANT DO -- GET DATA FROM API ...
@@ -59,7 +59,7 @@ function useDemoTabFilter({
   let activePosts = isLoading
     ? currentPosts.map((item) => ({
         ...item,
-        featuredImage: "...",
+        featuredImage: '...',
       }))
     : currentPosts;
 
