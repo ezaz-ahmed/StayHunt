@@ -1,10 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import {
-  fetchSignUp,
-  fetchConfirmUser,
-  fetchLogout,
-  fetchLogin,
-} from './userApi';
+import { fetchSignUp, fetchLogout } from './userApi';
 import { UserState } from './userInterfaces';
 
 const initialState: UserState = {
@@ -29,22 +24,6 @@ export const fetchSignUpAsync = createAsyncThunk(
   }
 );
 
-export const fetchLoginAsync = createAsyncThunk(
-  'user/login',
-  async (userChosenData: any) => {
-    const res: any = await fetchLogin(userChosenData);
-    return res;
-  }
-);
-
-export const fetchConfirmAsync = createAsyncThunk(
-  'user/confirm',
-  async (userChosenData: any) => {
-    const res: any = await fetchConfirmUser(userChosenData);
-    return res;
-  }
-);
-
 export const fetchLogoutAsync = createAsyncThunk('user/logout', async () => {
   const res = await fetchLogout();
   return res;
@@ -57,7 +36,14 @@ export const userSlice = createSlice({
     addUserInput: (state, action) => {
       state.user = action.payload;
     },
+    addUserDetails: (state, action) => {
+      state.isLogged = true;
+      state.token = action.payload.token;
+      state.userDetails = action.payload.user;
+    },
   },
+
+  // Will Remove Fetch Sign Up Async Soon
   extraReducers: (builder) => {
     builder
       .addCase(fetchSignUpAsync.pending, (state) => {
@@ -68,30 +54,6 @@ export const userSlice = createSlice({
         state.userId = action.payload;
       })
       .addCase(fetchSignUpAsync.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(fetchConfirmAsync.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchConfirmAsync.fulfilled, (state, action) => {
-        state.loading = false;
-        state.isLogged = true;
-        state.userDetails = action.payload.user;
-        state.token = action.payload.token;
-      })
-      .addCase(fetchConfirmAsync.rejected, (state) => {
-        state.loading = false;
-      })
-      .addCase(fetchLoginAsync.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchLoginAsync.fulfilled, (state, action) => {
-        state.loading = false;
-        state.isLogged = true;
-        state.userDetails = action.payload.user;
-        state.token = action.payload.token;
-      })
-      .addCase(fetchLoginAsync.rejected, (state) => {
         state.loading = false;
       })
       .addCase(fetchLogoutAsync.pending, (state) => {
@@ -106,6 +68,6 @@ export const userSlice = createSlice({
   },
 });
 
-export const { addUserInput } = userSlice.actions;
+export const { addUserInput, addUserDetails } = userSlice.actions;
 
 export default userSlice.reducer;

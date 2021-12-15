@@ -4,24 +4,35 @@ import { Helmet } from 'react-helmet';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
 import OtpInput from 'react-otp-input';
 import { useAppSelector, useAppDispatch } from 'app/hook';
-import { fetchConfirmAsync } from 'app/feature/user/userSlices';
+import { fetchConfirmUser } from 'app/feature/user/userApi';
+import { addUserDetails } from 'app/feature/user/userSlices';
 
 export interface OtpSignInProps {
   className?: string;
 }
 
 const OtpPage: FC<OtpSignInProps> = ({ className = '' }) => {
-  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
   const history = useHistory();
+  const dispatch = useAppDispatch();
 
   const [otp, setOtp] = useState('');
   const { userId } = useAppSelector((state) => state.user);
-  const handleSubmit = () => {
+
+  const handleSubmit = async () => {
     setLoading(true);
-    const data: any = { userId, otp };
-    dispatch<any>(fetchConfirmAsync(data));
-    history.push('/author');
+
+    const data: any = await fetchConfirmUser({ userId, otp });
+
+    setLoading(false);
+
+    if (data.status === 'success') {
+      dispatch<any>(addUserDetails(data));
+      history.push('/author');
+    } else {
+      setError(data.message);
+    }
   };
 
   const handleChange = (otp: any) => setOtp(otp);
@@ -56,6 +67,12 @@ const OtpPage: FC<OtpSignInProps> = ({ className = '' }) => {
           >
             Verify
           </ButtonPrimary>
+
+          {error && (
+            <span className='flex justify-between items-center text-red-400 dark:text-red-400'>
+              {error}
+            </span>
+          )}
         </div>
       </div>
     </div>

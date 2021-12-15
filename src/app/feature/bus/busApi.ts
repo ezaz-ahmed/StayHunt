@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 const URL = process.env.REACT_APP_SERVER_URL_BUS;
 
@@ -43,7 +43,6 @@ export const fetchPaymentBus = async (body: any, token: string) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
-    throw new Error("Something went wrong");
+    return error;
   }
 };

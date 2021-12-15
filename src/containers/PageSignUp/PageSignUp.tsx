@@ -9,9 +9,6 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from 'app/hook';
 import { fetchSignUpAsync } from 'app/feature/user/userSlices';
 
-import PhoneInput from 'react-phone-input-2';
-import 'react-phone-input-2/lib/style.css';
-
 export interface PageSignUpProps {
   className?: string;
 }
@@ -107,15 +104,20 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
               <span className='text-neutral-800 dark:text-neutral-200'>
                 Phone
               </span>
-              <PhoneInput
-                country={'bd'}
-                value={phone}
-                onChange={(phone) => setPhone(phone)}
-                containerClass='mt-1 rounded-md w-full'
-                inputStyle={{
-                  width: '100%',
-                }}
-              />
+
+              <div className='mt-1 relative rounded-md shadow-sm'>
+                <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+                  <span className='text-gray-500 sm:text-sm'>+880</span>
+                </div>
+                <Input
+                  style={{
+                    paddingLeft: 56,
+                  }}
+                  className='block w-full pl-14 rounded-md'
+                  type='text'
+                  onChange={(ev) => setPhone('+880' + ev.target.value)}
+                />
+              </div>
             </label>
 
             <label className='block w-full'>

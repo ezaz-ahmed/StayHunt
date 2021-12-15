@@ -6,8 +6,9 @@ import { Helmet } from 'react-helmet';
 import Input from 'shared/Input/Input';
 import { Link } from 'react-router-dom';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
-import { useAppDispatch, useAppSelector } from 'app/hook';
-import { fetchLoginAsync } from 'app/feature/user/userSlices';
+import { useAppDispatch } from 'app/hook';
+import { fetchLogin } from 'app/feature/user/userApi';
+import { addUserDetails } from 'app/feature/user/userSlices';
 
 export interface PageLoginProps {
   className?: string;
@@ -34,10 +35,9 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
   const [identity, setIdentity] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
-  const { loading } = useAppSelector((state) => state.user);
-
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     if (identity.length < 3) {
       setError('Email or number invalid');
@@ -45,8 +45,15 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
       setError('Password is invalid!');
     } else {
       setError('');
-      dispatch<any>(fetchLoginAsync({ identity, password }));
-      history.push('/author');
+      setLoading(true);
+      const data: any = await fetchLogin({ identity, password });
+      setLoading(false);
+      if (data.status === 'success') {
+        dispatch<any>(addUserDetails(data));
+        history.push('/author');
+      } else {
+        setError(data);
+      }
     }
   };
 

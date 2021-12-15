@@ -1,19 +1,18 @@
-import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
-import { store } from "app/store";
+import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import { store } from 'app/store';
 //
-import "react-dates/initialize";
-import "react-dates/lib/css/_datepicker.css";
+import 'react-dates/initialize';
+import 'react-dates/lib/css/_datepicker.css';
 // STYLE
-import "./styles/index.scss";
-import "./index.css";
-import "./fonts/line-awesome-1.3.0/css/line-awesome.css";
+import './styles/index.scss';
+import './index.css';
+import './fonts/line-awesome-1.3.0/css/line-awesome.css';
 //
-import { PersistGate } from "redux-persist/integration/react";
-import { persistStore } from "redux-persist";
+import { PersistGate } from 'redux-persist/integration/react';
+import { persistStore } from 'redux-persist';
 //
-import App from "./App";
-import reportWebVitals from "./reportWebVitals";
+import App from './App';
 //
 
 let persistor = persistStore(store);
@@ -24,10 +23,5 @@ ReactDOM.render(
       <App />
     </PersistGate>
   </Provider>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();

@@ -7,8 +7,7 @@ export const fetchSignUp = async (body: any) => {
     const response = await axios.post(`${URL}api/v1/users/signup`, body);
     return response.data;
   } catch (error) {
-    console.log(error);
-    throw error;
+    return error;
   }
 };
 
@@ -17,8 +16,7 @@ export const fetchLogin = async (body: any) => {
     const response = await axios.post(`${URL}api/v1/users/login`, body);
     return response.data;
   } catch (error) {
-    console.log(error);
-    throw error;
+    return error;
   }
 };
 
@@ -28,8 +26,7 @@ export const fetchConfirmUser = async (body: any) => {
 
     return response.data;
   } catch (error) {
-    console.log(error);
-    throw error;
+    return error;
   }
 };
 
@@ -39,11 +36,6 @@ export const fetchLogout = async () => {
 
     return response.data;
   } catch (error) {
-    console.log(error);
-    throw error;
+    return error;
   }
 };
-
-
-
-

@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios';
 
 const URL = process.env.REACT_APP_SERVER_URL_LAUNCH;
 
@@ -32,8 +32,6 @@ export const fetchSingleLaunch = async (
 
 export const fetchPaymentLaunch = async (body: any, token: string) => {
   try {
-    console.log(body, "👃");
-
     const config = {
       headers: { Authorization: `Bearer ${token}` },
     };
@@ -45,7 +43,6 @@ export const fetchPaymentLaunch = async (body: any, token: string) => {
     );
     return response.data;
   } catch (error) {
-    console.log(error);
-    throw new Error("Something went wrong");
+    return error;
   }
 };
