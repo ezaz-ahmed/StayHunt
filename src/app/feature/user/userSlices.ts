@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { fetchSignUp, fetchLogout } from './userApi';
+import { fetchLogout } from './userApi';
 import { UserState } from './userInterfaces';
 
 const initialState: UserState = {
@@ -10,19 +10,6 @@ const initialState: UserState = {
   userDetails: undefined,
   token: '',
 };
-
-export const fetchSignUpAsync = createAsyncThunk(
-  'user/signup',
-  async (userChosenData: any) => {
-    const res: any = await fetchSignUp(userChosenData);
-
-    if (res.status === 'success') {
-      return res.data.userId;
-    } else {
-      return res.message;
-    }
-  }
-);
 
 export const fetchLogoutAsync = createAsyncThunk('user/logout', async () => {
   const res = await fetchLogout();
@@ -41,21 +28,14 @@ export const userSlice = createSlice({
       state.token = action.payload.token;
       state.userDetails = action.payload.user;
     },
+    addUserIdForVerification: (state, action) => {
+      state.userId = action.payload;
+    },
   },
 
   // Will Remove Fetch Sign Up Async Soon
   extraReducers: (builder) => {
     builder
-      .addCase(fetchSignUpAsync.pending, (state) => {
-        state.loading = true;
-      })
-      .addCase(fetchSignUpAsync.fulfilled, (state, action) => {
-        state.loading = false;
-        state.userId = action.payload;
-      })
-      .addCase(fetchSignUpAsync.rejected, (state) => {
-        state.loading = false;
-      })
       .addCase(fetchLogoutAsync.pending, (state) => {
         state.loading = true;
       })
@@ -68,6 +48,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { addUserInput, addUserDetails } = userSlice.actions;
+export const { addUserInput, addUserDetails, addUserIdForVerification } =
+  userSlice.actions;
 
 export default userSlice.reducer;

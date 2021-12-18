@@ -52,7 +52,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
         dispatch<any>(addUserDetails(data));
         history.push('/author');
       } else {
-        setError(data);
+        setError(data.message);
       }
     }
   };
@@ -93,11 +93,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
                 onChange={(ev) => setPassword(ev.target.value)}
               />
             </label>
-            {error && (
-              <span className='flex justify-between items-center text-red-400 dark:text-red-400'>
-                {error}
-              </span>
-            )}
+
             <ButtonPrimary
               type='submit'
               className='my-2 rounded-md'
@@ -105,6 +101,12 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
             >
               Login
             </ButtonPrimary>
+
+            {error && (
+              <span className='flex justify-between items-center text-red-400 dark:text-red-400'>
+                {error}
+              </span>
+            )}
           </form>
 
           {/* ==== */}

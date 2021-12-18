@@ -6,8 +6,9 @@ import { Helmet } from 'react-helmet';
 import Input from 'shared/Input/Input';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
 import { Link } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from 'app/hook';
-import { fetchSignUpAsync } from 'app/feature/user/userSlices';
+import { useAppDispatch } from 'app/hook';
+import { addUserIdForVerification } from 'app/feature/user/userSlices';
+import { fetchSignUp } from 'app/feature/user/userApi';
 
 export interface PageSignUpProps {
   className?: string;
@@ -29,6 +30,7 @@ const loginSocials = [
 
 const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
@@ -39,9 +41,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
 
   let form_data: any = new FormData();
 
-  const { loading } = useAppSelector((state) => state.user);
-
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
     if (name.length < 3) {
       setError('Name should be at least 3 character');
@@ -59,8 +59,18 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
         form_data.append(key, obj[key]);
       }
 
-      dispatch<any>(fetchSignUpAsync(form_data));
-      history.push('/phone-verfication');
+      setLoading(true);
+      const data: any = await fetchSignUp(form_data);
+      setLoading(false);
+
+      setError(JSON.stringify(data));
+
+      // if (data.status === 'success') {
+      //   dispatch<any>(addUserIdForVerification(data.userId));
+      //   history.push('/phone-verfication');
+      // } else {
+      //   setError(JSON.stringify(data));
+      // }
     }
   };
 
@@ -145,11 +155,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
                 onChange={(ev) => setPasswordConfirm(ev.target.value)}
               />
             </label>
-            {error && (
-              <span className='flex justify-between items-center text-red-400 dark:text-red-400'>
-                {error}
-              </span>
-            )}
+
             <ButtonPrimary
               type='submit'
               className='my-2 rounded-md'
@@ -157,6 +163,12 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
             >
               Continue
             </ButtonPrimary>
+
+            {error && (
+              <span className='flex justify-between items-center text-red-400 dark:text-red-400'>
+                {error}
+              </span>
+            )}
           </form>
 
           {/* ==== */}
