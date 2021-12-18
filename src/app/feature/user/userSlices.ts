@@ -29,6 +29,7 @@ export const userSlice = createSlice({
       state.userDetails = action.payload.user;
     },
     addUserIdForVerification: (state, action) => {
+      console.log(action, '🙋‍♂️');
       state.userId = action.payload;
     },
   },

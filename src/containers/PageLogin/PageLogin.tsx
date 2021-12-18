@@ -103,9 +103,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
             </ButtonPrimary>
 
             {error && (
-              <span className='flex justify-between items-center text-red-400 dark:text-red-400'>
-                {error}
-              </span>
+              <span className='text-red-400 dark:text-red-400'>{error}</span>
             )}
           </form>
 

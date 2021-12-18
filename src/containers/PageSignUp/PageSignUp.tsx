@@ -63,14 +63,13 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
       const data: any = await fetchSignUp(form_data);
       setLoading(false);
 
-      setError(JSON.stringify(data));
-
-      // if (data.status === 'success') {
-      //   dispatch<any>(addUserIdForVerification(data.userId));
-      //   history.push('/phone-verfication');
-      // } else {
-      //   setError(JSON.stringify(data));
-      // }
+      if (data.status === 'success') {
+        console.log(data);
+        dispatch<any>(addUserIdForVerification(data.userId));
+        history.push('/phone-verfication');
+      } else {
+        setError(data);
+      }
     }
   };
 
@@ -80,7 +79,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
         <title>Sign up | Tickets For Travel</title>
       </Helmet>
       <div className='container mb-24 lg:mb-32'>
-        <h2 className='my-20 flex items-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 dark:text-neutral-100 justify-center'>
+        <h2 className='my-20 flex items-center justify-center text-3xl leading-[115%] md:text-5xl md:leading-[115%] font-semibold text-neutral-900 dark:text-neutral-100'>
           Signup
         </h2>
         <div className='max-w-md mx-auto space-y-2'>
@@ -165,7 +164,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
             </ButtonPrimary>
 
             {error && (
-              <span className='flex justify-between items-center text-red-400 dark:text-red-400'>
+              <span className=' text-red-400 dark:text-red-400 text-center'>
                 {error}
               </span>
             )}

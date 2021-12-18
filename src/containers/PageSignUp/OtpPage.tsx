@@ -31,7 +31,7 @@ const OtpPage: FC<OtpSignInProps> = ({ className = '' }) => {
       dispatch<any>(addUserDetails(data));
       history.push('/author');
     } else {
-      setError(data.message);
+      setError(data);
     }
   };
 
@@ -53,8 +53,9 @@ const OtpPage: FC<OtpSignInProps> = ({ className = '' }) => {
             onChange={handleChange}
             numInputs={6}
             inputStyle={{
-              width: '3.5rem',
-              height: '3.5rem',
+              width: '4rem',
+              height: '4rem',
+              color: '#000',
             }}
             shouldAutoFocus={true}
             separator={<span className='mx-3'>-</span>}
@@ -69,9 +70,7 @@ const OtpPage: FC<OtpSignInProps> = ({ className = '' }) => {
           </ButtonPrimary>
 
           {error && (
-            <span className='flex justify-between items-center text-red-400 dark:text-red-400'>
-              {error}
-            </span>
+            <span className='text-red-400 dark:text-red-400'>{error}</span>
           )}
         </div>
       </div>
