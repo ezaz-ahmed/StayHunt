@@ -1,48 +1,56 @@
-import { Tab } from "@headlessui/react";
-import CarCard from "components/CarCard/CarCard";
-import CommentListing from "components/CommentListing/CommentListing";
-import ExperiencesCard from "components/ExperiencesCard/ExperiencesCard";
-import StartRating from 'components/StartRating/StartRating';
-import { DEMO_CAR_LISTINGS, DEMO_EXPERIENCES_LISTINGS } from 'data/listings';
 import { FC, Fragment, useState } from 'react';
-import Avatar from 'shared/Avatar/Avatar';
-import ButtonSecondary from 'shared/Button/ButtonSecondary';
-import SocialsList from 'shared/SocialsList/SocialsList';
+import { useHistory } from 'react-router-dom';
+import { Tab } from '@headlessui/react';
+import CarCard from 'components/CarCard/CarCard';
+import ExperiencesCard from 'components/ExperiencesCard/ExperiencesCard';
+import { DEMO_CAR_LISTINGS, DEMO_EXPERIENCES_LISTINGS } from 'data/listings';
+import Avatar from 'react-avatar';
 import { Helmet } from 'react-helmet';
+import moment from 'moment';
+
+import { useAppSelector } from 'app/hook';
 
 export interface AuthorPageProps {
   className?: string;
 }
 
 const AuthorPage: FC<AuthorPageProps> = ({ className = '' }) => {
-  let [categories] = useState(['Stays', 'Experiences', 'Car for rent']);
+  const history = useHistory();
+  const {
+    userDetails: {
+      avatar,
+      name,
+      email,
+      phone,
+      emailVerified,
+      phoneVerified,
+      createdAt,
+    },
+  } = useAppSelector((state) => state.user);
+
+  let [categories] = useState(['Upcoming', 'Completed', 'Cancelled']);
 
   const renderSidebar = () => {
     return (
       <div className=' w-full flex flex-col items-center text-center sm:rounded-2xl sm:border border-neutral-200 dark:border-neutral-700 space-y-6 sm:space-y-7 px-0 sm:p-6 xl:p-8'>
         <Avatar
-          hasChecked
-          hasCheckedClass='w-6 h-6 -top-0.5 right-2'
-          sizeClass='w-28 h-28'
+          name={name}
+          src={avatar}
+          round={true}
+          size='140'
+          color='#0260d7'
         />
-
         {/* ---- */}
         <div className='space-y-3 text-center flex flex-col items-center'>
-          <h2 className='text-3xl font-semibold'>Kevin Francis</h2>
-          <StartRating className='!text-base' />
+          <h2 className='text-3xl font-semibold'>{name}</h2>
+
+          <span
+            className='hover:underline cursor-pointer'
+            onClick={() => history.push('/edit/profile')}
+          >
+            Edit Profile
+          </span>
         </div>
-
-        {/* ---- */}
-        <p className='text-neutral-500 dark:text-neutral-400'>
-          Providing lake views, The Symphony 9 Tam Coc in Ninh Binh provides
-          accommodation, an outdoor.
-        </p>
-
-        {/* ---- */}
-        <SocialsList
-          className='!space-x-3'
-          itemClass='flex items-center justify-center w-9 h-9 rounded-full bg-neutral-100 dark:bg-neutral-800 text-xl'
-        />
 
         {/* ---- */}
         <div className='border-b border-neutral-200 dark:border-neutral-700 w-14'></div>
@@ -61,11 +69,18 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = '' }) => {
                 strokeLinecap='round'
                 strokeLinejoin='round'
                 strokeWidth={1.5}
-                d='M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6'
+                d='M16 12a4 4 0 10-8 0 4 4 0 008 0zm0 0v1.5a2.5 2.5 0 005 0V12a9 9 0 10-9 9m4.5-1.206a8.959 8.959 0 01-4.5 1.207'
               />
             </svg>
             <span className='text-neutral-6000 dark:text-neutral-300'>
-              Ha Noi, Viet Nam
+              {email}{' '}
+              <span className='ml-4 cursor-pointer'>
+                {emailVerified ? (
+                  <i className='las la-check-circle' />
+                ) : (
+                  <i className='las la-exclamation-triangle' />
+                )}
+              </span>
             </span>
           </div>
           <div className='flex items-center space-x-4'>
@@ -80,11 +95,18 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = '' }) => {
                 strokeLinecap='round'
                 strokeLinejoin='round'
                 strokeWidth={1.5}
-                d='M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z'
+                d='M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z'
               />
             </svg>
             <span className='text-neutral-6000 dark:text-neutral-300'>
-              Speaking English
+              {phone}{' '}
+              <span className='ml-4 cursor-pointer'>
+                {phoneVerified ? (
+                  <i className='las la-check-circle' />
+                ) : (
+                  <i className='las la-exclamation-triangle' />
+                )}
+              </span>
             </span>
           </div>
 
@@ -104,7 +126,7 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = '' }) => {
               />
             </svg>
             <span className='text-neutral-6000 dark:text-neutral-300'>
-              Joined in March 2016
+              Joined in {moment(createdAt).format('MMMM D, YYYY')}
             </span>
           </div>
         </div>
@@ -116,11 +138,7 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = '' }) => {
     return (
       <div className='listingSection__wrap'>
         <div>
-          <h2 className='text-2xl font-semibold'>Kevin Francis's listings</h2>
-          <span className='block mt-2 text-neutral-500 dark:text-neutral-400'>
-            Kevin Francis's listings is very rich, 5 star reviews help him to be
-            more branded.
-          </span>
+          <h2 className='text-2xl font-semibold'>{name}'s Bookings</h2>
         </div>
         <div className='w-14 border-b border-neutral-200 dark:border-neutral-700'></div>
 
@@ -146,12 +164,11 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = '' }) => {
             <Tab.Panels>
               <Tab.Panel className=''>
                 <div className='mt-8 grid grid-cols-1 gap-6 md:gap-7 sm:grid-cols-2'>
-                  {/* {DEMO_STAY_LISTINGS.filter((_, i) => i < 4).map((stay) => (
-                    <HotelCard key={stay.id} data={stay} />
-                  ))} */}
-                </div>
-                <div className='flex mt-11 justify-center items-center'>
-                  <ButtonSecondary>Show me more</ButtonSecondary>
+                  {DEMO_EXPERIENCES_LISTINGS.filter((_, i) => i < 4).map(
+                    (stay) => (
+                      <ExperiencesCard key={stay.id} data={stay} />
+                    )
+                  )}
                 </div>
               </Tab.Panel>
               <Tab.Panel className=''>
@@ -162,9 +179,6 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = '' }) => {
                     )
                   )}
                 </div>
-                <div className='flex mt-11 justify-center items-center'>
-                  <ButtonSecondary>Show me more</ButtonSecondary>
-                </div>
               </Tab.Panel>
               <Tab.Panel className=''>
                 <div className='mt-8 grid grid-cols-1 gap-6 md:gap-7 sm:grid-cols-2'>
@@ -172,33 +186,9 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = '' }) => {
                     <CarCard key={stay.id} data={stay} />
                   ))}
                 </div>
-                <div className='flex mt-11 justify-center items-center'>
-                  <ButtonSecondary>Show me more</ButtonSecondary>
-                </div>
               </Tab.Panel>
             </Tab.Panels>
           </Tab.Group>
-        </div>
-      </div>
-    );
-  };
-
-  const renderSection2 = () => {
-    return (
-      <div className='listingSection__wrap'>
-        {/* HEADING */}
-        <h2 className='text-2xl font-semibold'>Reviews (23 reviews)</h2>
-        <div className='w-14 border-b border-neutral-200 dark:border-neutral-700'></div>
-
-        {/* comment */}
-        <div className='divide-y divide-neutral-100 dark:divide-neutral-800'>
-          <CommentListing hasListingTitle className='pb-8' />
-          <CommentListing hasListingTitle className='py-8' />
-          <CommentListing hasListingTitle className='py-8' />
-          <CommentListing hasListingTitle className='py-8' />
-          <div className='pt-8'>
-            <ButtonSecondary>View more 20 reviews</ButtonSecondary>
-          </div>
         </div>
       </div>
     );
@@ -215,7 +205,6 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = '' }) => {
         </div>
         <div className='w-full lg:w-3/5 xl:w-2/3 space-y-8 lg:space-y-10 lg:pl-10 flex-shrink-0'>
           {renderSection1()}
-          {renderSection2()}
         </div>
       </main>
     </div>

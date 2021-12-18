@@ -64,8 +64,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
       setLoading(false);
 
       if (data.status === 'success') {
-        console.log(data);
-        dispatch<any>(addUserIdForVerification(data.userId));
+        dispatch<any>(addUserIdForVerification(data.data.userId));
         history.push('/phone-verfication');
       } else {
         setError(data);

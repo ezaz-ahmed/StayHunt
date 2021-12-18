@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC } from 'react';
 
 export interface NavProps {
   containerClassName?: string;
@@ -6,12 +6,12 @@ export interface NavProps {
 }
 
 const Nav: FC<NavProps> = ({
-  containerClassName = "",
-  className = "",
+  containerClassName = '',
+  className = '',
   children,
 }) => {
   return (
-    <nav className={`nc-Nav ${containerClassName}`} data-nc-id="Nav">
+    <nav className={`nc-Nav ${containerClassName}`} data-nc-id='Nav'>
       <ul className={`flex  ${className}`}>{children}</ul>
     </nav>
   );

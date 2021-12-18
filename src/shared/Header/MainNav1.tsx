@@ -1,5 +1,6 @@
 import { FC, Fragment } from 'react';
 import Avatar from 'react-avatar';
+import { useHistory } from 'react-router-dom';
 import Logo from 'shared/Logo/Logo';
 import Navigation from 'shared/Navigation/Navigation';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
@@ -14,11 +15,13 @@ export interface MainNav1Props {
 }
 
 const MainNav1: FC<MainNav1Props> = ({ isTop }) => {
+  const history = useHistory();
   const { isLogged, userDetails } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   const handleLogout = () => {
     dispatch<any>(fetchLogoutAsync());
+    history.push('/login');
   };
 
   return (
@@ -42,6 +45,7 @@ const MainNav1: FC<MainNav1Props> = ({ isTop }) => {
                   <Menu.Button className='hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75'>
                     <Avatar
                       name={userDetails.name}
+                      src={userDetails.avatar}
                       round={true}
                       size='50'
                       color='#0260d7'

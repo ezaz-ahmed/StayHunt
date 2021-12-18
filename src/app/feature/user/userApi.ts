@@ -34,6 +34,7 @@ export const fetchLogin = async (body: any) => {
 
 export const fetchConfirmUser = async (body: any) => {
   try {
+    console.log(body);
     const response = await axios.patch(`${URL}api/v1/users/confirmUser`, body);
     return response.data;
   } catch (error: any) {

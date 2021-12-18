@@ -52,7 +52,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
         dispatch<any>(addUserDetails(data));
         history.push('/author');
       } else {
-        setError(data.message);
+        setError(data);
       }
     }
   };
@@ -103,7 +103,9 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
             </ButtonPrimary>
 
             {error && (
-              <span className='text-red-400 dark:text-red-400'>{error}</span>
+              <span className='flex align-middle justify-center text-red-400 dark:text-red-400'>
+                {error}
+              </span>
             )}
           </form>
 
