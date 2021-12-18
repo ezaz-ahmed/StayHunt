@@ -1,4 +1,4 @@
-import { FC, useState, useEffect } from 'react';
+import { FC, useState } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { PencilAltIcon } from '@heroicons/react/outline';
@@ -19,30 +19,12 @@ export interface BusCheckOutPageProps {
 const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = '' }) => {
   const { busFinalInput, oneBus } = useAppSelector((state) => state.bus);
   const { userDetails } = useAppSelector((state) => state.user);
-  const [btnDisalbe, setBtnDisalbe] = useState(true);
   const [name, setName] = useState(userDetails.name || '');
   const [email, setEmail] = useState(userDetails.email || '');
   const [phone, setPhone] = useState(userDetails.phone) || '';
   const [message, setMessage] = useState('');
   const [check, setCheck] = useState(true);
   const { token } = useAppSelector((state) => state.user);
-
-  const validEmail = () => {
-    const pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-    if (email.match(pattern)) {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
-  useEffect(() => {
-    if (check && name.length >= 3 && validEmail() && phone.length === 11) {
-      setBtnDisalbe(false);
-    } else {
-      setBtnDisalbe(true);
-    }
-  }, [name, validEmail, phone, check]);
 
   const handlePaymentSubmit = () => {
     const dataForBody = {
@@ -236,15 +218,9 @@ const BusCheckOut: FC<BusCheckOutPageProps> = ({ className = '' }) => {
               </span>
             </div>
             <div className='pt-4'>
-              {btnDisalbe ? (
-                <ButtonPrimary className='cursor-not-allowed opacity-50'>
-                  Pay with SSLCommerz
-                </ButtonPrimary>
-              ) : (
-                <ButtonPrimary onClick={handlePaymentSubmit}>
-                  Pay with SSLCommerz
-                </ButtonPrimary>
-              )}
+              <ButtonPrimary onClick={handlePaymentSubmit}>
+                Pay with SSLCommerz
+              </ButtonPrimary>
             </div>
           </div>
         </div>

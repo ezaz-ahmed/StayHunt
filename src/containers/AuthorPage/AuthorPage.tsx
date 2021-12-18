@@ -1,21 +1,21 @@
 import { FC, Fragment, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Tab } from '@headlessui/react';
-import CarCard from 'components/CarCard/CarCard';
-import ExperiencesCard from 'components/ExperiencesCard/ExperiencesCard';
-import { DEMO_CAR_LISTINGS, DEMO_EXPERIENCES_LISTINGS } from 'data/listings';
 import Avatar from 'react-avatar';
 import { Helmet } from 'react-helmet';
 import moment from 'moment';
-
 import { useAppSelector } from 'app/hook';
 
+import UpcomingTabPanel from './UpcomingTabPanel';
+import CancelledTabPanel from './CanceledTabPanel';
+import CompletedTabPanel from './CompletedTabPanel';
 export interface AuthorPageProps {
   className?: string;
 }
 
 const AuthorPage: FC<AuthorPageProps> = ({ className = '' }) => {
   const history = useHistory();
+
   const {
     userDetails: {
       avatar,
@@ -162,31 +162,9 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = '' }) => {
               ))}
             </Tab.List>
             <Tab.Panels>
-              <Tab.Panel className=''>
-                <div className='mt-8 grid grid-cols-1 gap-6 md:gap-7 sm:grid-cols-2'>
-                  {DEMO_EXPERIENCES_LISTINGS.filter((_, i) => i < 4).map(
-                    (stay) => (
-                      <ExperiencesCard key={stay.id} data={stay} />
-                    )
-                  )}
-                </div>
-              </Tab.Panel>
-              <Tab.Panel className=''>
-                <div className='mt-8 grid grid-cols-1 gap-6 md:gap-7 sm:grid-cols-2'>
-                  {DEMO_EXPERIENCES_LISTINGS.filter((_, i) => i < 4).map(
-                    (stay) => (
-                      <ExperiencesCard key={stay.id} data={stay} />
-                    )
-                  )}
-                </div>
-              </Tab.Panel>
-              <Tab.Panel className=''>
-                <div className='mt-8 grid grid-cols-1 gap-6 md:gap-7 sm:grid-cols-2'>
-                  {DEMO_CAR_LISTINGS.filter((_, i) => i < 4).map((stay) => (
-                    <CarCard key={stay.id} data={stay} />
-                  ))}
-                </div>
-              </Tab.Panel>
+              <UpcomingTabPanel />
+              <CompletedTabPanel />
+              <CancelledTabPanel />
             </Tab.Panels>
           </Tab.Group>
         </div>
