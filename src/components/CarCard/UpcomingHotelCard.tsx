@@ -32,7 +32,7 @@ const UpcomingHotelCard = ({
         Booking ID: {bookingId.substr(bookingId.length - 7)}
       </div>
       <hr className='mt-2 border-neutral-200 dark:border-neutral-700' />
-      <div className='flex justify-between my-4'>
+      <div className='flex justify-between mx-3 my-2'>
         <div className='text-center mt-2 text-lg pl-2 font-normal'>
           {moment(bookingDate).format('DD MMMM')}
         </div>
@@ -46,12 +46,12 @@ const UpcomingHotelCard = ({
         <p>{hotelAddress}</p>
       </div>
 
-      <div className='flex justify-between px-2 mt-4'>
+      <div className='flex justify-between px-3 mt-4'>
         <div>Number of Room: {numOfRooms}</div>
         <div>Number of Nights: {numOfNights}</div>
       </div>
 
-      <div className='flex justify-between px-2'>
+      <div className='flex justify-between px-3'>
         <div>Room Type: {roomType}</div>
         <div>Number of Person: {numOfPersons}</div>
       </div>

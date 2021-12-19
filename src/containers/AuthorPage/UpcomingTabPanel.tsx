@@ -44,7 +44,7 @@ const UpcomingTabPanel = () => {
           )
         )}
 
-        {JSON.stringify(data)}
+        {/* {JSON.stringify(data)} */}
       </div>
     </Tab.Panel>
   );
