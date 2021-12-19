@@ -1,29 +1,26 @@
+import { useState, useEffect } from 'react';
 import { Tab } from '@headlessui/react';
-import { useQuery } from 'react-query';
-import { useAppSelector } from 'app/hook';
-
 import { fetchAllBooking } from 'app/feature/booking/bookingApi';
+import { useAppSelector } from 'app/hook';
 
 const CompletedTabPanel = () => {
   const { token } = useAppSelector((state) => state.user);
 
-  const { isLoading, isError, data, error } = useQuery(
-    'Completed',
-    () => () => fetchAllBooking('completed', token)
-  );
+  const [data, setData] = useState([]);
 
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
+  const fetchCancelledBooking = async (type: any) => {
+    const response: any = await fetchAllBooking(type, token);
+    setData(response);
+  };
 
-  if (isError) {
-    return <span>Error: {error}</span>;
-  }
+  useEffect(() => {
+    fetchCancelledBooking('completed');
+  }, []);
 
   return (
     <Tab.Panel className=''>
       <div className='mt-8 grid grid-cols-1 gap-6 md:gap-7 sm:grid-cols-2'>
-        {JSON.stringify(data)}
+        {data.length === 0 ? <p>No Data</p> : <p>{JSON.stringify(data)}</p>}
       </div>
     </Tab.Panel>
   );
