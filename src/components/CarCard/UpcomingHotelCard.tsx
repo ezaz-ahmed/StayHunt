@@ -1,23 +1,31 @@
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
 import moment from 'moment';
 
-interface UpcomingCardProps {
+interface UpcomingHotelCardProps {
   bookingId: string;
   bookingDate: string;
-  variant: 'hotel';
   payAmount: string;
   hotelName: string;
   hotelAddress: string;
+  numOfRooms: string;
+  numOfPersons: string;
+  numOfNights: string;
+  roomType: string;
+  cancelled: boolean;
 }
 
-const UpcomingCard = ({
+const UpcomingHotelCard = ({
   bookingId,
   bookingDate,
   payAmount,
   hotelName,
   hotelAddress,
-  variant,
-}: UpcomingCardProps) => {
+  numOfRooms,
+  numOfPersons,
+  numOfNights,
+  roomType,
+  cancelled,
+}: UpcomingHotelCardProps) => {
   return (
     <div className='w-96 mx-auto sm:border border-neutral-200 dark:border-neutral-700 shadow-xl hover:shadow rounded-xl'>
       <div className='text-center text-blue-600 my-2 text-xl font-medium'>
@@ -37,12 +45,24 @@ const UpcomingCard = ({
       <div className='px-6 text-center mt-2 font-light text-sm'>
         <p>{hotelAddress}</p>
       </div>
-      <hr className='mt-8 border-neutral-200 dark:border-neutral-700' />
-      <div className='flex justify-center p-2'>
-        <ButtonPrimary>Cancel Ticket</ButtonPrimary>
+
+      <div className='flex justify-between px-2 mt-4'>
+        <div>Number of Room: {numOfRooms}</div>
+        <div>Number of Nights: {numOfNights}</div>
       </div>
+
+      <div className='flex justify-between px-2'>
+        <div>Room Type: {roomType}</div>
+        <div>Number of Person: {numOfPersons}</div>
+      </div>
+      <hr className='mt-8 border-neutral-200 dark:border-neutral-700' />
+      {!cancelled && (
+        <div className='flex justify-center p-2'>
+          <ButtonPrimary>Cancel Ticket</ButtonPrimary>
+        </div>
+      )}
     </div>
   );
 };
 
-export default UpcomingCard;
+export default UpcomingHotelCard;

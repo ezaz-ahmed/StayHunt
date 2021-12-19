@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Tab } from '@headlessui/react';
 import { fetchAllBooking } from 'app/feature/booking/bookingApi';
 import { useAppSelector } from 'app/hook';
-import UpcomingCard from 'components/CarCard/UpcomingCard';
+import UpcomingHotelCard from 'components/CarCard/UpcomingHotelCard';
 
 const UpcomingTabPanel = () => {
   const { token } = useAppSelector((state) => state.user);
@@ -24,17 +24,24 @@ const UpcomingTabPanel = () => {
         {data.length === 0 ? (
           <p>No Data</p>
         ) : (
-          data.map((card: any) => (
-            <UpcomingCard
-              variant={card.variant}
-              key={card._id}
-              bookingId={card._id}
-              bookingDate={card.bookingDate}
-              payAmount={card.payAmount}
-              hotelName={card.hotelName}
-              hotelAddress={card.hotelAddress}
-            />
-          ))
+          data.map(
+            (card: any) =>
+              card.variant === 'hotel' && (
+                <UpcomingHotelCard
+                  key={card._id}
+                  bookingId={card._id}
+                  bookingDate={card.bookingDate}
+                  payAmount={card.payAmount}
+                  hotelName={card.hotelName}
+                  hotelAddress={card.hotelAddress}
+                  numOfRooms={card.numOfRooms}
+                  numOfPersons={card.numOfPersons}
+                  numOfNights={card.numOfNights}
+                  roomType={card.roomType}
+                  cancelled={card.cancelled}
+                />
+              )
+          )
         )}
 
         {JSON.stringify(data)}
