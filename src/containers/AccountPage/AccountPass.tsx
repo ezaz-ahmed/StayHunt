@@ -1,20 +1,24 @@
 import { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import Label from "components/Label/Label";
 import ButtonPrimary from "shared/Button/ButtonPrimary";
 import Input from "shared/Input/Input";
 import CommonLayout from "./CommonLayout";
 import { fetchResetPassword } from 'app/feature/user/userApi';
-import { useAppSelector } from 'app/hook';
+import { useAppDispatch, useAppSelector } from 'app/hook';
+import { addUserDetails } from 'app/feature/user/userSlices';
 
 const AccountPass = () => {
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-  const [success, setSuccess] = useState('')
+
   const [password, setPassword] = useState('')
   const [passwordConfirm, setPasswordConfirm] = useState('')
-
+  const history = useHistory();
   const { userId } = useAppSelector(state => state.user)
+
+  const dispatch = useAppDispatch()
 
   const queryString = window.location.search;
   const parameters = new URLSearchParams(queryString);
@@ -33,10 +37,8 @@ const AccountPass = () => {
     setLoading(false)
 
     if (data.status === 'success') {
-      setError('')
-      setPassword('')
-      setPasswordConfirm('')
-      setSuccess(data.message)
+      dispatch<any>(addUserDetails(data));
+      history.push('/author');
     } else {
       setError(data);
     }
@@ -73,9 +75,7 @@ const AccountPass = () => {
                 <span className='text-red-400 dark:text-red-400'>{error}</span>
               )}
 
-              {success && (
-                <span className='text-red-400 dark:text-red-400'>{success}</span>
-              )}
+
             </div>
           </div>
         </form>

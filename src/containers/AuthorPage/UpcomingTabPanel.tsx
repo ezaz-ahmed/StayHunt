@@ -27,7 +27,7 @@ const UpcomingTabPanel = () => {
           data.map(
             (card: any) => (
               <div className='broder'>
-                {/* {card.variant === 'hotel' ?
+                {card.variant === 'hotel' ?
                   <UpcomingHotelCard
                     key={card._id}
                     bookingId={card._id}
@@ -44,15 +44,11 @@ const UpcomingTabPanel = () => {
                   : <span>
                     {JSON.stringify(card)}
                   </span>
-                } */}
-
-                {JSON.stringify(card)}
+                }
               </div>
             )
           )
         )}
-
-        {/* {JSON.stringify(data)} */}
       </div>
     </Tab.Panel>
   );

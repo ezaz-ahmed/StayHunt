@@ -30,7 +30,6 @@ const OtpPage: FC<OtpSignInProps> = ({ className = '' }) => {
     setLoading(true);
 
     if (type === 'forget-password') {
-      console.log('puka')
       const data: any = await fetchCheckResetOTP({ userId, otp })
       setLoading(false);
 
