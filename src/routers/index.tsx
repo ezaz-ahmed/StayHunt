@@ -12,7 +12,7 @@ import ListingCarPage from 'containers/ListingCarPage/ListingCarPage';
 import ListingCarMapPage from 'containers/ListingCarPage/ListingCarMapPage';
 import ListingCarDetailPage from 'containers/ListingDetailPage/ListingCarDetailPage';
 import CheckOutPage from 'containers/CheckOutPage/CheckOutPage';
-import PayPage from 'containers/PayPage/PayPage';
+import HotelPayPage from 'containers/PayPage/PayPage';
 import AuthorPage from 'containers/AuthorPage/AuthorPage';
 import AccountPage from 'containers/AccountPage/AccountPage';
 import AccountPass from 'containers/AccountPage/AccountPass';
@@ -53,6 +53,7 @@ export const pages: Page[] = [
   { path: '/hotel', exact: true, component: HotelSearchPage },
   { path: '/hotel/checkout', exact: true, component: HotelCheckOut },
   { path: '/hotel/:id', exact: true, component: HotelDetailsPage },
+  { path: '/hotel-pay-done', component: HotelPayPage },
   //
   { path: '/bus', exact: true, component: BusSearchPage },
   { path: '/bus/checkout', exact: true, component: BusCheckOut },
@@ -76,7 +77,6 @@ export const pages: Page[] = [
   { path: '/listing-car-detail', component: ListingCarDetailPage },
   //
   { path: '/checkout', component: CheckOutPage },
-  { path: '/pay-done', component: PayPage },
   //
   { path: '/author', component: AuthorPage },
   { path: '/account', component: AccountPage },

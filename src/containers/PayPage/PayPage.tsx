@@ -5,7 +5,7 @@ import NcImage from 'shared/NcImage/NcImage';
 import moment from 'moment';
 import BusPayDone from './BusPayDone';
 
-const PayPage = () => {
+const HotelPayPage = () => {
   const className = '';
 
   const queryString = window.location.search;
@@ -157,4 +157,4 @@ const PayPage = () => {
   );
 };
 
-export default PayPage;
+export default HotelPayPage;
