@@ -16,8 +16,6 @@ import PageHotelPayDone from 'containers/PayPage/PageHotelPayDone';
 import AuthorPage from 'containers/AuthorPage/AuthorPage';
 import AccountPage from 'containers/AccountPage/AccountPage';
 import AccountPass from 'containers/AccountPage/AccountPass';
-import AccountSavelists from 'containers/AccountPage/AccountSavelists';
-import AccountBilling from 'containers/AccountPage/AccountBilling';
 import PageContact from 'containers/PageContact/PageContact';
 import PageAbout from 'containers/PageAbout/PageAbout';
 import PageSignUp from 'containers/PageSignUp/PageSignUp';
@@ -80,10 +78,8 @@ export const pages: Page[] = [
   { path: '/checkout', component: CheckOutPage },
   //
   { path: '/author', component: AuthorPage },
-  { path: '/account', component: AccountPage },
+  { path: '/edit-account', component: AccountPage },
   { path: '/account-password', component: AccountPass },
-  { path: '/account-savelists', component: AccountSavelists },
-  { path: '/account-billing', component: AccountBilling },
   { path: '/partnership-with-us', component: PartnershipWithUs },
   //
   { path: '/blog', component: BlogPage },

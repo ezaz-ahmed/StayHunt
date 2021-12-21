@@ -3,16 +3,19 @@ import Label from 'components/Label/Label';
 import Avatar from 'shared/Avatar/Avatar';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
 import Input from 'shared/Input/Input';
-import Select from 'shared/Select/Select';
-import Textarea from 'shared/Textarea/Textarea';
 import CommonLayout from './CommonLayout';
 import { Helmet } from 'react-helmet';
+
+import { useAppSelector } from 'app/hook'
 
 export interface AccountPageProps {
   className?: string;
 }
 
 const AccountPage: FC<AccountPageProps> = ({ className = '' }) => {
+
+  const { userDetails: { name, avatar, phone, email, phoneVerified, emailVerified } } = useAppSelector(state => state.user)
+
   return (
     <div className={`nc-AccountPage ${className}`} data-nc-id='AccountPage'>
       <Helmet>
@@ -26,7 +29,7 @@ const AccountPage: FC<AccountPageProps> = ({ className = '' }) => {
           <div className='flex flex-col md:flex-row'>
             <div className='flex-shrink-0 flex items-start'>
               <div className='relative rounded-full overflow-hidden flex'>
-                <Avatar sizeClass='w-32 h-32' />
+                <Avatar sizeClass='w-32 h-32' imgUrl={avatar} />
                 <div className='absolute inset-0 bg-black bg-opacity-60 flex flex-col items-center justify-center text-neutral-50 cursor-pointer'>
                   <svg
                     width='30'
@@ -55,51 +58,19 @@ const AccountPage: FC<AccountPageProps> = ({ className = '' }) => {
             <div className='flex-grow mt-10 md:mt-0 md:pl-16 max-w-3xl space-y-6'>
               <div>
                 <Label>Name</Label>
-                <Input className='mt-1.5' defaultValue='Eden Tuan' />
-              </div>
-              {/* ---- */}
-              <div>
-                <Label>Gender</Label>
-                <Select className='mt-1.5'>
-                  <option value='Male'>Male</option>
-                  <option value='Female'>Female</option>
-                  <option value='Other'>Other</option>
-                </Select>
-              </div>
-              {/* ---- */}
-              <div>
-                <Label>Username</Label>
-                <Input className='mt-1.5' defaultValue='@eden_tuan' />
+                <Input className='mt-1.5' defaultValue={name} />
               </div>
               {/* ---- */}
               <div>
                 <Label>Email</Label>
-                <Input className='mt-1.5' defaultValue='example@email.com' />
-              </div>
-              {/* ---- */}
-              <div className='max-w-lg'>
-                <Label>Date of birth</Label>
-                <Input
-                  className='mt-1.5'
-                  type='date'
-                  defaultValue='1990-07-22'
-                />
-              </div>
-              {/* ---- */}
-              <div>
-                <Label>Addess</Label>
-                <Input className='mt-1.5' defaultValue='New york, USA' />
+                <Input className='mt-1.5' defaultValue={email} />
               </div>
               {/* ---- */}
               <div>
                 <Label>Phone number</Label>
-                <Input className='mt-1.5' defaultValue='003 888 232' />
+                <Input className='mt-1.5' defaultValue={phone} />
               </div>
               {/* ---- */}
-              <div>
-                <Label>About you</Label>
-                <Textarea className='mt-1.5' defaultValue='...' />
-              </div>
               <div className='pt-2'>
                 <ButtonPrimary>Update info</ButtonPrimary>
               </div>

@@ -33,10 +33,8 @@ export interface LocationStates {
   //
   '/checkout'?: {};
   //
-  '/account'?: {};
-  '/account-savelists'?: {};
+  '/edit-account'?: {};
   '/account-password'?: {};
-  '/account-billing'?: {};
   //
   '/blog'?: {};
   '/blog-single'?: {};

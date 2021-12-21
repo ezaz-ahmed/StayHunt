@@ -46,7 +46,7 @@ const AuthorPage: FC<AuthorPageProps> = ({ className = '' }) => {
 
           <span
             className='hover:underline cursor-pointer'
-            onClick={() => history.push('/edit/profile')}
+            onClick={() => history.push('/edit-account')}
           >
             Edit Profile
           </span>
