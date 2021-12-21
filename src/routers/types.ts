@@ -58,8 +58,10 @@ export interface LocationStates {
   '/contact-us'?: {};
   '/login'?: {};
   '/signup'?: {};
-  '/phone-verfication'?: {};
-  '/forgot-pass'?: {};
+  '/verfication'?: {};
+  '/confirm-identity'?: {};
+  '/seach-account'?: {};
+  '/change-password'?: {};
   '/page404'?: {};
   '/partnership-with-us'?: {};
   '/subscription'?: {};

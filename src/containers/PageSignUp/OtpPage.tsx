@@ -4,7 +4,7 @@ import { Helmet } from 'react-helmet';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
 import OtpInput from 'react-otp-input';
 import { useAppSelector, useAppDispatch } from 'app/hook';
-import { fetchConfirmUser } from 'app/feature/user/userApi';
+import { fetchConfirmUser, fetchCheckResetOTP } from 'app/feature/user/userApi';
 import { addUserDetails } from 'app/feature/user/userSlices';
 
 export interface OtpSignInProps {
@@ -12,6 +12,12 @@ export interface OtpSignInProps {
 }
 
 const OtpPage: FC<OtpSignInProps> = ({ className = '' }) => {
+
+  const queryString = window.location.search;
+  const parameters = new URLSearchParams(queryString);
+
+  const type = parameters.get('type');
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const history = useHistory();
@@ -23,15 +29,28 @@ const OtpPage: FC<OtpSignInProps> = ({ className = '' }) => {
   const handleSubmit = async () => {
     setLoading(true);
 
-    const data: any = await fetchConfirmUser({ userId, otp });
+    if (type === 'forget-password') {
+      console.log('puka')
+      const data: any = await fetchCheckResetOTP({ userId, otp })
+      setLoading(false);
 
-    setLoading(false);
+      if (data.status === 'success') {
+        history.push(`/account-password?otp=${otp}`);
+      } else {
+        setError(data);
+      }
+    }
 
-    if (data.status === 'success') {
-      dispatch<any>(addUserDetails(data));
-      history.push('/author');
-    } else {
-      setError(data);
+    if (type === 'signup') {
+      const data: any = await fetchConfirmUser({ userId, otp });
+      setLoading(false)
+
+      if (data.status === 'success') {
+        dispatch<any>(addUserDetails(data));
+        history.push('/author');
+      } else {
+        setError(data);
+      }
     }
   };
 

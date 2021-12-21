@@ -65,7 +65,7 @@ const PageSignUp: FC<PageSignUpProps> = ({ className = '' }) => {
 
       if (data.status === 'success') {
         dispatch<any>(addUserIdForVerification(data.data.userId));
-        history.push('/phone-verfication');
+        history.push('/verfication?type=signup');
       } else {
         setError(data);
       }

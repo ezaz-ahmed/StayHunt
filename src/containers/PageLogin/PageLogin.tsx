@@ -83,7 +83,7 @@ const PageLogin: FC<PageLoginProps> = ({ className = '' }) => {
             <label className='block'>
               <span className='flex justify-between items-center text-neutral-800 dark:text-neutral-200'>
                 Password
-                <Link to='/forgot-pass' className='text-sm'>
+                <Link to='/seach-account' className='text-sm hover:underline'>
                   Forgot password?
                 </Link>
               </span>

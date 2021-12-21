@@ -3,9 +3,8 @@ import ButtonPrimary from 'shared/Button/ButtonPrimary';
 import NcImage from 'shared/NcImage/NcImage';
 
 import moment from 'moment';
-import BusPayDone from './BusPayDone';
 
-const HotelPayPage = () => {
+const PageHotelPayDone = () => {
   const className = '';
 
   const queryString = window.location.search;
@@ -22,7 +21,6 @@ const HotelPayPage = () => {
   const finalAmount = parameters.get('finalAmount');
   const roomImage = parameters.get('roomImage');
 
-  const type = parameters.get('type');
 
   const renderContent = () => {
     return (
@@ -147,14 +145,10 @@ const HotelPayPage = () => {
   return (
     <div className={`nc-PayPage ${className}`} data-nc-id='PayPage'>
       <main className='container mt-11 mb-24 lg:mb-32 '>
-        {type === 'bus' ? (
-          <BusPayDone />
-        ) : (
-          <div className='max-w-4xl mx-auto'>{renderContent()}</div>
-        )}
+        <div className='max-w-4xl mx-auto'>{renderContent()}</div>
       </main>
     </div>
   );
 };
 
-export default HotelPayPage;
+export default PageHotelPayDone;

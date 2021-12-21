@@ -34,7 +34,6 @@ export const fetchLogin = async (body: any) => {
 
 export const fetchConfirmUser = async (body: any) => {
   try {
-    console.log(body);
     const response = await axios.patch(`${URL}api/v1/users/confirmUser`, body);
     return response.data;
   } catch (error: any) {
@@ -51,6 +50,60 @@ export const fetchConfirmUser = async (body: any) => {
 export const fetchLogout = async () => {
   try {
     const response = await axios.get(`${URL}api/v1/users/logout`);
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      return error.response.data.message;
+    } else if (error.request) {
+      return error.request;
+    } else {
+      return error.message;
+    }
+  }
+};
+
+export const fetchIdentity = async (body: any) => {
+  try {
+    const response = await axios.patch(
+      `${URL}api/v1/users/forgotPassword`,
+      body
+    );
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      return error.response.data.message;
+    } else if (error.request) {
+      return error.request;
+    } else {
+      return error.message;
+    }
+  }
+};
+
+export const fetchCheckResetOTP = async (body: any) => {
+  try {
+    const response = await axios.post(
+      `${URL}api/v1/users/check-reset-otp`,
+      body
+    );
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      return error.response.data.message;
+    } else if (error.request) {
+      return error.request;
+    } else {
+      return error.message;
+    }
+  }
+};
+
+export const fetchResetPassword = async (body: any) => {
+  try {
+    const response = await axios.patch(
+      `${URL}api/v1/users/resetPassword`,
+      body
+    );
     return response.data;
   } catch (error: any) {
     if (error.response) {
