@@ -1,6 +1,7 @@
 import { avatarColors } from "contains/contants";
 import { FC } from "react";
 import avatar1 from "images/avatars/Image-1.png";
+import { useAppSelector } from 'app/hook'
 
 export interface AvatarProps {
   containerClassName?: string;
@@ -17,12 +18,15 @@ const Avatar: FC<AvatarProps> = ({
   sizeClass = "h-6 w-6 text-sm",
   radius = "rounded-full",
   imgUrl = avatar1,
-  userName,
   hasChecked,
   hasCheckedClass = "w-4 h-4 -top-0.5 -right-0.5",
 }) => {
+
+
+  const { userDetails } = useAppSelector(state => state.user)
+
   const url = imgUrl || "";
-  const name = userName || "John Doe";
+  const name = userDetails.name;
   const _setBgColor = (name: string) => {
     const backgroundIndex = Math.floor(
       name.charCodeAt(0) % avatarColors.length
@@ -48,7 +52,7 @@ const Avatar: FC<AvatarProps> = ({
         <span
           className={` bg-teal-500 rounded-full text-white text-xs flex items-center justify-center absolute  ${hasCheckedClass}`}
         >
-          <i className="las la-check"></i>
+          <i className="las la-check" />
         </span>
       )}
     </div>
