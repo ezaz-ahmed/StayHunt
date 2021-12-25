@@ -22,7 +22,6 @@ const Avatar: FC<AvatarProps> = ({
   hasCheckedClass = "w-4 h-4 -top-0.5 -right-0.5",
 }) => {
 
-
   const { userDetails } = useAppSelector(state => state.user)
 
   const url = imgUrl || "";

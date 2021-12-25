@@ -27,7 +27,7 @@ const UpcomingTabPanel = () => {
           data.map(
             (card: any) => (
               <div className='broder'>
-                {card.variant === 'hotel' ?
+                {card.variant === 'hotel' &&
                   <UpcomingHotelCard
                     key={card._id}
                     bookingId={card._id}
@@ -41,9 +41,6 @@ const UpcomingTabPanel = () => {
                     roomType={card.roomType}
                     cancelled={card.cancelled}
                   />
-                  : <span>
-                    {JSON.stringify(card)}
-                  </span>
                 }
               </div>
             )

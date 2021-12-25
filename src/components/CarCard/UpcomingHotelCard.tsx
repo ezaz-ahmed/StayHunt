@@ -42,20 +42,18 @@ const UpcomingHotelCard = ({
       </div>
 
       <div className='text-center font-semibold text-lg'>{hotelName}</div>
-      <div className='px-6 text-center mt-2 font-light text-sm'>
-        <p>{hotelAddress}</p>
+      <div className='text-center'>
+        <p className='px-6 mt-2 font-light text-sm'>{hotelAddress}</p>
+
+        <div className='mt-4 blcok'>Number of Room: {numOfRooms}</div>
+        <div className='block'>Number of Nights: {numOfNights}</div>
+
+        <div className='block'>Room Type: {roomType}</div>
+        <div className='block'>Number of Person: {numOfPersons}</div>
       </div>
 
-      <div className='flex justify-between px-3 mt-4'>
-        <div>Number of Room: {numOfRooms}</div>
-        <div>Number of Nights: {numOfNights}</div>
-      </div>
-
-      <div className='flex justify-between px-3'>
-        <div>Room Type: {roomType}</div>
-        <div>Number of Person: {numOfPersons}</div>
-      </div>
       <hr className='mt-8 border-neutral-200 dark:border-neutral-700' />
+
       {!cancelled && (
         <div className='flex justify-center p-2'>
           <ButtonPrimary>Cancel Ticket</ButtonPrimary>

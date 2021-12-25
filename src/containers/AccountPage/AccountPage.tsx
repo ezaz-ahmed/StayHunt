@@ -14,7 +14,7 @@ export interface AccountPageProps {
 
 const AccountPage: FC<AccountPageProps> = ({ className = '' }) => {
 
-  const { userDetails: { name, avatar, phone, email, phoneVerified, emailVerified } } = useAppSelector(state => state.user)
+  const { userDetails: { name, avatar, phone, email } } = useAppSelector(state => state.user)
 
   return (
     <div className={`nc-AccountPage ${className}`} data-nc-id='AccountPage'>

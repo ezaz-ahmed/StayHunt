@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Tab } from '@headlessui/react';
 import { fetchAllBooking } from 'app/feature/booking/bookingApi';
 import { useAppSelector } from 'app/hook';
+import CancelledHotelCard from 'components/CarCard/CancelledHotelCard';
 
 const CancelledTabPanel = () => {
   const { token } = useAppSelector((state) => state.user);
@@ -24,8 +25,8 @@ const CancelledTabPanel = () => {
           data.map(
             (card: any) => (
               <div className='broder'>
-                {/* {card.variant === 'hotel' ?
-                  <UpcomingHotelCard
+                {card.variant === 'hotel' &&
+                  <CancelledHotelCard
                     key={card._id}
                     bookingId={card._id}
                     bookingDate={card.bookingDate}
@@ -36,14 +37,8 @@ const CancelledTabPanel = () => {
                     numOfPersons={card.numOfPersons}
                     numOfNights={card.numOfNights}
                     roomType={card.roomType}
-                    cancelled={card.cancelled}
                   />
-                  : <span>
-                    {JSON.stringify(card)}
-                  </span>
-                } */}
-
-                {JSON.stringify(card)}
+                }
               </div>
             )
           )
