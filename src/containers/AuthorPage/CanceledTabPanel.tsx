@@ -37,12 +37,15 @@ const CancelledTabPanel = () => {
                     numOfPersons={card.numOfPersons}
                     numOfNights={card.numOfNights}
                     roomType={card.roomType}
+                    refundStatus={card.refundStatus}
                   />
                 }
               </div>
             )
           )
         )}
+
+        {console.log(data[0])}
       </div>
     </Tab.Panel>
   );
