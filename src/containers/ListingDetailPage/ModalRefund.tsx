@@ -1,12 +1,12 @@
 import { FC, Fragment, useEffect, useState } from "react";
 import { Dialog, Transition, Tab } from "@headlessui/react";
 import ButtonClose from "shared/ButtonClose/ButtonClose";
-import Label from "components/Label/Label";
 import Input from "shared/Input/Input";
-import Textarea from "shared/Textarea/Textarea";
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
 
-
+import { useAppSelector } from 'app/hook';
+import FormItem from 'containers/PageAddListing1/FormItem';
+import Select from 'shared/Select/Select';
 export interface ModalRefundProps {
     isOpen: boolean;
     bookingId: string;
@@ -22,6 +22,20 @@ const ModalRefund: FC<ModalRefundProps> = ({
     contentExtraClass = "max-w-screen-md",
     contentPaddingClass = "py-4 px-6 md:py-5",
 }) => {
+
+    const { userDetails: { name, phone, email } } = useAppSelector(state => state.user)
+
+    const [bKashNumber, setBKashNumber] = useState('')
+    const [nagadNumber, setNagadNumber] = useState('')
+    const [bank, setBank] = useState('')
+
+    const [bkashError, setBkashError] = useState('')
+    const [nagadError, setNagadError] = useState('')
+    const [bankError, setBankError] = useState('')
+
+    const [refundName, setRefundName] = useState(name)
+    const [refundPhone, setRefundPhone] = useState(phone)
+    const [refundEmail, setRefundEmail] = useState(email)
 
     const renderSection1 = () => {
         return (
@@ -74,87 +88,125 @@ const ModalRefund: FC<ModalRefundProps> = ({
                         </Tab.List>
 
                         <div className="w-14 border-b border-neutral-200 my-5"></div>
+
+                        {/* BKash */}
+
                         <Tab.Panels>
                             <Tab.Panel className="space-y-5">
                                 <div className="space-y-1">
-                                    <Label>Card number </Label>
-                                    <Input defaultValue="111 112 222 999" />
+                                    <FormItem label="Bkash Number">
+                                        <Input placeholder='Enter your bKash number' value={bKashNumber} onChange={(ev: any) => setBKashNumber(ev.target.value)} />
+                                    </FormItem>
+                                </div>
+
+                                <div className="space-y-1">
+                                    <FormItem label="Full Name ">
+                                        <Input value={refundName} onChange={(ev: any) => setRefundName(ev.target.value)} />
+                                    </FormItem>
                                 </div>
                                 <div className="space-y-1">
-                                    <Label>Card holder </Label>
-                                    <Input defaultValue="JOHN DOE" />
+                                    <FormItem label="Contact Number">
+                                        <Input value={refundPhone} onChange={(ev: any) => setRefundPhone(ev.target.value)} />
+                                    </FormItem>
                                 </div>
-                                <div className="flex space-x-5  ">
-                                    <div className="flex-1 space-y-1">
-                                        <Label>Expiration date </Label>
-                                        <Input type="date" defaultValue="MM/YY" />
-                                    </div>
-                                    <div className="flex-1 space-y-1">
-                                        <Label>CVC </Label>
-                                        <Input />
-                                    </div>
-                                </div>
+
                                 <div className="space-y-1">
-                                    <Label>Messager for author </Label>
-                                    <Textarea placeholder="..." />
-                                    <span className="text-sm text-neutral-500 block">
-                                        Write a few sentences about yourself.
-                                    </span>
+                                    <FormItem label="Email Address ">
+                                        <Input value={refundEmail} onChange={(ev: any) => setRefundEmail(ev.target.value)} />
+                                    </FormItem>
                                 </div>
+
                                 <div className="pt-4">
-                                    <ButtonPrimary>Confirm and pay</ButtonPrimary>
+                                    <ButtonPrimary>Apply For Refund</ButtonPrimary>
                                 </div>
+
+                                {bkashError && (
+                                    <span className='text-red-400 dark:text-red-400'>{bkashError}</span>
+                                )}
+
                             </Tab.Panel>
+
+                            {/* Nagad */}
+
                             <Tab.Panel className="space-y-5">
                                 <div className="space-y-1">
-                                    <Label>Email </Label>
-                                    <Input type="email" defaultValue="example@gmail.com" />
+                                    <FormItem label="Nagad Number">
+                                        <Input
+                                            placeholder='Enter your Nagad number'
+                                            value={nagadNumber}
+                                            onChange={(ev: any) => setNagadNumber(ev.target.value)}
+                                        />
+                                    </FormItem>
+                                </div>
+
+                                <div className="space-y-1">
+                                    <FormItem label="Full Name ">
+                                        <Input value={refundName} onChange={(ev: any) => setRefundName(ev.target.value)} />
+                                    </FormItem>
                                 </div>
                                 <div className="space-y-1">
-                                    <Label>Password </Label>
-                                    <Input type="password" defaultValue="***" />
+                                    <FormItem label="Contact Number">
+                                        <Input value={refundPhone} onChange={(ev: any) => setRefundPhone(ev.target.value)} />
+                                    </FormItem>
                                 </div>
+
                                 <div className="space-y-1">
-                                    <Label>Messager for author </Label>
-                                    <Textarea placeholder="..." />
-                                    <span className="text-sm text-neutral-500 block">
-                                        Write a few sentences about yourself.
-                                    </span>
+                                    <FormItem label="Email Address ">
+                                        <Input value={refundEmail} onChange={(ev: any) => setRefundEmail(ev.target.value)} />
+                                    </FormItem>
                                 </div>
+
                                 <div className="pt-4">
-                                    <ButtonPrimary>Confirm and pay</ButtonPrimary>
+                                    <ButtonPrimary>Apply For Refund</ButtonPrimary>
                                 </div>
+
+                                {nagadError && (
+                                    <span className='text-red-400 dark:text-red-400'>{nagadError}</span>
+                                )}
                             </Tab.Panel>
+
+                            {/* Bank */}
+
                             <Tab.Panel className="space-y-5">
                                 <div className="space-y-1">
-                                    <Label>Card number </Label>
-                                    <Input defaultValue="111 112 222 999" />
+                                    <FormItem label="Bank Name">
+                                        <Select
+                                            value={bank}
+                                            onChange={(ev: any) => setBank(ev.target.value)}
+                                        >
+                                            <option value="Dutch Bangla Bank Ltd">Dutch Bangla Bank Ltd.</option>
+                                            <option value="Islami Bank Ltd">Islami Bank Ltd.</option>
+                                            <option value="Agrani Bank Limited">Agrani Bank Limited</option>
+                                        </Select>
+                                    </FormItem>
+                                </div>
+
+                                <div className="space-y-1">
+                                    <FormItem label="Account Holder Name">
+                                        <Input value={refundName} onChange={(ev: any) => setRefundName(ev.target.value)} />
+                                    </FormItem>
                                 </div>
                                 <div className="space-y-1">
-                                    <Label>Card holder </Label>
-                                    <Input defaultValue="JOHN DOE" />
+                                    <FormItem label="Account Holder Number">
+                                        <Input value={refundPhone} onChange={(ev: any) => setRefundPhone(ev.target.value)} />
+                                    </FormItem>
                                 </div>
-                                <div className="flex space-x-5  ">
-                                    <div className="flex-1 space-y-1">
-                                        <Label>Expiration date </Label>
-                                        <Input type="date" defaultValue="MM/YY" />
-                                    </div>
-                                    <div className="flex-1 space-y-1">
-                                        <Label>CVC </Label>
-                                        <Input />
-                                    </div>
-                                </div>
+
                                 <div className="space-y-1">
-                                    <Label>Messager for author </Label>
-                                    <Textarea placeholder="..." />
-                                    <span className="text-sm text-neutral-500 block">
-                                        Write a few sentences about yourself.
-                                    </span>
+                                    <FormItem label="Email Address ">
+                                        <Input value={refundEmail} onChange={(ev: any) => setRefundEmail(ev.target.value)} />
+                                    </FormItem>
                                 </div>
+
                                 <div className="pt-4">
-                                    <ButtonPrimary>Confirm and pay</ButtonPrimary>
+                                    <ButtonPrimary>Apply For Refund</ButtonPrimary>
                                 </div>
-                            </Tab.Panel>                                            </Tab.Panels>
+
+                                {bankError && (
+                                    <span className='text-red-400 dark:text-red-400'>{bankError}</span>
+                                )}
+                            </Tab.Panel>
+                        </Tab.Panels>
                     </Tab.Group>
                 </div>
             </div>

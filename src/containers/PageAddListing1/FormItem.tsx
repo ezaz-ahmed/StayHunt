@@ -1,5 +1,4 @@
 import Label from "components/Label/Label";
-import React from "react";
 import { FC } from "react";
 
 export interface FormItemProps {

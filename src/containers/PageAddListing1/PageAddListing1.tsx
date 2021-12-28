@@ -1,10 +1,10 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import Input from "shared/Input/Input";
 import Select from "shared/Select/Select";
 import CommonLayout from "./CommonLayout";
 import FormItem from "./FormItem";
 
-export interface PageAddListing1Props {}
+export interface PageAddListing1Props { }
 
 const PageAddListing1: FC<PageAddListing1Props> = () => {
   return (

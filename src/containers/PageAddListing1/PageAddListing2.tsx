@@ -1,15 +1,15 @@
+import { FC } from "react";
 import { LocationMarkerIcon } from "@heroicons/react/solid";
 import LocationMarker from "components/AnyReactComponent/LocationMarker";
 import Label from "components/Label/Label";
 import GoogleMapReact from "google-map-react";
-import React, { FC } from "react";
 import ButtonSecondary from "shared/Button/ButtonSecondary";
 import Input from "shared/Input/Input";
 import Select from "shared/Select/Select";
 import CommonLayout from "./CommonLayout";
 import FormItem from "./FormItem";
 
-export interface PageAddListing2Props {}
+export interface PageAddListing2Props { }
 
 const PageAddListing2: FC<PageAddListing2Props> = () => {
   return (
