@@ -12,7 +12,7 @@ import {
 import Badge from "shared/Badge/Badge";
 import ButtonClose from "shared/ButtonClose/ButtonClose";
 
-export interface ModalPhotosProps {
+export interface ModalBusProps {
   isOpen: boolean;
   onClose: () => void;
   initFocus: string;
@@ -20,7 +20,7 @@ export interface ModalPhotosProps {
   contentPaddingClass?: string;
 }
 
-const ModalBus: FC<ModalPhotosProps> = ({
+const ModalBus: FC<ModalBusProps> = ({
   isOpen,
   onClose,
   initFocus,
@@ -36,21 +36,21 @@ const ModalBus: FC<ModalPhotosProps> = ({
   useEffect(() => {
     firstBusSelected
       ? dispatch<any>(
-          fetchSingleBuslAsync({
-            id: initFocus,
-            depDate: busUserInput?.returnDate,
-            fromLocId: busUserInput?.toCity.locId,
-            toLocId: busUserInput?.fromCity.locId,
-          })
-        )
+        fetchSingleBuslAsync({
+          id: initFocus,
+          depDate: busUserInput?.returnDate,
+          fromLocId: busUserInput?.toCity.locId,
+          toLocId: busUserInput?.fromCity.locId,
+        })
+      )
       : dispatch<any>(
-          fetchSingleBuslAsync({
-            id: initFocus,
-            depDate: busUserInput?.journeyDate,
-            fromLocId: busUserInput?.fromCity.locId,
-            toLocId: busUserInput?.toCity.locId,
-          })
-        );
+        fetchSingleBuslAsync({
+          id: initFocus,
+          depDate: busUserInput?.journeyDate,
+          fromLocId: busUserInput?.fromCity.locId,
+          toLocId: busUserInput?.toCity.locId,
+        })
+      );
   }, [firstBusSelected]);
 
   const [selectedSeat, setSelectedSeat] = useState<string[]>([]);
@@ -149,12 +149,11 @@ const ModalBus: FC<ModalPhotosProps> = ({
   const renderSeat = (seat: any) => {
     return (
       <li
-        className={`seat p-1 relative justify-center my-1   ${
-          threeSitter
-            ? seat.key.slice(-1) === "2" && "ml-12"
-            : (seat.key.slice(-1) === "2" && "mr-5") ||
-              (seat.key.slice(-1) === "3" && "ml-5")
-        }`}
+        className={`seat p-1 relative justify-center my-1   ${threeSitter
+          ? seat.key.slice(-1) === "2" && "ml-12"
+          : (seat.key.slice(-1) === "2" && "mr-5") ||
+          (seat.key.slice(-1) === "3" && "ml-5")
+          }`}
         key={seat.key}
       >
         <input
@@ -198,8 +197,7 @@ const ModalBus: FC<ModalPhotosProps> = ({
                   <Listbox.Option
                     key={brdIdx}
                     className={({ active }) =>
-                      `${
-                        active ? "text-amber-900 bg-amber-100" : "text-gray-900"
+                      `${active ? "text-amber-900 bg-amber-100" : "text-gray-900"
                       }
                 cursor-default select-none relative py-2 pl-10 pr-4`
                     }
@@ -208,17 +206,15 @@ const ModalBus: FC<ModalPhotosProps> = ({
                     {({ selected, active }) => (
                       <>
                         <span
-                          className={`${
-                            selected ? "font-medium" : "font-normal"
-                          } block truncate`}
+                          className={`${selected ? "font-medium" : "font-normal"
+                            } block truncate`}
                         >
                           {brdPoint}
                         </span>
                         {selected ? (
                           <span
-                            className={`${
-                              active ? "text-amber-600" : "text-amber-600"
-                            }
+                            className={`${active ? "text-amber-600" : "text-amber-600"
+                              }
                         absolute inset-y-0 left-0 flex items-center pl-3`}
                           >
                             <i className="las la-check"></i>
@@ -265,17 +261,15 @@ const ModalBus: FC<ModalPhotosProps> = ({
                   {({ selected, active }) => (
                     <>
                       <span
-                        className={`${
-                          selected ? "font-medium" : "font-normal"
-                        } block truncate`}
+                        className={`${selected ? "font-medium" : "font-normal"
+                          } block truncate`}
                       >
                         {drpPoint}
                       </span>
                       {selected ? (
                         <span
-                          className={`${
-                            active ? "text-amber-600" : "text-amber-600"
-                          }
+                          className={`${active ? "text-amber-600" : "text-amber-600"
+                            }
                   absolute inset-y-0 left-0 flex items-center pl-3`}
                         >
                           <i className="las la-check"></i>
