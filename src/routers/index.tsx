@@ -45,6 +45,8 @@ import LaunchCheckOut from 'containers/CheckOutPage/LaunchCheckOutPage';
 import PartnershipWithUs from 'containers/Page404/PartnershipWithUs';
 import SearchAccount from 'containers/PageSignUp/SearchAccount';
 import PageAboutUs from 'containers/PageAbout/PageAboutUs';
+import PageTermsConditions from 'containers/PageContact/PageTermsConditions';
+import PageRefundPolicy from 'containers/PageContact/PageRefundPolicy';
 
 export const pages: Page[] = [
   { path: '/', exact: true, component: PageHome },
@@ -101,6 +103,10 @@ export const pages: Page[] = [
   { path: '/signup', component: PageSignUp },
   { path: '/login', component: PageLogin },
   { path: '/verfication', component: OtpPage },
+  { path: '/terms-and-conditions', component: PageTermsConditions },
+  { path: '/refund-policy', component: PageRefundPolicy },
+  { path: '/privacy-policy', component: OtpPage },
+
   { path: '/seach-account', component: SearchAccount },
   { path: '/subscription', component: PageSubcription },
 ];

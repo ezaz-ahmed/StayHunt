@@ -53,6 +53,9 @@ export interface LocationStates {
   '/author'?: {};
   '/search'?: {};
   '/about-us'?: {};
+  '/terms-and-conditions'?: {};
+  '/privacy-policy'?: {};
+  '/refund-policy'?: {};
   '/contact-us'?: {};
   '/login'?: {};
   '/signup'?: {};
