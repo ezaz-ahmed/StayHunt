@@ -17,7 +17,6 @@ import AuthorPage from 'containers/AuthorPage/AuthorPage';
 import AccountPage from 'containers/AccountPage/AccountPage';
 import AccountPass from 'containers/AccountPage/AccountPass';
 import PageContact from 'containers/PageContact/PageContact';
-import PageAbout from 'containers/PageAbout/PageAbout';
 import PageSignUp from 'containers/PageSignUp/PageSignUp';
 import PageLogin from 'containers/PageLogin/PageLogin';
 import PageSubcription from 'containers/PageSubcription/PageSubcription';
@@ -45,6 +44,7 @@ import LaunchDetailsPage from 'containers/BusSearchPage/LaunchDetailsPage';
 import LaunchCheckOut from 'containers/CheckOutPage/LaunchCheckOutPage';
 import PartnershipWithUs from 'containers/Page404/PartnershipWithUs';
 import SearchAccount from 'containers/PageSignUp/SearchAccount';
+import PageAboutUs from 'containers/PageAbout/PageAboutUs';
 
 export const pages: Page[] = [
   { path: '/', exact: true, component: PageHome },
@@ -97,7 +97,7 @@ export const pages: Page[] = [
   { path: '/add-listing-10', component: PageAddListing10 },
   //
   { path: '/contact-us', component: PageContact },
-  { path: '/about', component: PageAbout },
+  { path: '/about-us', component: PageAboutUs },
   { path: '/signup', component: PageSignUp },
   { path: '/login', component: PageLogin },
   { path: '/verfication', component: OtpPage },

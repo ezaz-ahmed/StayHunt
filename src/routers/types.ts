@@ -52,7 +52,7 @@ export interface LocationStates {
   //
   '/author'?: {};
   '/search'?: {};
-  '/about'?: {};
+  '/about-us'?: {};
   '/contact-us'?: {};
   '/login'?: {};
   '/signup'?: {};

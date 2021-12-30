@@ -1,7 +1,6 @@
 import Logo from "shared/Logo/Logo";
 import SocialsList1 from "shared/SocialsList1/SocialsList1";
 import { CustomLink } from "data/types";
-import React from "react";
 
 export interface WidgetFooterMenu {
   id: string;
@@ -18,57 +17,41 @@ const widgetMenus: WidgetFooterMenu[] = [
       { href: "#", label: "Release Notes" },
       { href: "#", label: "Upgrade Guide" },
       { href: "#", label: "Browser Support" },
-      { href: "#", label: "Editor Support" },
-      { href: "#", label: "Utility-First" },
-      { href: "#", label: "Dark Mode" },
-      { href: "#", label: "Responsive Design" },
     ],
   },
   {
     id: "1",
     title: "Explore",
     menus: [
-      { href: "#", label: "Design features" },
-      { href: "#", label: "Prototyping" },
+      { href: "/about-us", label: "About Us" },
+      { href: "#", label: "Our Teams" },
       { href: "#", label: "Design systems" },
       { href: "#", label: "Pricing" },
-      { href: "#", label: "Customers" },
-      { href: "#", label: "Security" },
-      { href: "#", label: "Integrations" },
-      { href: "#", label: "Contact" },
     ],
   },
   {
     id: "2",
-    title: "Resources",
+    title: "Terms & Conditions",
     menus: [
-      { href: "#", label: "Best practices" },
-      { href: "#", label: "Support" },
-      { href: "#", label: "Developers" },
+      { href: "/terms-and-conditions", label: "Terms & Conditions" },
+      { href: "/privacy-policy", label: "Privacy Policy" },
+      { href: "/refund-policy", label: "Refund Policy" },
       { href: "#", label: "Learn design" },
-      { href: "#", label: "What's new" },
-      { href: "#", label: "Releases" },
-      { href: "#", label: "Careers" },
-      { href: "#", label: "About us" },
     ],
   },
-  {
-    id: "4",
-    title: "Community",
-    menus: [
-      { href: "#", label: "Discussion Forums" },
-      { href: "#", label: "Code of Conduct" },
-      { href: "#", label: "Community Resources" },
-      { href: "#", label: "Contributing" },
-      { href: "#", label: "Concurrent Mode" },
-      { href: "#", label: "API Reference" },
-      { href: "#", label: "Advanced Guides" },
-      { href: "#", label: "Main Concepts" },
-    ],
-  },
+  // {
+  //   id: "4",
+  //   title: "Community",
+  //   menus: [
+  //     { href: "#", label: "Discussion Forums" },
+  //     { href: "#", label: "Code of Conduct" },
+  //     { href: "#", label: "Community Resources" },
+  //     { href: "#", label: "Contributing" },
+  //   ],
+  // },
 ];
 
-const Footer: React.FC = () => {
+const Footer = () => {
   const renderWidgetMenuItem = (menu: WidgetFooterMenu, index: number) => {
     return (
       <div key={index} className="text-sm">
@@ -93,8 +76,8 @@ const Footer: React.FC = () => {
   };
 
   return (
-    <div className="nc-Footer relative py-24 lg:py-32 border-t border-neutral-200 dark:border-neutral-700">
-      <div className="container grid grid-cols-2 gap-y-10 gap-x-5 sm:gap-x-8 md:grid-cols-4 lg:grid-cols-5 lg:gap-x-10 ">
+    <div className="nc-Footer relative py-24  border-t border-neutral-200 dark:border-neutral-700">
+      <div className="container grid grid-cols-2 gap-y-10 gap-x-5 sm:gap-x-8 md:grid-cols-4 lg:grid-cols-4 lg:gap-x-10 ">
         <div className="grid grid-cols-4 gap-5 col-span-2 md:col-span-4 lg:md:col-span-1 lg:flex lg:flex-col">
           <div className="col-span-2 md:col-span-1">
             <Logo />

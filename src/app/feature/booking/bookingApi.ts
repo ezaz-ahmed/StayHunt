@@ -39,3 +39,24 @@ export const fetchCancelBooking = async (bookingId: string, token: string) => {
     }
   }
 };
+
+export const fetchRefund = async (body: any, token: string) => {
+  try {
+    const response: any = await axios({
+      method: 'POST',
+      url: `${URL}api/v1/refunds`,
+      headers: { Authorization: `Bearer ${token}` },
+      data: body,
+    });
+
+    return response.data;
+  } catch (error: any) {
+    if (error.response) {
+      return error.response.data.message;
+    } else if (error.request) {
+      return error.request;
+    } else {
+      return error.message;
+    }
+  }
+};

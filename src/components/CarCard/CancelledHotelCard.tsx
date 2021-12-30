@@ -1,5 +1,4 @@
 import { useState } from 'react'
-import { useAppSelector } from 'app/hook';
 import moment from 'moment';
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
 
@@ -33,8 +32,6 @@ const CancelledHotelCard = ({
 }: CancelledHotelCardProps) => {
 
     let [isOpen, setIsOpen] = useState(false)
-    const { token } = useAppSelector(state => state.user)
-
 
     const closeModal = () => {
         setIsOpen(false)
@@ -42,11 +39,6 @@ const CancelledHotelCard = ({
 
     const openModal = () => {
         setIsOpen(true)
-    }
-
-    const cancelBooking = async () => {
-        closeModal()
-        // await fetchCancelBooking(bookingId, token)
     }
 
 

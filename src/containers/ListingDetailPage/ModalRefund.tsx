@@ -1,5 +1,6 @@
-import { FC, Fragment, useEffect, useState } from "react";
+import { FC, Fragment, useState } from "react";
 import { Dialog, Transition, Tab } from "@headlessui/react";
+import { useHistory } from 'react-router';
 import ButtonClose from "shared/ButtonClose/ButtonClose";
 import Input from "shared/Input/Input";
 import ButtonPrimary from 'shared/Button/ButtonPrimary';
@@ -7,6 +8,8 @@ import ButtonPrimary from 'shared/Button/ButtonPrimary';
 import { useAppSelector } from 'app/hook';
 import FormItem from 'containers/PageAddListing1/FormItem';
 import Select from 'shared/Select/Select';
+
+import { fetchRefund } from 'app/feature/booking/bookingApi'
 export interface ModalRefundProps {
     isOpen: boolean;
     bookingId: string;
@@ -22,12 +25,17 @@ const ModalRefund: FC<ModalRefundProps> = ({
     contentExtraClass = "max-w-screen-md",
     contentPaddingClass = "py-4 px-6 md:py-5",
 }) => {
+    const history = useHistory();
+    const { userDetails: { name, phone, email }, token } = useAppSelector(state => state.user)
 
-    const { userDetails: { name, phone, email } } = useAppSelector(state => state.user)
+    const [loading, setLoading] = useState(false)
 
     const [bKashNumber, setBKashNumber] = useState('')
     const [nagadNumber, setNagadNumber] = useState('')
     const [bank, setBank] = useState('')
+    const [bankBranchName, setBankBranchName] = useState('')
+    const [bankAccount_no, setBankAccount_no] = useState('')
+    const [bankAccount_name, setBankAccount_name] = useState('')
 
     const [bkashError, setBkashError] = useState('')
     const [nagadError, setNagadError] = useState('')
@@ -36,6 +44,94 @@ const ModalRefund: FC<ModalRefundProps> = ({
     const [refundName, setRefundName] = useState(name)
     const [refundPhone, setRefundPhone] = useState(phone)
     const [refundEmail, setRefundEmail] = useState(email)
+
+
+    // bKash Refund Call
+    const bkashRefund = async () => {
+        const bodyData = {
+            cusName: refundName,
+            cusPhone: refundPhone,
+            cusEmail: refundEmail,
+            bookingId: bookingId,
+            reason: "The reason I cancelled is....",
+            refundMethod: "bkash",
+            refundMethodDetails: {
+                account_no: bKashNumber,
+            }
+        }
+
+        setLoading(true)
+        const data: any = await fetchRefund(bodyData, token)
+        setLoading(false);
+
+        if (data.status === "Processing") {
+            onClose()
+            history.push('/');
+            setBkashError("")
+        } else {
+            setBkashError(data);
+        }
+    }
+
+    // Nagad Refund Call
+    const nagadRefund = async () => {
+        const bodyData = {
+            cusName: refundName,
+            cusPhone: refundPhone,
+            cusEmail: refundEmail,
+            bookingId: bookingId,
+            reason: "The reason I cancelled is....",
+            refundMethod: "nagad",
+            refundMethodDetails: {
+                account_no: nagadNumber,
+            }
+        }
+
+        setLoading(true)
+        const data: any = await fetchRefund(bodyData, token)
+        setLoading(false);
+
+        if (data.status === "Processing") {
+            onClose()
+            history.push('/');
+            setNagadError("")
+        } else {
+            setNagadError(data);
+        }
+    }
+
+    // bank Refund Call
+
+    const bankRefund = async () => {
+
+        const bodyData = {
+            cusName: refundName,
+            cusPhone: refundPhone,
+            cusEmail: refundEmail,
+            bookingId: bookingId,
+            reason: "The reason I cancelled is....",
+            refundMethod: "bank",
+            refundMethodDetails: {
+                bank_name: bank,
+                bank_branch: bankBranchName,
+                account_no: bankAccount_no,
+                account_name: bankAccount_name
+            }
+
+        }
+
+        setLoading(true)
+        const data: any = await fetchRefund(bodyData, token)
+        setLoading(false);
+
+        if (data.status === "Processing") {
+            onClose()
+            history.push('/');
+            setBankError("")
+        } else {
+            setBankError(data);
+        }
+    }
 
     const renderSection1 = () => {
         return (
@@ -117,7 +213,7 @@ const ModalRefund: FC<ModalRefundProps> = ({
                                 </div>
 
                                 <div className="pt-4">
-                                    <ButtonPrimary>Apply For Refund</ButtonPrimary>
+                                    <ButtonPrimary loading={loading} onClick={bkashRefund}>Apply For Refund</ButtonPrimary>
                                 </div>
 
                                 {bkashError && (
@@ -157,7 +253,7 @@ const ModalRefund: FC<ModalRefundProps> = ({
                                 </div>
 
                                 <div className="pt-4">
-                                    <ButtonPrimary>Apply For Refund</ButtonPrimary>
+                                    <ButtonPrimary loading={loading} onClick={nagadRefund}>Apply For Refund</ButtonPrimary>
                                 </div>
 
                                 {nagadError && (
@@ -168,38 +264,60 @@ const ModalRefund: FC<ModalRefundProps> = ({
                             {/* Bank */}
 
                             <Tab.Panel className="space-y-5">
-                                <div className="space-y-1">
-                                    <FormItem label="Bank Name">
-                                        <Select
-                                            value={bank}
-                                            onChange={(ev: any) => setBank(ev.target.value)}
-                                        >
-                                            <option value="Dutch Bangla Bank Ltd">Dutch Bangla Bank Ltd.</option>
-                                            <option value="Islami Bank Ltd">Islami Bank Ltd.</option>
-                                            <option value="Agrani Bank Limited">Agrani Bank Limited</option>
-                                        </Select>
-                                    </FormItem>
+                                <div className="flex space-x-5  ">
+                                    <div className="flex-1 space-y-1">
+                                        <FormItem label="Bank Name">
+                                            <Select
+                                                value={bank}
+                                                onChange={(ev: any) => setBank(ev.target.value)}
+                                            >
+                                                <option value="Dutch Bangla Bank Ltd">Dutch Bangla Bank Ltd.</option>
+                                                <option value="Islami Bank Ltd">Islami Bank Ltd.</option>
+                                                <option value="Agrani Bank Limited">Agrani Bank Limited</option>
+                                            </Select>
+                                        </FormItem>
+                                    </div>
+                                    <div className="flex-1 space-y-1">
+                                        <FormItem label="Branch Name">
+                                            <Input value={bankBranchName} onChange={(ev: any) => setBankBranchName(ev.target.value)} />
+                                        </FormItem>
+                                    </div>
+                                </div>
+
+                                <div className="flex space-x-5  ">
+                                    <div className="flex-1 space-y-1">
+                                        <FormItem label="Account Number">
+                                            <Input value={bankAccount_no} onChange={(ev: any) => setBankAccount_no(ev.target.value)} />
+                                        </FormItem>
+                                    </div>
+                                    <div className="flex-1 space-y-1">
+                                        <FormItem label="Account Holder Name">
+                                            <Input value={bankAccount_name} onChange={(ev: any) => setBankAccount_name(ev.target.value)} />
+                                        </FormItem>
+                                    </div>
                                 </div>
 
                                 <div className="space-y-1">
-                                    <FormItem label="Account Holder Name">
+                                    <FormItem label="Full Name ">
                                         <Input value={refundName} onChange={(ev: any) => setRefundName(ev.target.value)} />
                                     </FormItem>
                                 </div>
-                                <div className="space-y-1">
-                                    <FormItem label="Account Holder Number">
-                                        <Input value={refundPhone} onChange={(ev: any) => setRefundPhone(ev.target.value)} />
-                                    </FormItem>
-                                </div>
 
-                                <div className="space-y-1">
-                                    <FormItem label="Email Address ">
-                                        <Input value={refundEmail} onChange={(ev: any) => setRefundEmail(ev.target.value)} />
-                                    </FormItem>
+                                <div className="flex space-x-5  ">
+                                    <div className="flex-1 space-y-1">
+                                        <FormItem label="Contact Number">
+                                            <Input value={refundPhone} onChange={(ev: any) => setRefundPhone(ev.target.value)} />
+                                        </FormItem>
+                                    </div>
+                                    <div className="flex-1 space-y-1">
+                                        <FormItem label="Email Address ">
+                                            <Input value={refundEmail} onChange={(ev: any) => setRefundEmail(ev.target.value)} />
+                                        </FormItem>
+                                    </div>
                                 </div>
 
                                 <div className="pt-4">
-                                    <ButtonPrimary>Apply For Refund</ButtonPrimary>
+                                    <ButtonPrimary loading={loading} onClick={bankRefund}>Apply For Refund</ButtonPrimary>
                                 </div>
 
                                 {bankError && (
