@@ -47,6 +47,7 @@ import SearchAccount from 'containers/PageSignUp/SearchAccount';
 import PageAboutUs from 'containers/PageAbout/PageAboutUs';
 import PageTermsConditions from 'containers/PageContact/PageTermsConditions';
 import PageRefundPolicy from 'containers/PageContact/PageRefundPolicy';
+import PagePrivacyPolicy from 'containers/PageContact/PagePrivacyPolicy';
 
 export const pages: Page[] = [
   { path: '/', exact: true, component: PageHome },
@@ -105,7 +106,7 @@ export const pages: Page[] = [
   { path: '/verfication', component: OtpPage },
   { path: '/terms-and-conditions', component: PageTermsConditions },
   { path: '/refund-policy', component: PageRefundPolicy },
-  { path: '/privacy-policy', component: OtpPage },
+  { path: '/privacy-policy', component: PagePrivacyPolicy },
 
   { path: '/seach-account', component: SearchAccount },
   { path: '/subscription', component: PageSubcription },

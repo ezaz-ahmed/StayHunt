@@ -51,6 +51,7 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
   });
 
   useEffect(() => {
+    console.log('amake dakse')
     dispatch<any>(
       fetchSingleLaunchlAsync({
         id: match.params.id,
@@ -142,9 +143,8 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
             {PHOTOS.filter((_, i) => i >= 1 && i < 5).map((item, index) => (
               <div
                 key={index}
-                className={`relative rounded-md sm:rounded-xl overflow-hidden ${
-                  index >= 3 ? "hidden sm:block" : ""
-                }`}
+                className={`relative rounded-md sm:rounded-xl overflow-hidden ${index >= 3 ? "hidden sm:block" : ""
+                  }`}
               >
                 <NcImage
                   containerClassName="aspect-w-4 aspect-h-3 sm:aspect-w-6 sm:aspect-h-5"
@@ -299,17 +299,15 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
                   {({ selected, active }) => (
                     <>
                       <span
-                        className={`${
-                          selected ? "font-medium" : "font-normal"
-                        } block truncate`}
+                        className={`${selected ? "font-medium" : "font-normal"
+                          } block truncate`}
                       >
                         {brdPoint}
                       </span>
                       {selected ? (
                         <span
-                          className={`${
-                            active ? "text-amber-600" : "text-amber-600"
-                          }
+                          className={`${active ? "text-amber-600" : "text-amber-600"
+                            }
                   absolute inset-y-0 left-0 flex items-center pl-3`}
                         >
                           <i className="las la-check"></i>
@@ -355,17 +353,15 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
                   {({ selected, active }) => (
                     <>
                       <span
-                        className={`${
-                          selected ? "font-medium" : "font-normal"
-                        } block truncate`}
+                        className={`${selected ? "font-medium" : "font-normal"
+                          } block truncate`}
                       >
                         {drpPoint}
                       </span>
                       {selected ? (
                         <span
-                          className={`${
-                            active ? "text-amber-600" : "text-amber-600"
-                          }
+                          className={`${active ? "text-amber-600" : "text-amber-600"
+                            }
                   absolute inset-y-0 left-0 flex items-center pl-3`}
                         >
                           <i className="las la-check"></i>
@@ -416,7 +412,7 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
           <div className="flex-1">
             <BusDateSingleInput
               defaultValue={selectedDate.startDate}
-              onFocusChange={() => {}}
+              onFocusChange={() => { }}
               onChange={(date) =>
                 setSelectedDate({ startDate: date, endDate: null })
               }
