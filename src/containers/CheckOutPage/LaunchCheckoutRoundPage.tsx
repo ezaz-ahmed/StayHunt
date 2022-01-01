@@ -333,8 +333,8 @@ const LaunchCheckOutRound: FC<LaunchCheckOutPageProps> = ({
               />
               <span className='ml-2'>
                 I've read{' '}
-                <Link to='/terms-and-condition'>
-                  <span className='underline'>terms & condition</span>
+                <Link to='/terms-and-conditions'>
+                  <span className='underline'>terms & conditions</span>
                 </Link>
               </span>
             </div>
