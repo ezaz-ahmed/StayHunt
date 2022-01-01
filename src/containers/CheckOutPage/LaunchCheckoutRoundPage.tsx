@@ -1,4 +1,4 @@
-import { FC, useState, useEffect, Fragment } from 'react';
+import { FC, useState, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { PencilAltIcon } from '@heroicons/react/outline';
@@ -23,7 +23,6 @@ const LaunchCheckOutRound: FC<LaunchCheckOutPageProps> = ({
     (state) => state.bus
   );
   const { userDetails } = useAppSelector((state) => state.user);
-  const [btnDisalbe, setBtnDisalbe] = useState(true);
   const [name, setName] = useState(userDetails.name || '');
   const [email, setEmail] = useState(userDetails.email || '');
   const [phone, setPhone] = useState(userDetails.phone) || '';
@@ -31,27 +30,13 @@ const LaunchCheckOutRound: FC<LaunchCheckOutPageProps> = ({
   const [check, setCheck] = useState(true);
   const { token } = useAppSelector((state) => state.user);
 
-  const validEmail = () => {
-    const pattern = /^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,3}$/;
-    if (email.match(pattern)) {
-      return true;
-    } else {
-      return false;
-    }
-  };
+
 
   const serviceCharge = 50;
   const totalTicketsPrice = inputFirstBus.amount + inputSecendBus.amount;
   const vat = Math.ceil(totalTicketsPrice * 0.15);
   const totalAmountToPay = totalTicketsPrice + serviceCharge + vat;
 
-  useEffect(() => {
-    if (check && name.length >= 3 && validEmail() && phone.length === 11) {
-      setBtnDisalbe(false);
-    } else {
-      setBtnDisalbe(true);
-    }
-  }, [name, validEmail, phone, check]);
 
   const handlePaymentSubmit = () => {
     const dataForBody = {
@@ -339,15 +324,9 @@ const LaunchCheckOutRound: FC<LaunchCheckOutPageProps> = ({
               </span>
             </div>
             <div className='pt-4'>
-              {btnDisalbe ? (
-                <ButtonPrimary className='cursor-not-allowed opacity-50'>
-                  Pay with SSLCommerz
-                </ButtonPrimary>
-              ) : (
-                <ButtonPrimary onClick={handlePaymentSubmit}>
-                  Pay with SSLCommerz
-                </ButtonPrimary>
-              )}
+              <ButtonPrimary onClick={handlePaymentSubmit}>
+                Pay with SSLCommerz
+              </ButtonPrimary>
             </div>
           </div>
         </div>
