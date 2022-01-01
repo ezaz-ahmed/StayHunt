@@ -20,15 +20,12 @@ const BusCheckOutRound: FC<BusCheckOutPageProps> = ({ className = '' }) => {
   const { inputFirstBus, inputSecendBus } = useAppSelector(
     (state) => state.bus
   );
-  const { userDetails } = useAppSelector((state) => state.user);
+  const { userDetails, token } = useAppSelector((state) => state.user);
   const [name, setName] = useState(userDetails.name || '');
   const [email, setEmail] = useState(userDetails.email || '');
   const [phone, setPhone] = useState(userDetails.phone) || '';
   const [message, setMessage] = useState('');
   const [check, setCheck] = useState(true);
-  const { token } = useAppSelector((state) => state.user);
-
-
 
   const serviceCharge = 50;
   const totalTicketsPrice = inputFirstBus.amount + inputSecendBus.amount;

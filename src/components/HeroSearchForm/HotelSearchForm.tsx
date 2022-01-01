@@ -86,7 +86,7 @@ const HotelSearchForm = () => {
   return (
     <form
       onSubmit={(ev) => formatFormData(ev)}
-      className='w-full relative mt-8 flex flex-col md:flex-row md:items-center rounded-3xl lg:rounded-full shadow-xl dark:shadow-2xl bg-white dark:bg-neutral-900 divide-y divide-neutral-200 md:divide-y-0'
+      className='w-full relative mt-8 flex flex-col md:flex-row md:items-center rounded-3xl lg:rounded-full shadow-2xl dark:shadow-2xl bg-white dark:bg-neutral-800 divide-y divide-neutral-200 md:divide-y-0'
     >
       {locations && (
         <HotelLocationInput

@@ -281,7 +281,7 @@ const BusSearchForm = () => {
 
   return (
     <div className='w-full'>
-      <div className='w-full relative mt-8 rounded-3xl shadow-xl dark:shadow-2xl bg-white dark:bg-neutral-900'>
+      <div className='w-full relative mt-8 rounded-3xl shadow-xl dark:shadow-2xl bg-white dark:bg-neutral-800'>
         {renderRadioBtn()}
         {dropOffLocationType === 'same' && renderOneWayForm()}
         {dropOffLocationType === 'different' && renderRoundTrip()}

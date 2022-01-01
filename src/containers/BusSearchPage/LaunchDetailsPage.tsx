@@ -84,8 +84,8 @@ const LaunchDetailsPage: FC<LaunchDetailsPageProps> = ({ match }) => {
   const reserveBtnClick = () => {
     dispatch<any>(
       addFinalInput({
-        launch: oneLaunch._id,
-        cabin: oneLaunch.cabins[selectedCabin]._id,
+        launch: oneLaunch,
+        cabin: oneLaunch.cabins[selectedCabin],
         numOfCabins: 1,
         adults: oneLaunch.cabins[selectedCabin].maxAdults,
         children: oneLaunch.cabins[selectedCabin].maxChildrens,

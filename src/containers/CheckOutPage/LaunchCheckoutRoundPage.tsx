@@ -1,4 +1,4 @@
-import { FC, useState, Fragment } from 'react';
+import { useState, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { PencilAltIcon } from '@heroicons/react/outline';
@@ -12,67 +12,64 @@ import { fetchPaymentBus } from 'app/feature/bus/busApi';
 import SomethingWrong from 'containers/Page404/SomethingWrong';
 import TwoWayIcon from 'images/extra/two-way.svg';
 
-export interface LaunchCheckOutPageProps {
-  className?: string;
-}
 
-const LaunchCheckOutRound: FC<LaunchCheckOutPageProps> = ({
-  className = '',
-}) => {
-  const { inputFirstBus, inputSecendBus } = useAppSelector(
-    (state) => state.bus
+const LaunchCheckOutRound = () => {
+  const { inputFirstLaunch, inputSecendLaunch } = useAppSelector(
+    (state) => state.launch
   );
-  const { userDetails } = useAppSelector((state) => state.user);
+  const { userDetails, token } = useAppSelector((state) => state.user);
   const [name, setName] = useState(userDetails.name || '');
   const [email, setEmail] = useState(userDetails.email || '');
   const [phone, setPhone] = useState(userDetails.phone) || '';
   const [message, setMessage] = useState('');
   const [check, setCheck] = useState(true);
-  const { token } = useAppSelector((state) => state.user);
-
 
 
   const serviceCharge = 50;
-  const totalTicketsPrice = inputFirstBus.amount + inputSecendBus.amount;
+  const totalTicketsPrice = inputFirstLaunch.amount + inputSecendLaunch.amount;
   const vat = Math.ceil(totalTicketsPrice * 0.15);
   const totalAmountToPay = totalTicketsPrice + serviceCharge + vat;
+
+  console.log(inputFirstLaunch, inputSecendLaunch)
 
 
   const handlePaymentSubmit = () => {
     const dataForBody = {
       journey: {
-        bus: inputFirstBus.bus,
-        busName: inputFirstBus.busName,
-        startingPoint: inputFirstBus.startingPoint.locId,
-        endingPoint: inputFirstBus.endingPoint.locId,
+        launch: inputFirstLaunch.launch._id,
+        cabin: inputFirstLaunch.cabin._id,
+        numOfCabins: 1,
+        amount: inputFirstLaunch.amount,
+        adults: inputFirstLaunch.adults,
+        children: inputFirstLaunch.children,
+        startingPoint: inputFirstLaunch.startingPoint,
+        endingPoint: inputFirstLaunch.endingPoint,
         cusName: name,
         cusEmail: email,
         cusPhone: phone,
-        amount: inputFirstBus.amount,
-        depDate: inputFirstBus.depDate,
-        depTime: inputFirstBus.depTime,
-        arrTime: inputFirstBus.arrTime,
-        seats: inputFirstBus.seats,
-        boardingPoint: inputFirstBus.boardingPoint,
-        droppingPoint: inputFirstBus.boardingPoint,
-        specialNote: 'Thanks Bhai',
+        depDate: inputFirstLaunch.depDate,
+        depTime: inputFirstLaunch.depTime,
+        arrTime: inputFirstLaunch.arrTime,
+        boardingPoint: inputFirstLaunch.boardingPoint,
+        droppingPoint: inputFirstLaunch.droppingPoint
       },
       returnJourney: {
-        bus: inputSecendBus.bus,
-        busName: inputSecendBus.busName,
-        startingPoint: inputSecendBus.startingPoint.locId,
-        endingPoint: inputSecendBus.endingPoint.locId,
+        launch: inputSecendLaunch.launch,
+        cabin: inputSecendLaunch.cabin,
+        numOfCabins: 1,
+        amount: inputSecendLaunch.amount,
+        adults: inputSecendLaunch.adults,
+        children: inputSecendLaunch.children,
+        startingPoint: inputSecendLaunch.startingPoint,
+        endingPoint: inputSecendLaunch.endingPoint,
         cusName: name,
         cusEmail: email,
         cusPhone: phone,
-        amount: inputSecendBus.amount,
-        depDate: inputSecendBus.depDate,
-        depTime: inputSecendBus.depTime,
-        arrTime: inputSecendBus.arrTime,
-        seats: inputSecendBus.seats,
-        boardingPoint: inputSecendBus.boardingPoint,
-        droppingPoint: inputSecendBus.boardingPoint,
-        specialNote: 'Thanks Bhai',
+        depDate: inputSecendLaunch.depDate,
+        depTime: inputSecendLaunch.depTime,
+        arrTime: inputSecendLaunch.arrTime,
+        boardingPoint: inputSecendLaunch.boardingPoint,
+        droppingPoint: inputSecendLaunch.droppingPoint
       },
       returnStatus: true,
       medium: 'web',
@@ -106,30 +103,29 @@ const LaunchCheckOutRound: FC<LaunchCheckOutPageProps> = ({
           </div>
           <div className='ml-4 space-y-14 text-sm'>
             <div className='flex flex-col space-y-2'>
-              {inputFirstBus && (
+              {inputFirstLaunch && (
                 <Fragment>
                   <span className='text-lg font-semibold'>
-                    {inputFirstBus.startingPoint.locName} to{' '}
-                    {inputFirstBus.endingPoint.locName}
+                    {inputFirstLaunch.startingPoint.locName} to{' '}
+                    {inputFirstLaunch.endingPoint.locName}
                   </span>
                   <span className=' text-neutral-500 dark:text-neutral-400'>
-                    {moment(inputFirstBus?.depDate).format('MMMM d, YYYY')}
+                    {moment(inputFirstLaunch?.depDate).format('MMMM d, YYYY')}
                   </span>
                   <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
                     <span className='font-semibold'>
-                      {inputFirstBus.busName}
-                    </span>
-                    <span className='font-semibold'>
-                      {inputFirstBus.fare}/seats
+                      {inputFirstLaunch.launch.name}
                     </span>
                   </div>
                   <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
-                    <span>Selected Seats</span>
-                    <span>{inputFirstBus.seats.join(', ')}</span>
+                    <span>Selected Cabin</span>
+                    <span>{inputFirstLaunch.cabin.type}</span>
                   </div>
                   <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
                     <span>Price</span>
-                    <span>{inputFirstBus.amount}</span>
+                    <span>
+                      {inputFirstLaunch.amount}
+                    </span>
                   </div>
                 </Fragment>
               )}
@@ -138,30 +134,30 @@ const LaunchCheckOutRound: FC<LaunchCheckOutPageProps> = ({
             <div className='border-b border-neutral-200 dark:border-neutral-700'></div>
 
             <div className='flex flex-col space-y-2'>
-              {inputSecendBus && (
+              {inputSecendLaunch && (
                 <Fragment>
                   <span className='text-lg font-semibold'>
-                    {inputSecendBus.startingPoint.locName} to{' '}
-                    {inputSecendBus.endingPoint.locName}
+                    {inputSecendLaunch.startingPoint.locName} to{' '}
+                    {inputSecendLaunch.endingPoint.locName}
                   </span>
                   <span className=' text-neutral-500 dark:text-neutral-400'>
-                    {moment(inputSecendBus?.depDate).format('MMMM d, YYYY')}
+                    {moment(inputSecendLaunch?.depDate).format('MMMM d, YYYY')}
                   </span>
                   <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
                     <span className='font-semibold'>
-                      {inputSecendBus.busName}
+                      {inputSecendLaunch.launch.name}
                     </span>
                     <span className='font-semibold'>
-                      {inputSecendBus.fare}/seats
+                      {inputSecendLaunch.amount}/cabin
                     </span>
                   </div>
                   <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
-                    <span>Selected Seats</span>
-                    <span>{inputSecendBus.seats.join(', ')}</span>
+                    <span>Selected Cabin</span>
+                    <span>{inputSecendLaunch.cabin.type}</span>
                   </div>
                   <div className='flex justify-between text-neutral-6000 dark:text-neutral-300'>
                     <span>Price</span>
-                    <span>{inputSecendBus.amount}</span>
+                    <span>{inputSecendLaunch.amount}</span>
                   </div>
                 </Fragment>
               )}
@@ -216,13 +212,13 @@ const LaunchCheckOutRound: FC<LaunchCheckOutPageProps> = ({
         <div>
           <div>
             <span className='flex align-middle text-4xl font-semibold'>
-              {inputFirstBus.startingPoint.locName}{' '}
+              {inputFirstLaunch.startingPoint.locName}{' '}
               <img
                 src={TwoWayIcon}
                 alt='Two Way Icon'
                 className='w-11 h-auto mx-4'
               />
-              {inputFirstBus.endingPoint.locName}
+              {inputFirstLaunch.endingPoint.locName}
             </span>
             <NcModal
               renderTrigger={(openModal) => (
@@ -254,7 +250,7 @@ const LaunchCheckOutRound: FC<LaunchCheckOutPageProps> = ({
               <div className='flex flex-col'>
                 <span className='text-sm text-neutral-400'>Date</span>
                 <span className='mt-1.5 text-lg font-semibold'>
-                  {moment(inputFirstBus.depDate).format('DD, MMM')}
+                  {moment(inputFirstLaunch.depDate).format('DD, MMM')}
                 </span>
               </div>
               <PencilAltIcon className='w-6 h-6 text-neutral-300 dark:text-neutral-6000' />
@@ -263,7 +259,7 @@ const LaunchCheckOutRound: FC<LaunchCheckOutPageProps> = ({
               <div className='flex flex-col'>
                 <span className='text-sm text-neutral-400'>Guests</span>
                 <span className='mt-1.5 text-lg font-semibold'>
-                  {moment(inputSecendBus.depDate).format('DD, MMM')}
+                  {moment(inputSecendLaunch.depDate).format('DD, MMM')}
                 </span>
               </div>
               <PencilAltIcon className='w-6 h-6 text-neutral-300 dark:text-neutral-6000' />
@@ -334,8 +330,8 @@ const LaunchCheckOutRound: FC<LaunchCheckOutPageProps> = ({
     );
   };
 
-  return inputFirstBus && inputSecendBus ? (
-    <div className={`nc-CheckOutPage ${className}`} data-nc-id='CheckOutPage'>
+  return inputFirstLaunch && inputSecendLaunch ? (
+    <div className={`nc-CheckOutPage`} data-nc-id='CheckOutPage'>
       <main className='container mt-11 mb-24 lg:mb-32 flex flex-col-reverse lg:flex-row'>
         <div className='w-full lg:w-3/5 xl:w-2/3 lg:pr-10 lg:space-y-10'>
           {renderMain()}

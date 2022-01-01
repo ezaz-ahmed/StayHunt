@@ -60,21 +60,21 @@ const ModalLaunch: FC<ModalPhotosProps> = ({
   useEffect(() => {
     firstLaunchSelected
       ? dispatch<any>(
-          fetchSingleLaunchlAsync({
-            id: initFocus,
-            depDate: launchUserInput?.returnDate,
-            fromLocId: launchUserInput?.toCity.locId,
-            toLocId: launchUserInput?.fromCity.locId,
-          })
-        )
+        fetchSingleLaunchlAsync({
+          id: initFocus,
+          depDate: launchUserInput?.returnDate,
+          fromLocId: launchUserInput?.toCity.locId,
+          toLocId: launchUserInput?.fromCity.locId,
+        })
+      )
       : dispatch<any>(
-          fetchSingleLaunchlAsync({
-            id: initFocus,
-            depDate: launchUserInput?.journeyDate,
-            fromLocId: launchUserInput?.fromCity.locId,
-            toLocId: launchUserInput?.toCity.locId,
-          })
-        );
+        fetchSingleLaunchlAsync({
+          id: initFocus,
+          depDate: launchUserInput?.journeyDate,
+          fromLocId: launchUserInput?.fromCity.locId,
+          toLocId: launchUserInput?.toCity.locId,
+        })
+      );
   }, [firstLaunchSelected]);
 
   const reserveBtnClick = () => {
@@ -82,8 +82,8 @@ const ModalLaunch: FC<ModalPhotosProps> = ({
       // For Return Trip Data Set
       dispatch<any>(
         addInputSecendLaunch({
-          launch: oneLaunch._id,
-          cabin: oneLaunch.cabins[selectedCabin]._id,
+          launch: oneLaunch,
+          cabin: oneLaunch.cabins[selectedCabin],
           numOfCabins: 1,
           amount: oneLaunch.cabins[selectedCabin].price,
           adults: oneLaunch.cabins[selectedCabin].maxAdults,
@@ -159,17 +159,15 @@ const ModalLaunch: FC<ModalPhotosProps> = ({
                   {({ selected, active }) => (
                     <>
                       <span
-                        className={`${
-                          selected ? "font-medium" : "font-normal"
-                        } block truncate`}
+                        className={`${selected ? "font-medium" : "font-normal"
+                          } block truncate`}
                       >
                         {brdPoint}
                       </span>
                       {selected ? (
                         <span
-                          className={`${
-                            active ? "text-amber-600" : "text-amber-600"
-                          }
+                          className={`${active ? "text-amber-600" : "text-amber-600"
+                            }
                   absolute inset-y-0 left-0 flex items-center pl-3`}
                         >
                           <i className="las la-check"></i>
@@ -215,17 +213,15 @@ const ModalLaunch: FC<ModalPhotosProps> = ({
                   {({ selected, active }) => (
                     <>
                       <span
-                        className={`${
-                          selected ? "font-medium" : "font-normal"
-                        } block truncate`}
+                        className={`${selected ? "font-medium" : "font-normal"
+                          } block truncate`}
                       >
                         {drpPoint}
                       </span>
                       {selected ? (
                         <span
-                          className={`${
-                            active ? "text-amber-600" : "text-amber-600"
-                          }
+                          className={`${active ? "text-amber-600" : "text-amber-600"
+                            }
                   absolute inset-y-0 left-0 flex items-center pl-3`}
                         >
                           <i className="las la-check"></i>
@@ -353,7 +349,7 @@ const ModalLaunch: FC<ModalPhotosProps> = ({
           <div className="flex-1">
             <BusDateSingleInput
               defaultValue={selectedDate.startDate}
-              onFocusChange={() => {}}
+              onFocusChange={() => { }}
               onChange={(date) =>
                 setSelectedDate({ startDate: date, endDate: null })
               }

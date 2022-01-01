@@ -20,13 +20,13 @@ export interface HeroSearchFormProps {
   className?: string;
   currentTab?: SearchTab;
   currentPage?:
-    | "Hotel"
-    | "Bus"
-    | "Launch"
-    | "Package Tour"
-    | "Rental Car"
-    | "Flight"
-    | "Train";
+  | "Hotel"
+  | "Bus"
+  | "Launch"
+  | "Package Tour"
+  | "Rental Car"
+  | "Flight"
+  | "Train";
 }
 
 const HeroSearchForm: FC<HeroSearchFormProps> = ({
@@ -53,11 +53,10 @@ const HeroSearchForm: FC<HeroSearchFormProps> = ({
           return (
             <li
               onClick={() => setTabActive(tab)}
-              className={`flex items-center cursor-pointer text-sm lg:text-base font-medium ${
-                active
-                  ? ""
-                  : "text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-100"
-              } `}
+              className={`flex items-center cursor-pointer text-sm lg:text-base font-medium ${active
+                ? ""
+                : "text-neutral-500 hover:text-neutral-700 dark:hover:text-neutral-100"
+                } `}
               key={tab}
             >
               {active && (
@@ -96,7 +95,7 @@ const HeroSearchForm: FC<HeroSearchFormProps> = ({
 
   return (
     <div
-      className={`nc-HeroSearchForm w-full max-w-6xl py-5 lg:py-0 ${className}`}
+      className={` w-full max-w-6xl py-5 lg:py-0 ${className}`}
       data-nc-id="HeroSearchForm"
     >
       {renderTab()}

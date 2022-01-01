@@ -110,7 +110,7 @@ const RentalCarSearchForm: FC<RentalCarSearchFormProps> = ({
   const renderForm = () => {
     return (
       <div className="w-full">
-        <form className="w-full relative mt-8 rounded-3xl shadow-xl dark:shadow-2xl bg-white dark:bg-neutral-900">
+        <form className="w-full relative mt-8 rounded-3xl shadow-xl dark:shadow-2xl bg-white dark:bg-neutral-800">
           {renderRadioBtn()}
           <div className=" flex flex-col md:flex-row md:items-center w-full rounded-full [ nc-divide-field ] ">
             <div className="relative flex flex-col nc-flex-2-auto [ nc-divide-field ] ">

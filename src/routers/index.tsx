@@ -48,6 +48,7 @@ import PageAboutUs from 'containers/PageAbout/PageAboutUs';
 import PageTermsConditions from 'containers/PageContact/PageTermsConditions';
 import PageRefundPolicy from 'containers/PageContact/PageRefundPolicy';
 import PagePrivacyPolicy from 'containers/PageContact/PagePrivacyPolicy';
+import LaunchCheckOutRound from 'containers/CheckOutPage/LaunchCheckoutRoundPage';
 
 export const pages: Page[] = [
   { path: '/', exact: true, component: PageHome },
@@ -64,6 +65,7 @@ export const pages: Page[] = [
   //
   { path: '/launch', exact: true, component: LaunchSearchPage },
   { path: '/launch/checkout', exact: true, component: LaunchCheckOut },
+  { path: '/launch/roundtrip-checkout', exact: true, component: LaunchCheckOutRound },
   { path: '/launch/:id', exact: true, component: LaunchDetailsPage },
   {
     path: '/listing-experiences-map',
