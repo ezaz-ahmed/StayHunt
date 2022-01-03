@@ -1,6 +1,7 @@
 import Logo from "shared/Logo/Logo";
 import SocialsList1 from "shared/SocialsList1/SocialsList1";
 import { CustomLink } from "data/types";
+import { Link } from 'react-router-dom';
 
 export interface WidgetFooterMenu {
   id: string;
@@ -61,13 +62,13 @@ const Footer = () => {
         <ul className="mt-5 space-y-4">
           {menu.menus.map((item, index) => (
             <li key={index}>
-              <a
+              <Link
+                to={item.href}
                 key={index}
                 className="text-neutral-6000 dark:text-neutral-300 hover:text-black dark:hover:text-white"
-                href={item.href}
               >
                 {item.label}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>

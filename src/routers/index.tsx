@@ -111,7 +111,6 @@ export const pages: Page[] = [
   { path: '/terms-and-conditions', component: PageTermsConditions },
   { path: '/refund-policy', component: PageRefundPolicy },
   { path: '/privacy-policy', component: PagePrivacyPolicy },
-
   { path: '/seach-account', component: SearchAccount },
   { path: '/subscription', component: PageSubcription },
 ];
