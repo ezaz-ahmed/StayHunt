@@ -49,6 +49,7 @@ import PageTermsConditions from 'containers/PageContact/PageTermsConditions';
 import PageRefundPolicy from 'containers/PageContact/PageRefundPolicy';
 import PagePrivacyPolicy from 'containers/PageContact/PagePrivacyPolicy';
 import LaunchCheckOutRound from 'containers/CheckOutPage/LaunchCheckoutRoundPage';
+import PageEmailConfirm from 'containers/PageSignUp/PageEmailConfirm';
 
 export const pages: Page[] = [
   { path: '/', exact: true, component: PageHome },
@@ -106,6 +107,7 @@ export const pages: Page[] = [
   { path: '/signup', component: PageSignUp },
   { path: '/login', component: PageLogin },
   { path: '/verfication', component: OtpPage },
+  { path: '/confirm-identity', component: PageEmailConfirm },
   { path: '/terms-and-conditions', component: PageTermsConditions },
   { path: '/refund-policy', component: PageRefundPolicy },
   { path: '/privacy-policy', component: PagePrivacyPolicy },
