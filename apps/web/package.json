@@ -1,5 +1,10 @@
 {
   "name": "web",
+  "author": {
+    "name": "Ezaz Ahmed",
+    "email": "hi@ezaz.dev",
+    "url": "https://ezaz.dev"
+  },
   "version": "0.1.0",
   "private": true,
   "scripts": {
