@@ -1,0 +1,23 @@
+{
+  "name": "stayhunt",
+  "author": {
+    "name": "Ezaz Ahmed",
+    "email": "hi@ezaz.dev",
+    "url": "https://ezaz.dev"
+  },
+  "private": true,
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "typecheck": "turbo typecheck",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.6"
+  },
+  "packageManager": "pnpm@11.24.0"
+}
