@@ -9,6 +9,7 @@ build
 
 # testing
 /coverage
+coverage/
 
 
 # misc
